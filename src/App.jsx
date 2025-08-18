@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Auth from "./components/Auth";
 import { db } from "./config/firebase-config";
 import { getDocs, collection, addDoc } from "firebase/firestore";
+import Body from "./components/Body";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -42,7 +43,8 @@ function App() {
   
   return (
     <div>
-      <Auth />
+      <Body />
+      {/* <Auth />
       <hr />
       <div>
         <input type="text" name="adminName" placeholder="admin..." onChange={(e) => {
@@ -73,7 +75,7 @@ function App() {
           )
         })
        }
-      </div>
+      </div> */}
     </div>
   )
 }
