@@ -1,13 +1,13 @@
 const Body = () => {
   return (
-    <section className="w-full h-[85vh] relative">
-        <div className="absolute bg-black p-5 top-10">
-            <h1>Glowing skin, naturally</h1>
-            <p>Indulge in plant-based skin care for naturally radiant results.</p>
-            <button>shop now</button>
+    <section className="w-full h-[100vh] flex items-center justify-center bg-[#1e1e1e]">
+        <div className="relative left-10 bg-[#1a1a1a] max-w-80 px-16 py-14 rounded-2xl font-[poppins] text-white z-10">
+            <h1 className="text-4xl leading-13 mb-4">Luxury Made Affordable</h1>
+            <p className="mb-4">Kerala’s Trusted Seller for Trendy Products</p>
+            <button className="bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] text-[16px] px-4 py-2 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] ">shop now</button>
         </div>
-        <div>
-            <img className="" src="https://media.istockphoto.com/id/1065329058/photo/premium-mens-watch-on-hand-close-up.jpg?s=612x612&w=0&k=20&c=VdpUac8ObrDZZ0I8OCD_vOxPqyOUCa3cM8zoqXsPkuE=" alt="" />
+        <div className="">
+            <img className="w-[50rem] h-[40rem] object-cover rounded-2xl" src="https://images.pexels.com/photos/277319/pexels-photo-277319.jpeg?cs=srgb&dl=pexels-pixabay-277319.jpg&fm=jpg" alt="" />
         </div>
     </section>
   )
