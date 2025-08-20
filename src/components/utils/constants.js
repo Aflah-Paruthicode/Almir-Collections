@@ -1,5 +1,5 @@
 export const categories = [
-     'Watches', 'Jewelry', 'Headsets & Gadgets', 'Cloths & Sheose ', 'Books'
+     'Watches', 'Jewelry', 'Gadgets', 'Cloths & Sheose', 'Books'
 ];
 
 export const dummyProducts = [

@@ -8,6 +8,7 @@ const Footer = () => {
             <img className='w-5 h-5' src="/instagram.png" alt="" />
         </div>
         <p className='text-[#bababa]'>We are not affiliated with brands shown. These are replicas(copies) for personal use.</p>
+        <p></p>
     </div>
   )
 }

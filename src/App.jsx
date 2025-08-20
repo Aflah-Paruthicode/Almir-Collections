@@ -3,8 +3,10 @@ import Auth from "./components/Auth";
 import { db } from "./config/firebase-config";
 import { getDocs, collection, addDoc } from "firebase/firestore";
 import Body from "./components/Body";
+import { createBrowserRouter,RouterProvider } from "react-router-dom";
 
 function App() {
+  // firebase setups.
   const [products, setProducts] = useState([]);
   const [adminName, setAdminName] = useState('');
   const [brandName,setBrandName] = useState('');
@@ -40,10 +42,22 @@ function App() {
       console.error(err);
     }
   }
+  // firebase setups ends.
+
+  const appRouter = createBrowserRouter([
+    {
+      path : '/',
+      element : <Body />
+    },
+    {
+      path : '/all products',
+      element : <p>hai ,, reached</p>
+    }
+  ])
   
   return (
     <div>
-      <Body />
+      <RouterProvider router={appRouter} />
       {/* <Auth />
       <hr />
       <div>
