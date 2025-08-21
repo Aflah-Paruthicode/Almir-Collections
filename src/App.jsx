@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Auth from "./components/Auth";
-import { db } from "./config/firebase-config";
+import { db } from "./services/firebase-config";
 import { getDocs, collection, addDoc } from "firebase/firestore";
-import Body from "./components/Body";
+import Body from "./pages/Body";
 import { createBrowserRouter,RouterProvider } from "react-router-dom";
+import AdminLogin from "./pages/AdminLogin";
 
 function App() {
   // firebase setups.
@@ -52,6 +53,10 @@ function App() {
     {
       path : '/all products',
       element : <p>hai ,, reached</p>
+    },
+    {
+      path : '/adminLogin',
+      element : <AdminLogin />
     }
   ])
   

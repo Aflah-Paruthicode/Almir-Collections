@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { categories, dummyProducts, ExtraFAQ, FAQ, whyBuyFromUs } from "./utils/constants"
-import FaqAccordion from "./faqAccordion";
-import Footer from "./Footer";
-import Header from "./Header";
+import { categories, dummyProducts, ExtraFAQ, FAQ, whyBuyFromUs } from "../components/utils/constants"
+import FaqAccordion from "../components/faqAccordion";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 import { Link } from "react-router-dom";
 
 const Body = () => {

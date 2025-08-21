@@ -99,7 +99,7 @@ export const FAQ = [
     },
     {
     question : 'How long does delivery take?',
-    answer : 'Usually 2–5 working days within Kerala, depending on your location'
+    answer : 'Usually 2–4 working days within Kerala, depending on your location'
     },
     {
     question : 'Can I return the product if I don’t like it?',
@@ -125,7 +125,7 @@ export const FAQ = [
     question : 'Do you deliver outside Kerala?',
     answer : 'Yes, we deliver across India with extra courier charge( 60/- ).'
     },
-]
+];
 
 export const ExtraFAQ = [
     {
@@ -136,4 +136,4 @@ export const ExtraFAQ = [
         question : 'How do I know my correct size?',
         answer : 'If you are confused, just message us on WhatsApp with your usual size, and we’ll guide you.'
     },
-]
+];

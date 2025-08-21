@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { auth, googleProvider } from "../config/firebase-config";
+import { auth, googleProvider } from "../services/firebase-config";
 import { createUserWithEmailAndPassword, signInWithPopup,signOut } from "firebase/auth";
 
 const Auth = () => {
