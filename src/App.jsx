@@ -5,6 +5,7 @@ import { getDocs, collection, addDoc } from "firebase/firestore";
 import Body from "./pages/Body";
 import { createBrowserRouter,RouterProvider } from "react-router-dom";
 import AdminLogin from "./pages/AdminLogin";
+import AdminBody from "./pages/AdminBody";
 
 function App() {
   // firebase setups.
@@ -57,6 +58,10 @@ function App() {
     {
       path : '/adminLogin',
       element : <AdminLogin />
+    },
+    {
+      path : '/admin',
+      element : <AdminBody />
     }
   ])
   
