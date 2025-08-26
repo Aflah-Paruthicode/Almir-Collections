@@ -2,15 +2,16 @@ import React, { useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { adminLogin } from '../services/AdminAuth';
+import { auth } from '../services/firebase-config';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-
+  console.log(auth?.currentUser?.email,'the home')
   const submitMailAndPass = async () => {
     try {
-      const user = await adminLogin(email,password);
-      console.log('admin loged',user.email)
+      const login = await adminLogin(email,password);
+      console.log(auth.currentUser)
     } catch (err) {
       console.error(err);
     }

@@ -3,25 +3,39 @@ import Footer from '../components/Footer'
 import { db } from '../services/firebase-config'
 import { collection, addDoc } from 'firebase/firestore'
 import { useState } from 'react'
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const AdminBody = () => {
     const [name, setName] = useState('');
-    const [price, setPrice] = useState(null);
+    const [price, setPrice] = useState(0);
     const [brand, setBrand] = useState('');
     const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
     const [variants, setVariants] = useState('');
+    const [images, setImages] = useState([]);
 
     const productCollection = collection(db,'products')
+    const storage = getStorage();
+
     const addNewProcuts = async () => {
     try {
+
+    const uploadedImageUrls = await Promise.all(
+        images.map(async (image) => {
+        const storageRef = ref(storage, `products/${Date.now()}-${image.name}`);
+        await uploadBytes(storageRef, image);
+        return await getDownloadURL(storageRef);
+        })
+    );
+
       await addDoc(productCollection, {
         name : name,
         brand : brand,
         category : category,
         description : description,
         price : price,
-        variants : variants
+        variants : variants,
+        images : uploadedImageUrls
       })
       setFieldEmpty()
     } catch (err) {
@@ -53,7 +67,7 @@ const AdminBody = () => {
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Category...' value={category} onChange={(e) => setCategory(e.target.value)} />
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Description...' value={description} onChange={(e) => setDescription(e.target.value)} />
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Variants...' value={variants} onChange={(e) => setVariants(e.target.value)} />
-                    <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="file" placeholder='Image...' />
+                    <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="file" multiple placeholder='Image...' onChange={(e) => setImages([...e.target.files])} />
                     <button className='bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]'
                     onClick={() => addNewProcuts()} >Submit</button>
                 </div>
@@ -64,7 +78,7 @@ const AdminBody = () => {
             <div className='flex flex-col py-10 justify-center text-[#bababa]'>
                 <h1 className='text-2xl font-bold pb-10'>Products</h1>
             <div className='border p-10 rounded-lg'>
-                <table class="table-fixed">
+                <table className="table-fixed">
                     <thead>
                         <tr>
                         <th>Name</th>

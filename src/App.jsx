@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import Auth from "./components/Auth";
 import { db } from "./services/firebase-config";
 import { getDocs, collection, addDoc } from "firebase/firestore";
 import Body from "./pages/Body";
 import { createBrowserRouter,RouterProvider } from "react-router-dom";
 import AdminLogin from "./pages/AdminLogin";
 import AdminBody from "./pages/AdminBody";
+import IsLogout from './services/IsLogout';
+import IsLogin from "./services/IsLogin";
+
 
 function App() {
   // firebase setups.
@@ -57,11 +59,15 @@ function App() {
     },
     {
       path : '/adminLogin',
-      element : <AdminLogin />
+      element : <IsLogin>
+                  <AdminLogin />
+                </IsLogin>
     },
     {
       path : '/admin',
-      element : <AdminBody />
+      element :  <IsLogout>
+                    <AdminBody />
+                 </IsLogout> 
     }
   ])
   
