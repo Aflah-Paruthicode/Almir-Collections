@@ -1,9 +1,9 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { db } from '../services/firebase-config'
-import { collection, addDoc } from 'firebase/firestore'
-import { useState } from 'react'
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useEffect, useState } from 'react'
+import { db } from '../services/firebase-config';
+import { collection, addDoc } from 'firebase/firestore';
+import axios from 'axios';
 
 const AdminBody = () => {
     const [name, setName] = useState('');
@@ -13,44 +13,60 @@ const AdminBody = () => {
     const [description, setDescription] = useState('');
     const [variants, setVariants] = useState('');
     const [images, setImages] = useState([]);
+    const [url, setUrl] = useState([]);
+    const [preview,setPreview] = useState([]);
+
+    useEffect(() => {
+
+        let previewUrls = []
+        for(let i = 0;i<images.length;i++) {
+            previewUrls.push(URL.createObjectURL(images[i]))
+        }
+        setPreview(previewUrls);
+    },[images])
+
 
     const productCollection = collection(db,'products')
-    const storage = getStorage();
-
     const addNewProcuts = async () => {
-    try {
+        try {
+            const data = new FormData();
+            const uploadPromises = images.map(async (image) => {
+                data.append("file", image);
+                data.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
+                data.append("folder", "products");
 
-    const uploadedImageUrls = await Promise.all(
-        images.map(async (image) => {
-        const storageRef = ref(storage, `products/${Date.now()}-${image.name}`);
-        await uploadBytes(storageRef, image);
-        return await getDownloadURL(storageRef);
-        })
-    );
+                const res = await axios.post("https://api.cloudinary.com/v1_1/"+import.meta.env.VITE_CLOUDINARY_NAME+"/image/upload",data);
+                setUrl(...res.data.secure_url);
+                return res.data.secure_url;
+            })
 
-      await addDoc(productCollection, {
-        name : name,
-        brand : brand,
-        category : category,
-        description : description,
-        price : price,
-        variants : variants,
-        images : uploadedImageUrls
-      })
-      setFieldEmpty()
-    } catch (err) {
-      console.error(err);
+            const urls = await Promise.all(uploadPromises);
+            
+            await addDoc(productCollection, {
+                name : name,
+                brand : brand,
+                category : category,
+                description : description,
+                price : price,
+                variants : variants,
+                images : urls
+            })
+
+            setFieldEmpty()
+
+        } catch (err) {
+            console.error(err);
+        }
     }
-  }
 
-  function setFieldEmpty () {
-    setName('')
-    setBrand('')
-    setCategory('')
-    setPrice(0)
-    setDescription('')
-    setVariants('')
-  }
+    function setFieldEmpty () {
+        setName('')
+        setBrand('')
+        setCategory('')
+        setPrice(0)
+        setDescription('')
+        setVariants('')
+    }
 
   return (
     <div className='w-full bg-[#1e1e1e] font-[poppins]'>
@@ -71,6 +87,14 @@ const AdminBody = () => {
                     <button className='bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]'
                     onClick={() => addNewProcuts()} >Submit</button>
                 </div>
+                    <div>
+                        <h1 className='text-2xl font-bold pt-10 pb-3'>Preview</h1>
+                        <div className='flex gap-4 flex-wrap'>
+                        {preview.map((src,idx) => (
+                            <img className='w-20 h-20 object-cover border-2 border-[#bababa] rounded-2xl p-3' key={idx} src={src} alt="" />
+                        ))}
+                        </div>
+                    </div>
             </div>
         </section>
         <hr className='text-[#6a6a6a]' />
