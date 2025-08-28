@@ -20,13 +20,9 @@ const AdminBody = () => {
 
     const [products, setProducts] = useState([])
 
-    useEffect(() => {
-        getProducts()
-    },[])
-
-
     const productCollection = collection(db,'products');
-      const getProducts = async () => {
+
+    const getProducts = async () => {
         try {
           const data = await getDocs(productCollection);
           const filteredProducts = data.docs.map((doc) => ({id:doc.id,...doc.data()}))
@@ -36,7 +32,6 @@ const AdminBody = () => {
           console.error(err);
         }
       }
-
 
     const addNewProcuts = async () => {
         try {
@@ -68,7 +63,11 @@ const AdminBody = () => {
         } catch (err) {
             console.error(err);
         }
-    }
+    }   
+
+    useEffect(() => {
+        getProducts()
+    },[addNewProcuts])
 
     function setFieldEmpty () {
         setName('')
@@ -81,17 +80,17 @@ const AdminBody = () => {
         inputToEmpty.current.value = '';
     }
 
-      const sensors = useSensors(useSensor(PointerSensor));
+    const sensors = useSensors(useSensor(PointerSensor));
 
-        const handleDragEnd = (event) => {
-            const { active, over } = event;
-            if (over && active.id !== over.id) {
-            const oldIndex = images.findIndex((url) => url.lastModified === active.id);
-            const newIndex = images.findIndex((url) => url.lastModified === over.id);
-            setImages(arrayMove(images, oldIndex, newIndex));
-            console.log('changed order of images : ',images)
-            }
-        };
+    const handleDragEnd = (event) => {
+        const { active, over } = event;
+        if (over && active.id !== over.id) {
+        const oldIndex = images.findIndex((url) => url.lastModified === active.id);
+        const newIndex = images.findIndex((url) => url.lastModified === over.id);
+        setImages(arrayMove(images, oldIndex, newIndex));
+        console.log('changed order of images : ',images)
+        }
+    };
 
   return (
     <div className='w-full bg-[#1e1e1e] font-[poppins]'>
@@ -101,16 +100,17 @@ const AdminBody = () => {
         <section className='w-[70%] mx-auto text-[#bababa] py-14'>
             <div className='pt-22'>
                 <h1 className='text-2xl font-bold py-10'>Add New Product</h1>
-                <div className='grid grid-flow-col grid-rows-4 gap-4 border py-14 px-16 rounded-lg text-[#bababa]'>
+                <div className='grid grid-flow-row grid-cols-2 gap-4 border py-14 px-16 rounded-lg text-[#bababa]'>
+                    <button className='bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]'
+                    onClick={() => addNewProcuts()} >Submit</button>
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Name...' value={name} onChange={(e) => setName(e.target.value)} />
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="number" placeholder='Price...' value={price} onChange={(e) => setPrice(e.target.value)} />
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Brand...' value={brand} onChange={(e) => setBrand(e.target.value)} />
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Category...' value={category} onChange={(e) => setCategory(e.target.value)} />
-                    <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Description...' value={description} onChange={(e) => setDescription(e.target.value)} />
-                    <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Variants...' value={variants} onChange={(e) => setVariants(e.target.value)} />
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="file" multiple placeholder='Image...' ref={inputToEmpty} onChange={(e) => setImages([...e.target.files])} />
-                    <button className='bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]'
-                    onClick={() => addNewProcuts()} >Submit</button>
+                    <textarea id="multiline_text" name="message" rows="5" placeholder='Variants...' className='p-2' value={variants} onChange={(e) => setVariants(e.target.value)} cols="40" ></textarea>
+                    <textarea id="multiline_text" name="message" rows="5" placeholder='Description...' className='p-2' value={description} onChange={(e) => setDescription(e.target.value)} cols="40" ></textarea>
+                    
                 </div>
                     {images.length > 0 && 
 
@@ -136,7 +136,7 @@ const AdminBody = () => {
             <div className='flex flex-col py-10 justify-center text-[#bababa]'>
                 <h1 className='text-2xl font-bold pb-10'>Products</h1>
             <div className='border p-10 rounded-lg'>
-                <table className="table-fixed">
+                { products.length > 0 && <table className="table-fixed">
                     <thead>
                         <tr>
                         <th>Name</th>
@@ -150,34 +150,32 @@ const AdminBody = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <td className='p-2'>Rolex stylish premium watch</td>
-                        <td className='p-2'>999 /-</td>
-                        <td className='p-2'>Tissot</td>
-                        <td className='p-2'>Watch</td>
-                        <td className='p-2'>A watch from rolex(replica), perfect one for daily use.</td>
-                        <td className='p-2'>1,2,3,4 s,m,l,xl, yellow, blue</td>
-                        <td className='p-2'>/img</td>
-                        <td className='p-2 flex'>
+                        {
+                            products.map((product,index) => (
+                                <tr key={index}>
+                        <td className='p-2'>{product.name}</td>
+                        <td className='p-2'>{product.price} ₹</td>
+                        <td className='p-2'>{product.brand}</td>
+                        <td className='p-2'>{product.category}</td>
+                        <td className='p-2'>{product.description}</td>
+                        <td className='p-2'>{product.variants}</td>
+                        <td className='p-2'>
+                            <div>
+                            <img className='w-40 h-32 object-cover rounded-2xl' src={product.images[0]} alt="" />
+                            </div>
+                        </td>
+                        <td className='p-2'>
+                            <div className='flex'>
                             <button className='bg-[#276367] m-1 py-1 px-2 font-medium rounded-md'>Update</button>
                             <button className='bg-[#673727] m-1 py-1 font-medium px-2 rounded-md'>delete</button>
+                            </div>
                         </td>
                         </tr>
-                        <tr>
-                        <td className='p-2'>Rolex stylish premium watch</td>
-                        <td className='p-2'>999 /-</td>
-                        <td className='p-2'>Tissot</td>
-                        <td className='p-2'>Watch</td>
-                        <td className='p-2'>A watch from rolex(replica), perfect one for daily use.</td>
-                        <td className='p-2'>1,2,3,4 s,m,l,xl, yellow, blue</td>
-                        <td className='p-2'>/img</td>
-                        <td className='p-2 flex'>
-                            <button className='bg-[#276367] m-1 py-1 px-2 font-medium rounded-md'>Update</button>
-                            <button className='bg-[#673727] m-1 py-1 font-medium px-2 rounded-md'>delete</button>
-                        </td>
-                        </tr>
+                            ))
+                        }
                     </tbody>
-                    </table>
+                    </table> }
+                    { products.length == 0 &&  <h1>Products is empty</h1>}
             </div>
         </div>
         </section>
