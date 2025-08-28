@@ -67,7 +67,7 @@ const AdminBody = () => {
 
     useEffect(() => {
         getProducts()
-    },[addNewProcuts])
+    },[])
 
     function setFieldEmpty () {
         setName('')
@@ -85,8 +85,8 @@ const AdminBody = () => {
     const handleDragEnd = (event) => {
         const { active, over } = event;
         if (over && active.id !== over.id) {
-        const oldIndex = images.findIndex((url) => url.lastModified === active.id);
-        const newIndex = images.findIndex((url) => url.lastModified === over.id);
+        const oldIndex = images.findIndex((url) => url.lastModified+url.size === active.id);
+        const newIndex = images.findIndex((url) => url.lastModified+url.size === over.id);
         setImages(arrayMove(images, oldIndex, newIndex));
         console.log('changed order of images : ',images)
         }
@@ -121,7 +121,7 @@ const AdminBody = () => {
                                     <SortableContext items={images} strategy={verticalListSortingStrategy}>
                                     <div className="flex flex-wrap gap-2">
                                         {images.map((url) => (
-                                        <SortableItem key={url.lastModified} id={url.lastModified} url={URL.createObjectURL(url)} />
+                                        <SortableItem key={url.lastModified+url.size} id={url.lastModified+url.size} url={URL.createObjectURL(url)} />
                                         ))}
                                     </div>
                                     </SortableContext>

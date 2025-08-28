@@ -1,13 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { categories, dummyProducts, ExtraFAQ, FAQ, whyBuyFromUs } from "../components/utils/constants"
 import FaqAccordion from "../components/faqAccordion";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../services/firebase-config';
+
+
 
 const Body = () => {
   const [faqToggleIndex,setFaqToggleIndex] = useState(-1);
+  const [products, setProducts] = useState([])
 
+  const productCollection = collection(db,'products');
+  
+      const getProducts = async () => {
+          try {
+            const data = await getDocs(productCollection);
+            const CollectedProducts = data.docs.map((doc) => ({id:doc.id,...doc.data()}))
+            setProducts(CollectedProducts);
+          } catch (err) {
+            console.error(err);
+          }
+        }
+      useEffect(() => {
+        getProducts()
+      },[])
 
   return (
     <div className="w-full bg-gradient-to-br from-[#1e1e1e] to-[#1f1f1f] font-[poppins]">
@@ -34,17 +53,22 @@ const Body = () => {
          <h1 className="text-2xl font-medium tracking-wider py-4 text-white">Trending Now</h1>
       <div className="flex justify-center items-center gap-6 flex-wrap">
         {
-          dummyProducts.map((product) => (
+          products.map((product) => {
+            let trimmedName = false;
+            if(product.name.length > 20) {
+              trimmedName = product.name.slice(0,20);
+            }
+            return (
             <div className="w-[15rem] rounded-2xl bg-[#1a1a1a] text-white text-center">
-            <img className="w-full h-[240px] overflow-hidden object-cover object-top rounded-t-2xl" src={product.img} alt="" />
+            <img className="w-full h-[240px] overflow-hidden object-cover object-top rounded-t-2xl" src={product.images[0]} alt="" />
             <div className="p-4">
-              <h2 className="my-2 font-extralight">{product.heading}</h2>
+              <h2 className="my-2 font-extralight">{trimmedName ? `${trimmedName}...` : product.name}</h2>
               <h3 className="my-2">RS {product.price}/-</h3>
               <button className="bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[14px] px-4 py-1 rounded-md [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] ">Contact now</button>
               <p className="my-2 text-[12px] text-gray-300">{product.brand}</p>
             </div>
         </div>
-          ))
+          )})
         }
       </div>
       
