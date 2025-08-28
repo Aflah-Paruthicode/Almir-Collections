@@ -1,9 +1,12 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { useEffect, useState } from 'react'
+import { useEffect,useRef,useState } from 'react'
 import { db } from '../services/firebase-config';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 import axios from 'axios';
+import { DndContext, closestCenter, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
+import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import SortableItem from '../components/SortableContext';
 
 const AdminBody = () => {
     const [name, setName] = useState('');
@@ -13,22 +16,31 @@ const AdminBody = () => {
     const [description, setDescription] = useState('');
     const [variants, setVariants] = useState('');
     const [images, setImages] = useState([]);
-    const [url, setUrl] = useState([]);
-    const [preview,setPreview] = useState([]);
+    const inputToEmpty = useRef(null);
+
+    const [products, setProducts] = useState([])
 
     useEffect(() => {
+        getProducts()
+    },[])
 
-        let previewUrls = []
-        for(let i = 0;i<images.length;i++) {
-            previewUrls.push(URL.createObjectURL(images[i]))
+
+    const productCollection = collection(db,'products');
+      const getProducts = async () => {
+        try {
+          const data = await getDocs(productCollection);
+          const filteredProducts = data.docs.map((doc) => ({id:doc.id,...doc.data()}))
+          console.log('products : ',filteredProducts);
+          setProducts(filteredProducts);
+        } catch (err) {
+          console.error(err);
         }
-        setPreview(previewUrls);
-    },[images])
+      }
 
 
-    const productCollection = collection(db,'products')
     const addNewProcuts = async () => {
         try {
+            console.log('new product adding request is done')
             const data = new FormData();
             const uploadPromises = images.map(async (image) => {
                 data.append("file", image);
@@ -36,7 +48,6 @@ const AdminBody = () => {
                 data.append("folder", "products");
 
                 const res = await axios.post("https://api.cloudinary.com/v1_1/"+import.meta.env.VITE_CLOUDINARY_NAME+"/image/upload",data);
-                setUrl(...res.data.secure_url);
                 return res.data.secure_url;
             })
 
@@ -66,7 +77,21 @@ const AdminBody = () => {
         setPrice(0)
         setDescription('')
         setVariants('')
+        setImages([])
+        inputToEmpty.current.value = '';
     }
+
+      const sensors = useSensors(useSensor(PointerSensor));
+
+        const handleDragEnd = (event) => {
+            const { active, over } = event;
+            if (over && active.id !== over.id) {
+            const oldIndex = images.findIndex((url) => url.lastModified === active.id);
+            const newIndex = images.findIndex((url) => url.lastModified === over.id);
+            setImages(arrayMove(images, oldIndex, newIndex));
+            console.log('changed order of images : ',images)
+            }
+        };
 
   return (
     <div className='w-full bg-[#1e1e1e] font-[poppins]'>
@@ -83,18 +108,27 @@ const AdminBody = () => {
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Category...' value={category} onChange={(e) => setCategory(e.target.value)} />
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Description...' value={description} onChange={(e) => setDescription(e.target.value)} />
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Variants...' value={variants} onChange={(e) => setVariants(e.target.value)} />
-                    <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="file" multiple placeholder='Image...' onChange={(e) => setImages([...e.target.files])} />
+                    <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="file" multiple placeholder='Image...' ref={inputToEmpty} onChange={(e) => setImages([...e.target.files])} />
                     <button className='bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]'
                     onClick={() => addNewProcuts()} >Submit</button>
                 </div>
-                    <div>
-                        <h1 className='text-2xl font-bold pt-10 pb-3'>Preview</h1>
-                        <div className='flex gap-4 flex-wrap'>
-                        {preview.map((src,idx) => (
-                            <img className='w-20 h-20 object-cover border-2 border-[#bababa] rounded-2xl p-3' key={idx} src={src} alt="" />
-                        ))}
+                    {images.length > 0 && 
+
+                        <div className='preview-container'>
+                            <h1 className='text-2xl font-bold pt-10 pb-4'>Preview <span className='font-medium text-xl'>({images.length})</span></h1>
+                           <div className="flex items-center ">
+                                <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd} >
+                                    <SortableContext items={images} strategy={verticalListSortingStrategy}>
+                                    <div className="flex flex-wrap gap-2">
+                                        {images.map((url) => (
+                                        <SortableItem key={url.lastModified} id={url.lastModified} url={URL.createObjectURL(url)} />
+                                        ))}
+                                    </div>
+                                    </SortableContext>
+                                </DndContext>
+                            </div>
                         </div>
-                    </div>
+                    }
             </div>
         </section>
         <hr className='text-[#6a6a6a]' />
