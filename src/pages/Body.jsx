@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../services/firebase-config';
+import ProductCard from "../components/ProductCard";
 
 
 
@@ -44,8 +45,8 @@ const Body = () => {
         </div>
     </section>
     <section className="w-[1050px] mx-auto flex gap-4 justify-center items-center text-center text-white">
-      { categories.map((category) => (
-          <Link to={category} className="w-1/4 p-5 bg-[#1a1a1a] hover:bg-[#242424] border border-[#bababa] rounded-xl m-auto"><div className="">{category}</div></Link>
+      { categories.map((category,index) => (
+          <Link key={index} to={category} className="w-1/4 p-5 bg-[#1a1a1a] hover:bg-[#242424] border border-[#bababa] rounded-xl m-auto"><div className="">{category}</div></Link>
       ))}
     </section>
     <section className="w-[1050px] mx-auto py-10">
@@ -53,21 +54,13 @@ const Body = () => {
          <h1 className="text-2xl font-medium tracking-wider py-4 text-white">Trending Now</h1>
       <div className="flex justify-center items-center gap-6 flex-wrap">
         {
-          products.map((product) => {
+          products.map((product,index) => {
             let trimmedName = false;
-            if(product.name.length > 20) {
-              trimmedName = product.name.slice(0,20);
-            }
+            if(product.name.length > 20) trimmedName = product.name.slice(0,20);
             return (
-            <div className="w-[15rem] rounded-2xl bg-[#1a1a1a] text-white text-center">
-            <img className="w-full h-[240px] overflow-hidden object-cover object-top rounded-t-2xl" src={product.images[0]} alt="" />
-            <div className="p-4">
-              <h2 className="my-2 font-extralight">{trimmedName ? `${trimmedName}...` : product.name}</h2>
-              <h3 className="my-2">RS {product.price}/-</h3>
-              <button className="bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[14px] px-4 py-1 rounded-md [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] ">Contact now</button>
-              <p className="my-2 text-[12px] text-gray-300">{product.brand}</p>
-            </div>
-        </div>
+              <Link key={index} to={'/viewProduct/'+product.id}>
+                <ProductCard product={product} trimmedName={trimmedName} />
+            </Link>
           )})
         }
       </div>
@@ -77,8 +70,8 @@ const Body = () => {
       <h1 className="text-2xl font-medium tracking-wider py-4 text-white">Why Buy From Us</h1>
       <div className="flex gap-5 justify-center text-white text-center">
         {
-          whyBuyFromUs.map((reason) => (
-        <div className="w-1/4">
+          whyBuyFromUs.map((reason, index) => (
+        <div key={index} className="w-1/4">
           <img className="w-28 mx-auto mt-2" src={reason.img} alt="" />
           <h1 className="text-xl mt-10 mb-4 text-[#bababa]">{reason.heading}</h1>
           <p className="text-[#737373]">{reason.des}</p>
@@ -92,8 +85,8 @@ const Body = () => {
          <h1 className="text-2xl font-medium tracking-wider py-4 text-white"></h1>
       <div className="flex justify-center items-center gap-6 flex-wrap">
         {
-          dummyProducts.map((product) => (
-            <div className="w-[15rem] rounded-2xl bg-[#1a1a1a] text-white text-center">
+          dummyProducts.map((product,index) => (
+            <div key={index} className="w-[15rem] rounded-2xl bg-[#1a1a1a] text-white text-center">
             <img className="w-full h-[240px] overflow-hidden object-cover object-top rounded-t-2xl" src={product.img} alt="" />
             <div className="p-4">
               <h2 className="my-2 font-extralight">{product.heading}</h2>

@@ -7,6 +7,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminBody from "./pages/AdminBody";
 import IsLogout from './services/IsLogout';
 import IsLogin from "./services/IsLogin";
+import ViewProduct from "./pages/ViewProduct";
 
 
 function App() {
@@ -54,8 +55,12 @@ function App() {
       element : <Body />
     },
     {
-      path : '/all products',
+      path : '/allProducts',
       element : <p>hai ,, reached</p>
+    },
+    {
+      path : '/viewProduct/:productId',
+      element : <ViewProduct />
     },
     {
       path : '/adminLogin',

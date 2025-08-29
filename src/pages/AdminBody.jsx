@@ -10,10 +10,12 @@ import SortableItem from '../components/SortableContext';
 
 const AdminBody = () => {
     const [name, setName] = useState('');
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState();
+    const [priceInOthers,setPriceInOthers] = useState()
     const [brand, setBrand] = useState('');
     const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
+    const [highlights, setHighlights] = useState('');
     const [variants, setVariants] = useState('');
     const [images, setImages] = useState([]);
     const inputToEmpty = useRef(null);
@@ -47,13 +49,15 @@ const AdminBody = () => {
             })
 
             const urls = await Promise.all(uploadPromises);
-            
+            const highlightsArr = highlights.split(',')
             await addDoc(productCollection, {
                 name : name,
                 brand : brand,
                 category : category,
                 description : description,
+                highlights : highlightsArr,
                 price : price,
+                priceInOthers : priceInOthers,
                 variants : variants,
                 images : urls
             })
@@ -73,10 +77,12 @@ const AdminBody = () => {
         setName('')
         setBrand('')
         setCategory('')
-        setPrice(0)
+        setPrice()
+        setPriceInOthers()
         setDescription('')
         setVariants('')
         setImages([])
+        setHighlights('')
         inputToEmpty.current.value = '';
     }
 
@@ -100,17 +106,19 @@ const AdminBody = () => {
         <section className='w-[70%] mx-auto text-[#bababa] py-14'>
             <div className='pt-22'>
                 <h1 className='text-2xl font-bold py-10'>Add New Product</h1>
-                <div className='grid grid-flow-row grid-cols-2 gap-4 border py-14 px-16 rounded-lg text-[#bababa]'>
-                    <button className='bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]'
-                    onClick={() => addNewProcuts()} >Submit</button>
+                <div className='grid grid-flow-row grid-cols-2 gap-4 py-14 px-16 rounded-lg text-[#bababa] bg-[#1a1a1a]'>
+                    
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Name...' value={name} onChange={(e) => setName(e.target.value)} />
-                    <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="number" placeholder='Price...' value={price} onChange={(e) => setPrice(e.target.value)} />
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Brand...' value={brand} onChange={(e) => setBrand(e.target.value)} />
+                    <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="number" placeholder='Price...' value={price} onChange={(e) => setPrice(e.target.value)} />
+                    <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="number" placeholder='Price In Other Stores...' value={priceInOthers} onChange={(e) => setPriceInOthers(e.target.value)} />
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Category...' value={category} onChange={(e) => setCategory(e.target.value)} />
                     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="file" multiple placeholder='Image...' ref={inputToEmpty} onChange={(e) => setImages([...e.target.files])} />
-                    <textarea id="multiline_text" name="message" rows="5" placeholder='Variants...' className='p-2' value={variants} onChange={(e) => setVariants(e.target.value)} cols="40" ></textarea>
-                    <textarea id="multiline_text" name="message" rows="5" placeholder='Description...' className='p-2' value={description} onChange={(e) => setDescription(e.target.value)} cols="40" ></textarea>
-                    
+                    <textarea id="multiline_text" name="message" rows="5" placeholder='Variants...' className='p-3 bg-[#343434] rounded-lg' value={variants} onChange={(e) => setVariants(e.target.value)} cols="40" ></textarea>
+                    <textarea id="multiline_text" name="message" rows="5" placeholder='Description...' className='p-3 bg-[#343434] rounded-lg' value={description} onChange={(e) => setDescription(e.target.value)} cols="40" ></textarea>
+                    <textarea id="multiline_text" name="message" rows="3" placeholder='Highlights(alert !! use comas to split)...' className='p-3 bg-[#343434] rounded-lg' value={highlights} onChange={(e) => setHighlights(e.target.value)} cols="40" ></textarea>
+                    <button className='m-auto bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]'
+                    onClick={() => addNewProcuts()} >Submit</button> 
                 </div>
                     {images.length > 0 && 
 
@@ -159,9 +167,9 @@ const AdminBody = () => {
                         <td className='p-2'>{product.category}</td>
                         <td className='p-2'>{product.description}</td>
                         <td className='p-2'>{product.variants}</td>
-                        <td className='p-2'>
+                        <td className='py-2'>
                             <div>
-                            <img className='w-40 h-32 object-cover rounded-2xl' src={product.images[0]} alt="" />
+                            <img className='w-[250px] py-2 object-cover rounded-xl' src={product.images[0]} alt="" />
                             </div>
                         </td>
                         <td className='p-2'>

@@ -137,3 +137,30 @@ export const ExtraFAQ = [
         answer : 'If you are confused, just message us on WhatsApp with your usual size, and we’ll guide you.'
     },
 ];
+
+export const productData = {
+    brand : "MARSHALL",
+    category : 'EARPHONE',
+    description : "Enjoy premium sound without the premium price. The Marshall Mode XV ENC (Replica) delivers powerful audio, comfort, and style. Perfect for music, movies, and calls — all packed with awesome quality at just ₹1249.",
+    highlightsArr : [
+        'Wireless Earphones with ENC',
+        '8 Hours Call/Play Time',
+        '500mAh Battery (3.7V)',
+        'Signature-like Sound Quality',
+        'Available in Black | White | Blue',
+        'Free Delivery in Kerala (2–3 Days)'
+    ],
+    images : [
+        "https://res.cloudinary.com/dryqs891k/image/upload/v1756383866/products/x0ylvwmwnk4v3posnu77.jpg",
+        "https://res.cloudinary.com/dryqs891k/image/upload/v1756383866/products/cvrhsozu9akpcrgyu8k0.jpg",
+        "https://res.cloudinary.com/dryqs891k/image/upload/v1756383868/products/vav2av9gigd7ta5ns3ck.jpg",
+        "https://res.cloudinary.com/dryqs891k/image/upload/v1756383867/products/pjvmfomgnkftp7osaaqc.jpg",
+        "https://res.cloudinary.com/dryqs891k/image/upload/v1756383866/products/paakggik4kuayfhufhvm.jpg",
+        "https://res.cloudinary.com/dryqs891k/image/upload/v1756383869/products/cqbqfzbkzyz5jxfldrgu.jpg",
+        "https://res.cloudinary.com/dryqs891k/image/upload/v1756383867/products/znzoyj8igdz1foejdz7v.jpg",
+    ],
+    name : 'MARSHALL MODE XV ENC',
+    price : '1249',
+    priceInOthers : '1499',
+    variants : 'Black,White,Blue'
+}

@@ -1,0 +1,16 @@
+
+const ProductCard = ({product,trimmedName}) => {
+  return (
+    <div className="w-[15rem] rounded-2xl bg-[#1a1a1a] text-white text-center">
+            <img className="w-full h-[240px] overflow-hidden object-cover object-top rounded-t-2xl" src={product.images[0]} alt="" />
+            <div className="p-4">
+              <h2 className="my-2 font-extralight">{trimmedName ? `${trimmedName}...` : product.name}</h2>
+              <h3 className="my-2">RS {product.price}/-</h3>
+              <button className="bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[14px] px-4 py-1 rounded-md [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] ">Contact now</button>
+              <p className="my-2 text-[12px] text-gray-300">{product.brand}</p>
+            </div>
+            </div>
+  )
+}
+
+export default ProductCard
