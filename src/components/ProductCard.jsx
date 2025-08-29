@@ -1,7 +1,7 @@
 
 const ProductCard = ({product,trimmedName}) => {
   return (
-    <div className="w-[15rem] rounded-2xl bg-[#1a1a1a] text-white text-center">
+    <div className="w-[15rem] rounded-lg bg-[#1a1a1a] text-white text-center">
             <img className="w-full h-[240px] overflow-hidden object-cover object-top rounded-t-2xl" src={product.images[0]} alt="" />
             <div className="p-4">
               <h2 className="my-2 font-extralight">{trimmedName ? `${trimmedName}...` : product.name}</h2>

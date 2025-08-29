@@ -16,18 +16,18 @@ const Body = () => {
 
   const productCollection = collection(db,'products');
   
-      const getProducts = async () => {
-          try {
-            const data = await getDocs(productCollection);
-            const CollectedProducts = data.docs.map((doc) => ({id:doc.id,...doc.data()}))
-            setProducts(CollectedProducts);
-          } catch (err) {
-            console.error(err);
-          }
-        }
-      useEffect(() => {
-        getProducts()
-      },[])
+  const getProducts = async () => {
+      try {
+        const data = await getDocs(productCollection);
+        const CollectedProducts = data.docs.map((doc) => ({id:doc.id,...doc.data()}))
+        setProducts(CollectedProducts);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  useEffect(() => {
+    getProducts()
+  },[])
 
   return (
     <div className="w-full bg-gradient-to-br from-[#1e1e1e] to-[#1f1f1f] font-[poppins]">
@@ -47,45 +47,40 @@ const Body = () => {
     <section className="w-[1050px] mx-auto flex gap-4 justify-center items-center text-center text-white">
       { categories.map((category,index) => (
           <Link key={index} to={category} className="w-1/4 p-5 bg-[#1a1a1a] hover:bg-[#242424] border border-[#bababa] rounded-xl m-auto"><div className="">{category}</div></Link>
-      ))}
+      )) }
     </section>
     <section className="w-[1050px] mx-auto py-10">
       
          <h1 className="text-2xl font-medium tracking-wider py-4 text-white">Trending Now</h1>
       <div className="flex justify-center items-center gap-6 flex-wrap">
-        {
-          products.map((product,index) => {
+        { products.map((product,index) => {
             let trimmedName = false;
             if(product.name.length > 20) trimmedName = product.name.slice(0,20);
             return (
               <Link key={index} to={'/viewProduct/'+product.id}>
                 <ProductCard product={product} trimmedName={trimmedName} />
             </Link>
-          )})
-        }
+          )}) }
       </div>
       
     </section>
     <section className="w-[1050px] mx-auto py-10">
       <h1 className="text-2xl font-medium tracking-wider py-4 text-white">Why Buy From Us</h1>
       <div className="flex gap-5 justify-center text-white text-center">
-        {
-          whyBuyFromUs.map((reason, index) => (
+        { whyBuyFromUs.map((reason, index) => (
         <div key={index} className="w-1/4">
           <img className="w-28 mx-auto mt-2" src={reason.img} alt="" />
           <h1 className="text-xl mt-10 mb-4 text-[#bababa]">{reason.heading}</h1>
           <p className="text-[#737373]">{reason.des}</p>
         </div>
-          ))
-        }
+          )) }
       </div>
     </section>
     <section className="w-[1050px] mx-auto py-10">
       
          <h1 className="text-2xl font-medium tracking-wider py-4 text-white"></h1>
       <div className="flex justify-center items-center gap-6 flex-wrap">
-        {
-          dummyProducts.map((product,index) => (
+        { dummyProducts.map((product,index) => (
             <div key={index} className="w-[15rem] rounded-2xl bg-[#1a1a1a] text-white text-center">
             <img className="w-full h-[240px] overflow-hidden object-cover object-top rounded-t-2xl" src={product.img} alt="" />
             <div className="p-4">
@@ -95,38 +90,25 @@ const Body = () => {
               <p className="my-2 text-[12px] text-gray-300">{product.brand}</p>
             </div>
         </div>
-          ))
-        }
+          )) }
       </div>
     </section>
     <section className="w-[1050px] mx-auto py-10">
       <h1 className="text-2xl font-medium tracking-wider py-4 text-white">FAQ</h1>
       <div className="w-full text-white">
-        {
-            FAQ.map((faq,index) => {
-                return (
-                    <FaqAccordion key={index}
+          { FAQ.map((faq,index) => {
+                return ( <FaqAccordion key={index}
                     faq={faq} 
                     faqToggle={faqToggleIndex==index ? true : false}
-                    setFaqToggle={(num) => {
-                        setFaqToggleIndex(num?num:index)
-                    }} />
-                )
-            })
-          }
+                    setFaqToggle={(num) => { setFaqToggleIndex(num?num:index) }} /> )
+            })}
           <h1 className="text-2xl font-medium tracking-wider py-4 ">Extra FAQ for Clothes & Shoes</h1>
-          {
-            ExtraFAQ.map((faq,index) => {
-                return (
-                    <FaqAccordion key={index}
+          { ExtraFAQ.map((faq,index) => {
+                return ( <FaqAccordion key={index}
                     faq={faq} 
                     faqToggle={faqToggleIndex==index ? true : false}
-                    setFaqToggle={(num) => {
-                        setFaqToggleIndex(num?num:index)
-                    }} />
-                )
-            })
-          }
+                    setFaqToggle={(num) => { setFaqToggleIndex(num?num:index) }} /> )
+            }) }
       </div>
     </section>
     <section>
