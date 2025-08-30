@@ -2,7 +2,6 @@ import { Link, useParams } from "react-router-dom"
 import { collection, doc, getDoc, getDocs, limit, query  } from 'firebase/firestore';
 import { db } from "../services/firebase-config";
 import Header from "../components/Header";
-import { productData } from "../components/utils/constants";
 import Footer from "../components/Footer";
 import ProductDetails from "../components/ProductDetails";
 import ProductCard from "../components/ProductCard";
