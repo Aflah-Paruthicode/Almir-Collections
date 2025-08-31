@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { addDoc } from 'firebase/firestore';
 
-const useAddNewProduct = async (productInfo,productCollection) => {
+const useAddNewProduct = async (productInfo,productCollection,setFieldEmpty,timerAlert) => {
         try {
+            timerAlert()
             console.log('new product adding request is done')
             const data = new FormData();
             const uploadPromises = productInfo.images.map(async (image) => {
@@ -27,6 +28,8 @@ const useAddNewProduct = async (productInfo,productCollection) => {
                 variants : productInfo.variants,
                 images : urls
             })
+
+            setFieldEmpty()
 
         } catch (err) {
             console.error(err);

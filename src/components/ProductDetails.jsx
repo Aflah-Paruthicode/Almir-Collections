@@ -1,7 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const ProductDetails = ({productData}) => {
-    let [productImage,setProductImage] = useState(productData.images[0])
+    let [productImage,setProductImage] = useState(null)
+
+    useEffect(() => {
+        if (productData?.images?.length > 0) {
+        setProductImage(productData.images[0]);
+        }
+    }, [productData]);
+    console.log('what the',productImage)
   return (
     <div className="flex gap-3 w-[1050px]">
                 <div className="w-[50rem]">
@@ -29,15 +36,15 @@ const ProductDetails = ({productData}) => {
                     <h2 className=" mb-3">Delivery FREE</h2>
                     <h2 className="font-semibold py-2">Variants : </h2>
                     <div className="flex gap-3 flex-wrap items-center mb-8 pl-3">
-                        { productData.variants.split(',').map((variant) => (
-                                <p className="py-1 px-2 border rounded-md">{variant}</p>
+                        { productData.variants.split(',').map((variant,index) => (
+                                <p key={index} className="py-1 px-2 border rounded-md">{variant}</p>
                             )) }
                     </div>
                     <div className="mb-3">
                         <h2 className="font-semibold py-2">Highlights : </h2>
                         <ul className="list-disc pl-8">
-                            { productData.highlights.map((variant) => (    
-                                   <li><p className="py-1 ">{variant}</p></li>
+                            { productData.highlights.map((variant,index) => (    
+                                   <li key={index}><p className="py-1 ">{variant}</p></li>
                                 )) }
                         </ul>
                     </div>

@@ -1,48 +1,29 @@
 import { Link, useParams } from "react-router-dom"
-import { collection, doc, getDoc, getDocs, limit, query  } from 'firebase/firestore';
+import { collection, getDocs, limit, query  } from 'firebase/firestore';
 import { db } from "../services/firebase-config";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProductDetails from "../components/ProductDetails";
 import ProductCard from "../components/ProductCard";
 import { useEffect, useState } from "react";
+import useGetSingleProduct from "../services/useGetSingleProduct";
+import useGetProducts from "../services/useGetProducts";
 
 const ViewProduct = () => {
     const {productId} = useParams()
     const [products, setProducts] = useState([])
     const [product,setProduct] = useState()
 
-    console.log(productId)
-    const getProduct = async () => {
-        const docRef = doc(db, "products", String(productId));
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            setProduct({ id: docSnap.id, ...docSnap.data() })
-        } else {
-            return null;
-        }
-    }
-    console.log('ethiii',product)
-
-
     const productCollection = collection(db,'products');
-    const queryToGetFour = query(productCollection, limit(4));
-    
-        const getProducts = async () => {
-            try {
-                const data = await getDocs(queryToGetFour);
-                const CollectedProducts = data.docs.map((doc) => ({id:doc.id,...doc.data()}))
-                setProducts(CollectedProducts);
-            } catch (err) {
-                console.error(err);
-            }
+    useEffect(() => {
+        async function fetchProduct () {
+            let data = await useGetSingleProduct(productId,setProduct)
         }
-        useEffect(() => {
-            getProducts()
-            getProduct()
-        },[productId])
-
+        useGetProducts(productCollection,setProducts,true)
+        fetchProduct()
+    },[productId])
+        
+        console.log('single one is here ',product)
   return (
     <div className="w-full bg-gradient-to-br from-[#1e1e1e] to-[#1f1f1f] font-[poppins]">
         <section className="w-full fixed bg-[#1f1f1f] shadow-md z-50">
@@ -61,7 +42,7 @@ const ViewProduct = () => {
                         let trimmedName = false;
                         if(product.name.length > 20) trimmedName = product.name.slice(0,20);
                         return (
-                        <Link key={index} to={'/viewProduct/'+product.id}>
+                        <Link key={index}  to={'/viewProduct/'+product.id} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                             <ProductCard product={product} trimmedName={trimmedName} />
                         </Link>
                     )})

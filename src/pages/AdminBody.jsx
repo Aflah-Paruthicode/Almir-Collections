@@ -11,6 +11,8 @@ import AddNewProductForm from '../components/AddNewProductForm';
 import useHandleDragEnd from '../services/useHandleDragEnd';
 import useGetProducts from '../services/useGetProducts';
 import useAddNewProduct from '../services/useAddNewProduct';
+import { timerAlert } from '../services/alerts';
+import useHandleUpdate from '../services/useHandleUpdate';
 
 const AdminBody = () => {
     const [name, setName] = useState('');
@@ -24,6 +26,7 @@ const AdminBody = () => {
     const [images, setImages] = useState([]);
     const inputToEmpty = useRef(null);
     const [loadProducts, setLoadProducts] = useState(false)
+    
 
     const [products, setProducts] = useState([])
 
@@ -55,7 +58,8 @@ const AdminBody = () => {
 
     const sensors = useSensors(useSensor(PointerSensor));
 
-    const handleDragEnd = (event) => { useHandleDragEnd(event,images,setImages) };
+    const handleDragEnd = (event) => useHandleDragEnd(event,images,setImages);
+    
 
   return (
     <div className='w-full bg-[#1e1e1e] font-[poppins]'>
@@ -70,7 +74,7 @@ const AdminBody = () => {
                   category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} setImages={setImages}
                   description={description} setDescription={setDescription} variants={variants} setVariants={setVariants}
                   highlights={highlights} setHighlights={setHighlights}
-                  addNewProduct={() => useAddNewProduct(productInfo,productCollection,setFieldEmpty)}  />
+                  action={() => useAddNewProduct(productInfo,productCollection,setFieldEmpty,timerAlert)}  />
                     {images.length > 0 && 
 
                         <div className='preview-container'>
@@ -91,8 +95,12 @@ const AdminBody = () => {
             </div>
         </section>
         <hr className='text-[#6a6a6a]' />
-        <section className='w-[70%] min-h-[40vh] mx-auto'>
-            <ProductsTable products={products} />
+        <section className=' min-h-[40vh] mx-auto'>
+            <ProductsTable products={products} setName={setName} setBrand={setBrand}
+            setPrice={setPrice} setPriceInOthers={setPriceInOthers} setCategory={setCategory}
+            inputToEmpty={inputToEmpty} setImages={setImages} setDescription={setDescription}
+            setVariants={setVariants} setHighlights={setHighlights}
+            action={() => useHandleUpdate(productInfo,productCollection,setFieldEmpty,timerAlert)} />
         </section>
         <section className='relative bottom-0'>
             <Footer />

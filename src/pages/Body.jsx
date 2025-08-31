@@ -4,10 +4,10 @@ import FaqAccordion from "../components/faqAccordion";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
-import { collection, getDocs } from 'firebase/firestore';
+import { collection } from 'firebase/firestore';
 import { db } from '../services/firebase-config';
 import ProductCard from "../components/ProductCard";
-
+import useGetProducts from "../services/useGetProducts";
 
 
 const Body = () => {
@@ -16,17 +16,8 @@ const Body = () => {
 
   const productCollection = collection(db,'products');
   
-  const getProducts = async () => {
-      try {
-        const data = await getDocs(productCollection);
-        const CollectedProducts = data.docs.map((doc) => ({id:doc.id,...doc.data()}))
-        setProducts(CollectedProducts);
-      } catch (err) {
-        console.error(err);
-      }
-    }
   useEffect(() => {
-    getProducts()
+    useGetProducts(productCollection,setProducts,false);
   },[])
 
   return (
@@ -50,14 +41,13 @@ const Body = () => {
       )) }
     </section>
     <section className="w-[1050px] mx-auto py-10">
-      
          <h1 className="text-2xl font-medium tracking-wider py-4 text-white">Trending Now</h1>
       <div className="flex justify-center items-center gap-6 flex-wrap">
         { products.map((product,index) => {
             let trimmedName = false;
             if(product.name.length > 20) trimmedName = product.name.slice(0,20);
             return (
-              <Link key={index} to={'/viewProduct/'+product.id}>
+              <Link key={index} to={'/viewProduct/'+product.id} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                 <ProductCard product={product} trimmedName={trimmedName} />
             </Link>
           )}) }
