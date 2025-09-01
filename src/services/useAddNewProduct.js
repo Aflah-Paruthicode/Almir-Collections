@@ -3,7 +3,7 @@ import { addDoc } from 'firebase/firestore';
 
 const useAddNewProduct = async (productInfo,productCollection,setFieldEmpty,timerAlert) => {
         try {
-            timerAlert()
+            timerAlert(4000,"New Product Is Creating!","Will be created in <b></b>.")
             console.log('new product adding request is done')
             const data = new FormData();
             const uploadPromises = productInfo.images.map(async (image) => {

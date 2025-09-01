@@ -1,11 +1,11 @@
 import Swal from "sweetalert2";
 
 let timerInterval;
-export const timerAlert = () => { Swal.fire({
+export const timerAlert = (time,heading,description) => { Swal.fire({
   icon : "info",
-  title: "New Product Is Creating!",
-  html: "Will be created in <b></b>.",
-  timer: 4000,
+  title: heading,
+  html: description,
+  timer: time,
   timerProgressBar: true,
   allowOutsideClick: false,
   allowEscapeKey : false,

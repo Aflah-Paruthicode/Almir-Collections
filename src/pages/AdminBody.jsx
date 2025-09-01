@@ -96,10 +96,10 @@ const AdminBody = () => {
         </section>
         <hr className='text-[#6a6a6a]' />
         <section className=' min-h-[40vh] mx-auto'>
-            <ProductsTable products={products} setName={setName} setBrand={setBrand}
-            setPrice={setPrice} setPriceInOthers={setPriceInOthers} setCategory={setCategory}
-            inputToEmpty={inputToEmpty} setImages={setImages} setDescription={setDescription}
-            setVariants={setVariants} setHighlights={setHighlights}
+            <ProductsTable products={products} name={name} setName={setName} brand={brand} setBrand={setBrand}
+            price={price} setPrice={setPrice} description={description} priceInOthers={priceInOthers} setPriceInOthers={setPriceInOthers}
+            category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} setImages={setImages} setDescription={setDescription}
+            variants={variants} setVariants={setVariants} highlights={highlights} setHighlights={setHighlights}
             action={() => useHandleUpdate(productInfo,productCollection,setFieldEmpty,timerAlert)} />
         </section>
         <section className='relative bottom-0'>

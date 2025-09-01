@@ -1,34 +1,51 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import useHandleUpdate from "../services/useHandleUpdate"
 import AddNewProductForm from "./AddNewProductForm"
 import useGetSingleProduct from "../services/useGetSingleProduct"
+import { timerAlert } from "../services/alerts"
 
-const ProductsTable = ({products,setName,setBrand,setPrice,setPriceInOthers,setCategory,inputToEmpty,setImages,setDescription,setHighlights, setVariants,action}) => {
-    const [productId, setProductId] = useState()
+const ProductsTable = (props) => {
+    let { products,name,setName,
+          brand,setBrand,price,setPrice,
+          priceInOthers,setPriceInOthers,
+          category,setCategory,inputToEmpty,
+          setImages,description,setDescription,
+          highlights,setHighlights,variants,setVariants,action } = props;
+
     const [editPanel,setEditPanel] = useState(false);
     const [product,setProduct] = useState()
 
-    useEffect(() => {
-        async function fetchProduct () {
-            let data = await useGetSingleProduct(productId,setProduct)
+    async function fetchProduct (id) {
+        let data = await useGetSingleProduct(id)
+        setProduct(data)
+        if(data) {
+            setName(data.name)
+            setBrand(data.brand)
+            setPrice(data.price)
+            setPriceInOthers(data.priceInOthers)
+            setCategory(data.category)
+            setDescription(data.description)
+            setVariants(data.variants)
+            setHighlights(data.highlights)
+            timerAlert(900,'Please Wait!','just wait a momment <b></b>.')
+            setEditPanel(true)
         }
-        fetchProduct()
-    },[productId])
+    }
 
     function clearProduct () {
-        setProduct(undefined)
+        setEditPanel(false)
     }
 
     console.log('iis the product here ???', product)
 
     return (
     <div className='flex flex-col left-0 justify-center text-[#bababa]'>
-            {  product && <section className='fixed top-50 left-52 w-[80%] h-[100vh]  z-[999] '>
-                <AddNewProductForm name={product.name} setName={setName} brand={product.brand} setBrand={setBrand}
-                    price={product.price} setPrice={setPrice} priceInOthers={product.priceInOthers} setPriceInOthers={setPriceInOthers}
-                    category={product.category} setCategory={setCategory} inputToEmpty={inputToEmpty} setImages={setImages}
-                    description={product.description} setDescription={setDescription} variants={product.variants} setVariants={setVariants}
-                    highlights={product.highlights} setHighlights={setHighlights}
+            {  editPanel && product && <section className='fixed top-50 left-52 w-[80%] h-[100vh]  z-[999] '>
+                <AddNewProductForm name={name} setName={setName} brand={brand} setBrand={setBrand}
+                    price={price} setPrice={setPrice} priceInOthers={priceInOthers} setPriceInOthers={setPriceInOthers}
+                    category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} setImages={setImages}
+                    description={description} setDescription={setDescription} variants={variants} setVariants={setVariants}
+                    highlights={highlights} setHighlights={setHighlights}
                     action={() => action} Update={clearProduct} />
             </section> }
             {/* productInfo,productCollection,setFieldEmpty,timerAlert */}
@@ -70,10 +87,7 @@ const ProductsTable = ({products,setName,setBrand,setPrice,setPriceInOthers,setC
                         </td>
                         <td className='p-2'>
                             <div className='flex'>
-                            <button onClick={() =>  {
-                                setProductId(product.id)
-                                
-                                }} className='bg-[#276367] m-1 py-1 px-2 font-medium cursor-pointer rounded-md'>Update</button>
+                            <button onClick={() => fetchProduct(product.id) } className='bg-[#276367] m-1 py-1 px-2 font-medium cursor-pointer rounded-md'>Update</button>
                             <button className='bg-[#673727] m-1 py-1 font-medium px-2 rounded-md'>delete</button>
                             </div>
                         </td>

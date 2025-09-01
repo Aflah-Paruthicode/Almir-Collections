@@ -17,7 +17,8 @@ const ViewProduct = () => {
     const productCollection = collection(db,'products');
     useEffect(() => {
         async function fetchProduct () {
-            let data = await useGetSingleProduct(productId,setProduct)
+            let data = await useGetSingleProduct(productId)
+            setProduct(data)
         }
         useGetProducts(productCollection,setProducts,true)
         fetchProduct()
