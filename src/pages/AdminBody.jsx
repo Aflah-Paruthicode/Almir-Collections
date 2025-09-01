@@ -96,7 +96,7 @@ const AdminBody = () => {
         </section>
         <hr className='text-[#6a6a6a]' />
         <section className=' min-h-[40vh] mx-auto'>
-            <ProductsTable products={products} name={name} setName={setName} brand={brand} setBrand={setBrand}
+            <ProductsTable products={products} setProducts={setProducts} name={name} setName={setName} brand={brand} setBrand={setBrand}
             price={price} setPrice={setPrice} description={description} priceInOthers={priceInOthers} setPriceInOthers={setPriceInOthers}
             category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} setImages={setImages} setDescription={setDescription}
             variants={variants} setVariants={setVariants} highlights={highlights} setHighlights={setHighlights}

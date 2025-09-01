@@ -1,11 +1,16 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useHandleUpdate from "../services/useHandleUpdate"
 import AddNewProductForm from "./AddNewProductForm"
 import useGetSingleProduct from "../services/useGetSingleProduct"
-import { timerAlert } from "../services/alerts"
+import { deleteAlert, timerAlert } from "../services/alerts"
+import useDeleteProduct from "../services/useDeleteDoc"
+import useGetProducts from "../services/useGetProducts"
+import { collection } from "firebase/firestore"
+import { db } from "../services/firebase-config"
+
 
 const ProductsTable = (props) => {
-    let { products,name,setName,
+    let { products,setProducts,name,setName,
           brand,setBrand,price,setPrice,
           priceInOthers,setPriceInOthers,
           category,setCategory,inputToEmpty,
@@ -14,6 +19,7 @@ const ProductsTable = (props) => {
 
     const [editPanel,setEditPanel] = useState(false);
     const [product,setProduct] = useState()
+    const productCollection = collection(db,'products');
 
     async function fetchProduct (id) {
         let data = await useGetSingleProduct(id)
@@ -27,7 +33,7 @@ const ProductsTable = (props) => {
             setDescription(data.description)
             setVariants(data.variants)
             setHighlights(data.highlights)
-            timerAlert(900,'Please Wait!','just wait a momment <b></b>.')
+            timerAlert(900,'Please Wait!','just wait a momment <b></b>.') 
             setEditPanel(true)
         }
     }
@@ -37,6 +43,16 @@ const ProductsTable = (props) => {
     }
 
     console.log('iis the product here ???', product)
+
+    const handleDelete = async (id) => {
+        const confirmed = await deleteAlert();
+        if (confirmed) {
+            useDeleteProduct(id)
+            useGetProducts(productCollection,setProducts)
+        } else {
+            console.log("User cancelled delete!");
+        }
+    };
 
     return (
     <div className='flex flex-col left-0 justify-center text-[#bababa]'>
@@ -88,7 +104,14 @@ const ProductsTable = (props) => {
                         <td className='p-2'>
                             <div className='flex'>
                             <button onClick={() => fetchProduct(product.id) } className='bg-[#276367] m-1 py-1 px-2 font-medium cursor-pointer rounded-md'>Update</button>
-                            <button className='bg-[#673727] m-1 py-1 font-medium px-2 rounded-md'>delete</button>
+                            <button className='bg-[#673727] m-1 py-1 font-medium px-2 rounded-md'
+                             onClick={() => {
+                                let isOkay = deleteAlert()
+                                console.log('the alert : ',isOkay) 
+                                if(isOkay) {
+                                    handleDelete(product.id)
+                                }
+                             }} >delete</button>
                             </div>
                         </td>
                         </tr>
