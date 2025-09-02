@@ -7,6 +7,8 @@ import useDeleteProduct from "../services/useDeleteDoc"
 import useGetProducts from "../services/useGetProducts"
 import { collection } from "firebase/firestore"
 import { db } from "../services/firebase-config"
+import useUrlsToFiles from "../services/useUrlsToFiles"
+import useHandleDelete from "../services/useHandleDelete"
 
 
 const ProductsTable = (props) => {
@@ -14,17 +16,22 @@ const ProductsTable = (props) => {
           brand,setBrand,price,setPrice,
           priceInOthers,setPriceInOthers,
           category,setCategory,inputToEmpty,
-          setImages,description,setDescription,
-          highlights,setHighlights,variants,setVariants,action } = props;
+          images,setImages,description,setDescription,
+          highlights,setHighlights,variants,setVariants,setFieldEmpty,action } = props;
 
     const [editPanel,setEditPanel] = useState(false);
     const [product,setProduct] = useState()
     const productCollection = collection(db,'products');
 
+
     async function fetchProduct (id) {
         let data = await useGetSingleProduct(id)
         setProduct(data)
         if(data) {
+            const imgFiles = await useUrlsToFiles(data.images)
+         
+            console.log('the variable : ',imgFiles)
+            
             setName(data.name)
             setBrand(data.brand)
             setPrice(data.price)
@@ -32,6 +39,7 @@ const ProductsTable = (props) => {
             setCategory(data.category)
             setDescription(data.description)
             setVariants(data.variants)
+            setImages(imgFiles)
             setHighlights(data.highlights)
             timerAlert(900,'Please Wait!','just wait a momment <b></b>.') 
             setEditPanel(true)
@@ -44,24 +52,16 @@ const ProductsTable = (props) => {
 
     console.log('iis the product here ???', product)
 
-    const handleDelete = async (id) => {
-        const confirmed = await deleteAlert();
-        if (confirmed) {
-            useDeleteProduct(id)
-            useGetProducts(productCollection,setProducts)
-        } else {
-            console.log("User cancelled delete!");
-        }
-    };
+    
 
     return (
     <div className='flex flex-col left-0 justify-center text-[#bababa]'>
             {  editPanel && product && <section className='fixed top-50 left-52 w-[80%] h-[100vh]  z-[999] '>
                 <AddNewProductForm name={name} setName={setName} brand={brand} setBrand={setBrand}
                     price={price} setPrice={setPrice} priceInOthers={priceInOthers} setPriceInOthers={setPriceInOthers}
-                    category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} setImages={setImages}
+                    category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} images={images} setImages={setImages}
                     description={description} setDescription={setDescription} variants={variants} setVariants={setVariants}
-                    highlights={highlights} setHighlights={setHighlights}
+                    highlights={highlights} setHighlights={setHighlights} setFieldEmpty={setFieldEmpty}
                     action={() => action} Update={clearProduct} />
             </section> }
             {/* productInfo,productCollection,setFieldEmpty,timerAlert */}
@@ -82,21 +82,20 @@ const ProductsTable = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            products.map((product,index) => {
+                        { products.map((product,index) => {
                                 let trimmedDes = false 
                                 let trimmedName = false
                                 if(product.description.length > 40) trimmedDes = product.description.slice(0,40)
                                 if(product.name.length > 30) trimmedName = product.name.slice(0,30)
                                 return (
                                 <tr key={index}>
-                        <td className='p-2'>{trimmedName ? trimmedName+'...' : product.name}</td>
-                        <td className='p-2 w-20'>{product.price} ₹</td>
-                        <td className='p-2'>{product.brand}</td>
-                        <td className='p-2'>{product.category}</td>
-                        <td className='p-2'>{trimmedDes ? trimmedDes+'...' : product.description}</td>
-                        <td className='p-2'>{product.variants}</td>
-                        <td className='py-2'>
+                                    <td className='p-2'>{trimmedName ? trimmedName+'...' : product.name}</td>
+                                    <td className='p-2 w-20'>{product.price} ₹</td>
+                                    <td className='p-2'>{product.brand}</td>
+                                    <td className='p-2'>{product.category}</td>
+                                    <td className='p-2'>{trimmedDes ? trimmedDes+'...' : product.description}</td>
+                                    <td className='p-2'>{product.variants}</td>
+                                    <td className='py-2'>
                             <div className="p-2">
                             <img className='w-[150px] h-[100px] object-cover rounded-lg' src={product.images[0]} alt="" />
                             </div>
@@ -107,9 +106,8 @@ const ProductsTable = (props) => {
                             <button className='bg-[#673727] m-1 py-1 font-medium px-2 rounded-md'
                              onClick={() => {
                                 let isOkay = deleteAlert()
-                                console.log('the alert : ',isOkay) 
                                 if(isOkay) {
-                                    handleDelete(product.id)
+                                    useHandleDelete(product.id,productCollection,setProducts)
                                 }
                              }} >delete</button>
                             </div>

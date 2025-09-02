@@ -3,16 +3,13 @@ import Footer from '../components/Footer'
 import { useEffect,useRef,useState } from 'react'
 import { db } from '../services/firebase-config';
 import { collection } from 'firebase/firestore';
-import { DndContext, closestCenter, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import SortableItem from '../components/SortableContext';
 import ProductsTable from '../components/ProductsTable';
 import AddNewProductForm from '../components/AddNewProductForm';
-import useHandleDragEnd from '../services/useHandleDragEnd';
 import useGetProducts from '../services/useGetProducts';
 import useAddNewProduct from '../services/useAddNewProduct';
 import { timerAlert } from '../services/alerts';
 import useHandleUpdate from '../services/useHandleUpdate';
+import ImagePreviews from '../components/ImagePreviews';
 
 const AdminBody = () => {
     const [name, setName] = useState('');
@@ -56,13 +53,8 @@ const AdminBody = () => {
         setLoadProducts(!loadProducts)
     }
 
-    const sensors = useSensors(useSensor(PointerSensor));
-
-    const handleDragEnd = (event) => useHandleDragEnd(event,images,setImages);
-    
-
   return (
-    <div className='w-full bg-[#1e1e1e] font-[poppins]'>
+    <div className='w-full bg-[#1e1e1e] font-[poppins] inset-0'>
         <section className='w-full fixed bg-[#1f1f1f] shadow-md z-50'>
             <Header />
         </section>
@@ -75,31 +67,15 @@ const AdminBody = () => {
                   description={description} setDescription={setDescription} variants={variants} setVariants={setVariants}
                   highlights={highlights} setHighlights={setHighlights}
                   action={() => useAddNewProduct(productInfo,productCollection,setFieldEmpty,timerAlert)}  />
-                    {images.length > 0 && 
-
-                        <div className='preview-container'>
-                            <h1 className='text-2xl font-bold pt-10 pb-4'>Preview <span className='font-medium text-xl'>({images.length})</span></h1>
-                           <div className="flex items-center ">
-                                <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd} >
-                                    <SortableContext items={images} strategy={verticalListSortingStrategy}>
-                                    <div className="flex flex-wrap gap-2">
-                                        {images.map((url) => (
-                                        <SortableItem key={url.lastModified+url.size} id={url.lastModified+url.size} url={URL.createObjectURL(url)} />
-                                        ))}
-                                    </div>
-                                    </SortableContext>
-                                </DndContext>
-                            </div>
-                        </div>
-                    }
+                    { images.length > 0 && <ImagePreviews images={images} setImages={setImages} /> }
             </div>
         </section>
         <hr className='text-[#6a6a6a]' />
         <section className=' min-h-[40vh] mx-auto'>
             <ProductsTable products={products} setProducts={setProducts} name={name} setName={setName} brand={brand} setBrand={setBrand}
             price={price} setPrice={setPrice} description={description} priceInOthers={priceInOthers} setPriceInOthers={setPriceInOthers}
-            category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} setImages={setImages} setDescription={setDescription}
-            variants={variants} setVariants={setVariants} highlights={highlights} setHighlights={setHighlights}
+            category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} images={images} setImages={setImages} setDescription={setDescription}
+            variants={variants} setVariants={setVariants} highlights={highlights} setHighlights={setHighlights} setFieldEmpty={setFieldEmpty}
             action={() => useHandleUpdate(productInfo,productCollection,setFieldEmpty,timerAlert)} />
         </section>
         <section className='relative bottom-0'>

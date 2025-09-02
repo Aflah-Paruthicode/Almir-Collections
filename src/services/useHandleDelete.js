@@ -1,8 +1,15 @@
 import { deleteAlert } from "./alerts"
+import useDeleteProduct from "./useDeleteDoc";
+import useGetProducts from "./useGetProducts";
 
-const useHandleDelete = async () => {
-  
-const confirmed = await deleteAlert()
-}
+const useHandleDelete = async (id,productCollection,setProducts) => {
+        const confirmed = await deleteAlert();
+        if (confirmed) {
+            useDeleteProduct(id)
+            useGetProducts(productCollection,setProducts)
+        } else {
+            console.log("User cancelled delete!");
+        }
+    };
 
 export default useHandleDelete
