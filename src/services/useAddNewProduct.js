@@ -5,8 +5,8 @@ const useAddNewProduct = async (productInfo,productCollection,setFieldEmpty,time
         try {
             timerAlert(4000,"New Product Is Creating!","Will be created in <b></b>.")
             console.log('new product adding request is done')
-            const data = new FormData();
             const uploadPromises = productInfo.images.map(async (image) => {
+                const data = new FormData();
                 data.append("file", image);
                 data.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
                 data.append("folder", "products");

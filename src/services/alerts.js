@@ -28,7 +28,7 @@ export const timerAlert = (time,heading,description) => { Swal.fire({
   }
 })}
 
-export const deleteAlert =  async () => {
+export const confirmAlert =  async () => {
   const result = await Swal.fire({
   title: "Are you sure?",
   text: "You won't be able to revert this!",

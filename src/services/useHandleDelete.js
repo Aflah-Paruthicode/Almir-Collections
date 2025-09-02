@@ -1,9 +1,9 @@
-import { deleteAlert } from "./alerts"
+import { confirmAlert } from "./alerts"
 import useDeleteProduct from "./useDeleteDoc";
 import useGetProducts from "./useGetProducts";
 
 const useHandleDelete = async (id,productCollection,setProducts) => {
-        const confirmed = await deleteAlert();
+        const confirmed = await confirmAlert();
         if (confirmed) {
             useDeleteProduct(id)
             useGetProducts(productCollection,setProducts)

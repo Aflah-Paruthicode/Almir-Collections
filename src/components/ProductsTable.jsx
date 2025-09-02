@@ -1,28 +1,26 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import useHandleUpdate from "../services/useHandleUpdate"
 import AddNewProductForm from "./AddNewProductForm"
 import useGetSingleProduct from "../services/useGetSingleProduct"
-import { deleteAlert, timerAlert } from "../services/alerts"
-import useDeleteProduct from "../services/useDeleteDoc"
-import useGetProducts from "../services/useGetProducts"
-import { collection } from "firebase/firestore"
+import { confirmAlert, timerAlert } from "../services/alerts"
+import { collection, doc } from "firebase/firestore"
 import { db } from "../services/firebase-config"
 import useUrlsToFiles from "../services/useUrlsToFiles"
 import useHandleDelete from "../services/useHandleDelete"
 
 
 const ProductsTable = (props) => {
-    let { products,setProducts,name,setName,
+    let { products,setProducts,name,setName,productInfo,
           brand,setBrand,price,setPrice,
           priceInOthers,setPriceInOthers,
-          category,setCategory,inputToEmpty,
+          category,setCategory,inputToEmpty,timerAlert,
           images,setImages,description,setDescription,
-          highlights,setHighlights,variants,setVariants,setFieldEmpty,action } = props;
+          highlights,setHighlights,variants,setVariants,setFieldEmpty } = props;
 
     const [editPanel,setEditPanel] = useState(false);
     const [product,setProduct] = useState()
     const productCollection = collection(db,'products');
-
+    let action
 
     async function fetchProduct (id) {
         let data = await useGetSingleProduct(id)
@@ -40,7 +38,7 @@ const ProductsTable = (props) => {
             setDescription(data.description)
             setVariants(data.variants)
             setImages(imgFiles)
-            setHighlights(data.highlights)
+            setHighlights(data.highlights.join())
             timerAlert(900,'Please Wait!','just wait a momment <b></b>.') 
             setEditPanel(true)
         }
@@ -51,7 +49,14 @@ const ProductsTable = (props) => {
     }
 
     console.log('iis the product here ???', product)
-
+  async function handleUpdate () {
+     let isOkay = confirmAlert()
+     if(isOkay) {
+         const docRef = doc(db, "products", String(product.id));
+         await useHandleUpdate(productInfo,docRef,setFieldEmpty,timerAlert)
+         clearProduct()
+     }
+ }
     
 
     return (
@@ -62,7 +67,7 @@ const ProductsTable = (props) => {
                     category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} images={images} setImages={setImages}
                     description={description} setDescription={setDescription} variants={variants} setVariants={setVariants}
                     highlights={highlights} setHighlights={setHighlights} setFieldEmpty={setFieldEmpty}
-                    action={() => action} Update={clearProduct} />
+                    action={() => handleUpdate() } Update={clearProduct} />
             </section> }
             {/* productInfo,productCollection,setFieldEmpty,timerAlert */}
             <div className="w-[70%] mx-auto">
@@ -105,7 +110,7 @@ const ProductsTable = (props) => {
                             <button onClick={() => fetchProduct(product.id) } className='bg-[#276367] m-1 py-1 px-2 font-medium cursor-pointer rounded-md'>Update</button>
                             <button className='bg-[#673727] m-1 py-1 font-medium px-2 rounded-md'
                              onClick={() => {
-                                let isOkay = deleteAlert()
+                                let isOkay = confirmAlert()
                                 if(isOkay) {
                                     useHandleDelete(product.id,productCollection,setProducts)
                                 }

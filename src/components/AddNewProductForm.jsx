@@ -24,7 +24,7 @@ const AddNewProductForm = (props) => {
         <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="number" placeholder='Price In Other Stores...' value={priceInOthers} onChange={(e) => setPriceInOthers(e.target.value)} />
         <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Category...' value={category} onChange={(e) => setCategory(e.target.value)} />
         <div className="relative">
-        <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="file" multiple placeholder='Image...' onChange={(e) => setImages((prev) => [...prev, ...Array.from(e.target.files)])} />
+        <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="file" multiple placeholder='Image...' ref={inputToEmpty} onChange={(e) => setImages((prev) => [...prev, ...Array.from(e.target.files)])} />
         <p className="text-red-400 text-[10px] absolute bottom-[0.5px] left-1">Don't choose same pics(careful with DND)</p>
         </div>
         <textarea id="multiline_text" name="message" rows="5" placeholder='Variants(alert !! use comas to split)...' className='p-3 bg-[#343434] rounded-lg' value={variants} onChange={(e) => setVariants(e.target.value)} cols="40" ></textarea>
