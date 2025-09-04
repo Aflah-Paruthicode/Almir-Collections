@@ -164,3 +164,12 @@ export const productData = {
     priceInOthers : '1499',
     variants : 'Black,White,Blue'
 }
+
+export const reviewPics = [
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO7X_PzUBay9Idr9VgQeAW67SsCT3B046D7A&s',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO7X_PzUBay9Idr9VgQeAW67SsCT3B046D7A&s',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO7X_PzUBay9Idr9VgQeAW67SsCT3B046D7A&s',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO7X_PzUBay9Idr9VgQeAW67SsCT3B046D7A&s',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO7X_PzUBay9Idr9VgQeAW67SsCT3B046D7A&s',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO7X_PzUBay9Idr9VgQeAW67SsCT3B046D7A&s',
+]

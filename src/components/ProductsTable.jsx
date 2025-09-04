@@ -61,7 +61,7 @@ const ProductsTable = (props) => {
 
     return (
     <div className='flex flex-col left-0 justify-center text-[#bababa]'>
-            {  editPanel && product && <section className='fixed top-50 left-52 w-[80%] h-[100vh]  z-[999] '>
+            {  editPanel && product && <section className='fixed top-20 left-52 w-[80%] h-[100vh]  z-[999] '>
                 <AddNewProductForm name={name} setName={setName} brand={brand} setBrand={setBrand}
                     price={price} setPrice={setPrice} priceInOthers={priceInOthers} setPriceInOthers={setPriceInOthers}
                     category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} images={images} setImages={setImages}
@@ -70,9 +70,10 @@ const ProductsTable = (props) => {
                     action={() => handleUpdate() } Update={clearProduct} />
             </section> }
             {/* productInfo,productCollection,setFieldEmpty,timerAlert */}
+            <section>
             <div className="w-[70%] mx-auto">
                 <h1 className='text-2xl font-bold pt-20 pb-10'>Products</h1>
-            <div className='p-10 rounded-lg bg-[#1a1a1a]'>
+            <div className='p-10 rounded-lg bg-[#1a1a1a]  overflow-y-scroll max-h-[40rem]'>
                 { products.length > 0 && <table className="table-fixed">
                     <thead>
                         <tr className="bg-[#151515]">
@@ -107,8 +108,8 @@ const ProductsTable = (props) => {
                         </td>
                         <td className='p-2'>
                             <div className='flex'>
-                            <button onClick={() => fetchProduct(product.id) } className='bg-[#276367] m-1 py-1 px-2 font-medium cursor-pointer rounded-md'>Update</button>
-                            <button className='bg-[#673727] m-1 py-1 font-medium px-2 rounded-md'
+                            <button onClick={() => fetchProduct(product.id) } className='bg-gradient-to-br from-[#4abfb7] via-[#1c6c6f] to-[#4ab7bf] hover:from-[#32b3b7] hover:via-[#10595e] hover:to-[#21b3b3] m-1 py-1 px-2 font-medium cursor-pointer rounded-md'>Update</button>
+                            <button className='bg-gradient-to-br from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121] m-1 py-1 font-medium px-2 rounded-md'
                              onClick={() => {
                                 let isOkay = confirmAlert()
                                 if(isOkay) {
@@ -125,6 +126,7 @@ const ProductsTable = (props) => {
                     { products.length == 0 &&  <h1>Products is empty</h1>}
             </div>
             </div>
+            </section>
         </div>
   ) 
 }

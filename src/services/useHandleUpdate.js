@@ -21,6 +21,7 @@ const useHandleUpdate = async (productInfo,productDoc,setFieldEmpty,timerAlert) 
             const highlightsArr = productInfo.highlights.split(',')
             await updateDoc(productDoc, {
                 name : productInfo.name,
+                nameLowerCase : productInfo.name.toLowerCase(),
                 brand : productInfo.brand.toString().toUpperCase(),
                 category : productInfo.category,
                 description : productInfo.description,

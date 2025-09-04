@@ -19,6 +19,7 @@ const useAddNewProduct = async (productInfo,productCollection,setFieldEmpty,time
             const highlightsArr = productInfo.highlights.split(',')
             await addDoc(productCollection, {
                 name : productInfo.name,
+                nameLowerCase : productInfo.name.toLowerCase(),
                 brand : productInfo.brand.toString().toUpperCase(),
                 category : productInfo.category,
                 description : productInfo.description,

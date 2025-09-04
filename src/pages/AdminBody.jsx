@@ -8,7 +8,6 @@ import AddNewProductForm from '../components/AddNewProductForm';
 import useGetProducts from '../services/useGetProducts';
 import useAddNewProduct from '../services/useAddNewProduct';
 import { timerAlert } from '../services/alerts';
-import useHandleUpdate from '../services/useHandleUpdate';
 import ImagePreviews from '../components/ImagePreviews';
 
 const AdminBody = () => {
@@ -77,6 +76,9 @@ const AdminBody = () => {
             category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} images={images} setImages={setImages} setDescription={setDescription}
             variants={variants} setVariants={setVariants} highlights={highlights} setHighlights={setHighlights} setFieldEmpty={setFieldEmpty} timerAlert={timerAlert}
              />
+        </section>
+        <section>
+            
         </section>
         <section className='relative bottom-0'>
             <Footer />
