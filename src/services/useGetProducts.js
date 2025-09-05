@@ -1,4 +1,4 @@
-import { getDocs, limit, query } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 
 const useGetProducts = async (productCollection,setProducts,q) => {
         try {

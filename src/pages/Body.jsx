@@ -12,15 +12,19 @@ import founderPic from '../assets/founderPic.png';
 import InstaPic from '../assets/instagram.png';
 import LinkedIn from '../assets/linkedin.png'
 import Gmail from '../assets/gMail.png'
+import useGetReviews from "../services/useGetReviews";
 
 const Body = () => {
   const [faqToggleIndex,setFaqToggleIndex] = useState(-1);
   const [products, setProducts] = useState([])
+  const [reviews,setReviews] = useState([])
 
   const productCollection = collection(db,'products');
+  const reviewCollection = collection(db,'reviews')
   
   useEffect(() => {
     useGetProducts(productCollection,setProducts,false);
+    useGetReviews(reviewCollection,setReviews)
   },[])
 
   return (
@@ -89,16 +93,23 @@ const Body = () => {
       </div>
     <div className="overflow-hidden">
       <div className="flex whitespace-nowrap animate-[scroll-left_40s_linear_infinite]">
-        {reviewPics.map((card, index) => (
-          <div key={index} className="flex-shrink-0 w-64 h-[25rem] rounded-lg m-3 flex items-center justify-center">
-            <img className="w-full h-full rounded-lg brightness-[85%] object-cover" src={card.reviewImg} alt="" />
+        {reviews.map((card, index) => (
+          <div key={index} className="flex-shrink-0 w-60 h-[25rem] rounded-lg m-3 flex items-center justify-center">
+            <img className="w-full h-full rounded-lg brightness-[85%] object-cover" src={card.reviewImage} alt="" />
           </div>
         ))}
-        {reviewPics.map((card, index) => (
-          <div key={index + reviewPics.length} className="flex-shrink-0 w-64 h-[25rem] rounded-lg m-3 flex items-center justify-center">
-            <img className="w-full h-full rounded-lg brightness-[85%] object-cover" src={card} alt="" />
-          </div>
-        ))}
+        {reviews.map((card, index) => (
+      <div
+        key={index + reviews.length}
+        className="flex-shrink-0 w-60 h-[25rem] rounded-lg m-3 flex items-center justify-center"
+      >
+        <img
+          className="w-full h-full rounded-lg brightness-[85%] object-cover"
+          src={card.reviewImage}
+          alt=""
+        />
+      </div>
+    ))}
       </div>
     </div>
     </section>
