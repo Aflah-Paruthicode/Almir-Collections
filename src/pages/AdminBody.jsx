@@ -9,6 +9,8 @@ import useGetProducts from '../services/useGetProducts';
 import useAddNewProduct from '../services/useAddNewProduct';
 import { timerAlert } from '../services/alerts';
 import ImagePreviews from '../components/ImagePreviews';
+import { reviewPics } from '../components/utils/constants';
+import useAddNewReview from '../services/useAddNewReview';
 
 const AdminBody = () => {
     const [name, setName] = useState('');
@@ -21,18 +23,21 @@ const AdminBody = () => {
     const [variants, setVariants] = useState('');
     const [images, setImages] = useState([]);
     const inputToEmpty = useRef(null);
-    const [loadProducts, setLoadProducts] = useState(false)
+    const [loadProducts, setLoadProducts] = useState(false);
+    const [reviewPic,setReviewPic] = useState();
+    const [reviewerName,setRviewerName] = useState('');
     
 
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState([]);
 
     const productCollection = collection(db,'products');
+    const reviewCollection = collection(db,'reviews')
     const productInfo = {
         name,price,brand,
         priceInOthers,category,
         description,highlights,
         variants,images
-    }
+    };
 
     useEffect(() => {
         useGetProducts(productCollection,setProducts)
@@ -78,9 +83,28 @@ const AdminBody = () => {
              />
         <hr className='text-[#6a6a6a]' />
         </section>
-        <section>
-
-        </section>
+        <section className='w-[70%] mx-auto text-[#bababa] py-14'>
+  <h1 className='text-2xl font-bold py-10'>Reviews</h1>
+  <div className='grid grid-cols-3 gap-4 my-4 p-6 rounded-2xl bg-[#141414]'>
+    <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' value={reviewPic} type="file" onChange={(e) => setReviewPic(e.target.files)} placeholder='Image...' />
+    <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' value={reviewerName} type="text" onChange={(e) => setRviewerName(e.target.value)} placeholder='Image...' />
+    <button onClick={() => 
+      useAddNewReview(reviewPic,reviewCollection)
+    }
+     className='bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]' type="submit" placeholder='Image...'  >Add Review</button>
+  </div>
+  <div className='flex gap-2 overflow-x-scroll bg-[#141414] p-10 rounded-2xl w-full'>
+    {
+      reviewPics.map((review) => (
+        <div className='flex-shrink-0 w-[15rem] text-center'>
+          <p>{review.customerName}</p>
+          <img className='w-full brightness-[85%] rounded-lg' src={review.reviewImg} alt="" />
+          <button className='py-2 px-4 m-2 bg-gradient-to-br rounded-xl from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121]'>Delete</button>
+        </div> 
+      ))
+    }
+  </div>
+</section>
         <section className='relative bottom-0'>
             <Footer />
         </section>

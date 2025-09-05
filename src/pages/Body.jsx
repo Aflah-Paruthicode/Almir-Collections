@@ -8,8 +8,10 @@ import { collection } from 'firebase/firestore';
 import { db } from '../services/firebase-config';
 import ProductCard from "../components/ProductCard";
 import useGetProducts from "../services/useGetProducts";
-import reviewFrame from '../assets/reviewFrame.png'
-
+import founderPic from '../assets/founderPic.png';
+import InstaPic from '../assets/instagram.png';
+import LinkedIn from '../assets/linkedin.png'
+import Gmail from '../assets/gMail.png'
 
 const Body = () => {
   const [faqToggleIndex,setFaqToggleIndex] = useState(-1);
@@ -38,7 +40,7 @@ const Body = () => {
     </section>
     <section className="w-[1050px] mx-auto flex gap-4 justify-center items-center text-center text-white">
       { categories.map((category,index) => (
-          <Link key={index} to={`/category/${category}`} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="w-1/4 p-5 bg-[#1a1a1a] hover:bg-[#242424] border border-[#bababa] rounded-xl m-auto"><div className="">{category}</div></Link>
+          <Link key={index} to={`/category/${category}`} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="w-1/4 p-5 bg-[#141414] hover:bg-[#242424] border border-[#bababa] rounded-xl m-auto"><div className="">{category}</div></Link>
       )) }
     </section>
     <section className="w-[1050px] mx-auto py-10">
@@ -86,15 +88,12 @@ const Body = () => {
       <h1 className="text-2xl font-medium tracking-wider py-8 text-white">Customer Rviews</h1>
       </div>
     <div className="overflow-hidden">
-      {/* The animate-[...] syntax is Tailwind's arbitrary value support for animations */}
       <div className="flex whitespace-nowrap animate-[scroll-left_40s_linear_infinite]">
         {reviewPics.map((card, index) => (
           <div key={index} className="flex-shrink-0 w-64 h-[25rem] rounded-lg m-3 flex items-center justify-center">
-            {/* Your card content */}
-            <img className="w-full h-full rounded-lg brightness-[85%] object-cover" src={card} alt="" />
+            <img className="w-full h-full rounded-lg brightness-[85%] object-cover" src={card.reviewImg} alt="" />
           </div>
         ))}
-        {/* Duplicate the cards for an infinite loop */}
         {reviewPics.map((card, index) => (
           <div key={index + reviewPics.length} className="flex-shrink-0 w-64 h-[25rem] rounded-lg m-3 flex items-center justify-center">
             <img className="w-full h-full rounded-lg brightness-[85%] object-cover" src={card} alt="" />
@@ -103,21 +102,26 @@ const Body = () => {
       </div>
     </div>
     </section>
-    <section className="w-[1050px] mx-auto py-10">
+    <section className="w-[1050px] mx-auto my-10 p-10 rounded-lg bg-[#141414]">
       <div className="flex">
-        <div>
-          <h1>Meet The Founder</h1>
-          <hr />
+        <div className="text-gray-300 m-auto">
+          <h1 className="font-bold tracking-wide text-3xl m-2 text-white">Meet The Founder</h1>
+          <hr className="w-40 h-1 bg-gray-300" />
           <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur quisquam nemo reiciendis ipsam voluptatum obcaecati assumenda dolores. audi deserunt! Magni animi eos error deserunt aut doloremque sequi labore exercitationem earum.
-            <button>Shop Now</button>
+          <p className="m-2 leading-7">I started Almir Collections to make luxury more accessible.
+            What began as my search for affordable replicas of top brands turned into a vision: a website where anyone can explore quality products — simple, stylish, and trustworthy.
+            <br />  <button className="bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] px-4 py-2 my-2 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] ">shop now</button>
+
+            <br /> <br /> — Muhammed Aflah<br />Founder, Almir Collections</p>
           </div>
         </div>
-        <div>
-          <img src='' alt="" />
-          <h1>MUHAMMED AFLAH</h1>
-          <p>Founder, Web Developer</p>
-          <div>email, insta, linkedin</div>
+        <div className="text-center text-white m-auto">
+          <img className="brightness-[85%] w-[24rem] rounded-[50%] object-top object-cover" src={founderPic} alt="" />
+          <div className="my-4 flex justify-center w-28 m-auto">
+            <img className="w-4 m-auto" src={Gmail} alt="" />
+            <img className="w-4 m-auto" src={InstaPic} alt="" />
+            <img className="w-4 m-auto" src={LinkedIn} alt="" />
+          </div>
         </div>
       </div>
     </section>

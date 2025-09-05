@@ -35,6 +35,7 @@ const ProductCategory = () => {
     <section className="w-[1050px] mx-auto py-10 pt-20  min-h-[85vh]">
       <div>
         <h1 className="text-2xl font-medium tracking-wider py-4 mt-20 text-white">Category Section</h1>
+        {products.length == 0 && <h1 className="text-white">Currently This Category Is Empty...</h1>}
       </div>
       <div className="flex justify-center items-center gap-6 flex-wrap">
         { products.map((product,index) => {

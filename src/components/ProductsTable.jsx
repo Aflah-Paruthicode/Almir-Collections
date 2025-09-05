@@ -60,7 +60,7 @@ const ProductsTable = (props) => {
     
 
     return (
-    <div className='flex flex-col left-0 justify-center text-[#bababa]'>
+    <div className='flex flex-col left-0 justify-center pt-10 pb-20 text-[#bababa]'>
             {  editPanel && product && <section className='fixed top-20 left-52 w-[80%] h-[100vh]  z-[999] '>
                 <AddNewProductForm name={name} setName={setName} brand={brand} setBrand={setBrand}
                     price={price} setPrice={setPrice} priceInOthers={priceInOthers} setPriceInOthers={setPriceInOthers}
