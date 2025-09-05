@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { categories, dummyProducts, ExtraFAQ, FAQ, whyBuyFromUs } from "../components/utils/constants"
+import { categories, dummyProducts, ExtraFAQ, FAQ, reviewPics, whyBuyFromUs } from "../components/utils/constants"
 import FaqAccordion from "../components/faqAccordion";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -8,6 +8,7 @@ import { collection } from 'firebase/firestore';
 import { db } from '../services/firebase-config';
 import ProductCard from "../components/ProductCard";
 import useGetProducts from "../services/useGetProducts";
+import reviewFrame from '../assets/reviewFrame.png'
 
 
 const Body = () => {
@@ -37,11 +38,11 @@ const Body = () => {
     </section>
     <section className="w-[1050px] mx-auto flex gap-4 justify-center items-center text-center text-white">
       { categories.map((category,index) => (
-          <Link key={index} to={category} className="w-1/4 p-5 bg-[#1a1a1a] hover:bg-[#242424] border border-[#bababa] rounded-xl m-auto"><div className="">{category}</div></Link>
+          <Link key={index} to={`/category/${category}`} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="w-1/4 p-5 bg-[#1a1a1a] hover:bg-[#242424] border border-[#bababa] rounded-xl m-auto"><div className="">{category}</div></Link>
       )) }
     </section>
     <section className="w-[1050px] mx-auto py-10">
-         <h1 className="text-2xl font-medium tracking-wider py-4 text-white">Trending Now</h1>
+         <h1 className="text-2xl font-medium tracking-wider py-8 text-white">Trending Now</h1>
       <div className="flex justify-center items-center gap-6 flex-wrap">
         { products.map((product,index) => {
             let trimmedName = false;
@@ -55,7 +56,7 @@ const Body = () => {
       
     </section>
     <section className="w-[1050px] mx-auto py-10">
-      <h1 className="text-2xl font-medium tracking-wider py-4 text-white">Why Buy From Us</h1>
+      <h1 className="text-2xl font-medium tracking-wider py-8 text-white">Why Buy From Us</h1>
       <div className="flex gap-5 justify-center text-white text-center">
         { whyBuyFromUs.map((reason, index) => (
         <div key={index} className="w-1/4">
@@ -68,19 +69,56 @@ const Body = () => {
     </section>
     <section className="w-[1050px] mx-auto py-10">
       
-         <h1 className="text-2xl font-medium tracking-wider py-4 text-white"></h1>
+         <h1 className="text-2xl font-medium tracking-wider py-8 text-white">Most Sold Items</h1>
       <div className="flex justify-center items-center gap-6 flex-wrap">
-        { dummyProducts.map((product,index) => (
-            <div key={index} className="w-[15rem] rounded-2xl bg-[#1a1a1a] text-white text-center">
-            <img className="w-full h-[240px] overflow-hidden object-cover object-top rounded-t-2xl" src={product.img} alt="" />
-            <div className="p-4">
-              <h2 className="my-2 font-extralight">{product.heading}</h2>
-              <h3 className="my-2">RS {product.price}/-</h3>
-              <button className="bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[14px] px-4 py-1 rounded-md [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] ">Contact now</button>
-              <p className="my-2 text-[12px] text-gray-300">{product.brand}</p>
-            </div>
+        { products.map((product,index) => {
+            let trimmedName = false;
+            if(product.name.length > 20) trimmedName = product.name.slice(0,20);
+            return (
+              <Link key={index} to={'/viewProduct/'+product.id} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                <ProductCard product={product} trimmedName={trimmedName} />
+            </Link>
+          )}) }
+      </div>
+    </section>
+    <section className="py-10">
+      <div className="w-[1050px] mx-auto">
+      <h1 className="text-2xl font-medium tracking-wider py-8 text-white">Customer Rviews</h1>
+      </div>
+    <div className="overflow-hidden">
+      {/* The animate-[...] syntax is Tailwind's arbitrary value support for animations */}
+      <div className="flex whitespace-nowrap animate-[scroll-left_40s_linear_infinite]">
+        {reviewPics.map((card, index) => (
+          <div key={index} className="flex-shrink-0 w-64 h-[25rem] rounded-lg m-3 flex items-center justify-center">
+            {/* Your card content */}
+            <img className="w-full h-full rounded-lg brightness-[85%] object-cover" src={card} alt="" />
+          </div>
+        ))}
+        {/* Duplicate the cards for an infinite loop */}
+        {reviewPics.map((card, index) => (
+          <div key={index + reviewPics.length} className="flex-shrink-0 w-64 h-[25rem] rounded-lg m-3 flex items-center justify-center">
+            <img className="w-full h-full rounded-lg brightness-[85%] object-cover" src={card} alt="" />
+          </div>
+        ))}
+      </div>
+    </div>
+    </section>
+    <section className="w-[1050px] mx-auto py-10">
+      <div className="flex">
+        <div>
+          <h1>Meet The Founder</h1>
+          <hr />
+          <div>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur quisquam nemo reiciendis ipsam voluptatum obcaecati assumenda dolores. audi deserunt! Magni animi eos error deserunt aut doloremque sequi labore exercitationem earum.
+            <button>Shop Now</button>
+          </div>
         </div>
-          )) }
+        <div>
+          <img src='' alt="" />
+          <h1>MUHAMMED AFLAH</h1>
+          <p>Founder, Web Developer</p>
+          <div>email, insta, linkedin</div>
+        </div>
       </div>
     </section>
     <section className="w-[1050px] mx-auto py-10">

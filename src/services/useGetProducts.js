@@ -4,8 +4,7 @@ const useGetProducts = async (productCollection,setProducts,q) => {
         try {
           let data 
           if(q) {
-            const queryToGetFour = query(productCollection, limit(4));
-            data = await getDocs(queryToGetFour);
+            data = await getDocs(q);
           } else {
             data = await getDocs(productCollection);
           }

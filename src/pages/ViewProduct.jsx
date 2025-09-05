@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom"
-import { collection, getDocs, limit, query  } from 'firebase/firestore';
+import { collection, limit, query } from 'firebase/firestore';
 import { db } from "../services/firebase-config";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -20,7 +20,8 @@ const ViewProduct = () => {
             let data = await useGetSingleProduct(productId)
             setProduct(data)
         }
-        useGetProducts(productCollection,setProducts,true)
+        const queryToGetFour = query(productCollection, limit(4))
+        useGetProducts(productCollection,setProducts,queryToGetFour)
         fetchProduct()
     },[productId])
         

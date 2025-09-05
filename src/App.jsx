@@ -8,6 +8,7 @@ import AdminBody from "./pages/AdminBody";
 import IsLogout from './services/IsLogout';
 import IsLogin from "./services/IsLogin";
 import ViewProduct from "./pages/ViewProduct";
+import ProductCategory from "./pages/ProductCategory";
 
 
 function App() {
@@ -57,6 +58,10 @@ function App() {
     {
       path : '/allProducts',
       element : <p>hai ,, reached</p>
+    },
+    {
+      path : '/category/:categoryName',
+      element : <ProductCategory />
     },
     {
       path : '/viewProduct/:productId',

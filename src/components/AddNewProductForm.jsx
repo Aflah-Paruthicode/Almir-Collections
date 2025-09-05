@@ -22,7 +22,14 @@ const AddNewProductForm = (props) => {
         <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Brand...' value={brand} onChange={(e) => setBrand(e.target.value)} />
         <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="number" placeholder='Price...' value={price} onChange={(e) => setPrice(e.target.value)} />
         <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="number" placeholder='Price In Other Stores...' value={priceInOthers} onChange={(e) => setPriceInOthers(e.target.value)} />
-        <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Category...' value={category} onChange={(e) => setCategory(e.target.value)} />
+        <select className="w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg" value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="Watches">Watches</option>
+          <option value="Jewelry">Jewelry</option>
+          <option value="Gadgets">Gadgets</option>
+          <option value="Cloths and Sheoses">Cloths and Sheoses</option>
+          <option value="Books">Books</option>
+        </select>
+        {/* <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="text" placeholder='Category...' value={category} onChange={(e) => setCategory(e.target.value)} /> */}
         <div className="relative">
         <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="file" multiple placeholder='Image...' ref={inputToEmpty} onChange={(e) => setImages((prev) => [...prev, ...Array.from(e.target.files)])} />
         <p className="text-red-400 text-[10px] absolute bottom-[0.5px] left-1">Don't choose same pics(careful with DND)</p>

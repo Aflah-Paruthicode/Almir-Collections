@@ -76,9 +76,10 @@ const AdminBody = () => {
             category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} images={images} setImages={setImages} setDescription={setDescription}
             variants={variants} setVariants={setVariants} highlights={highlights} setHighlights={setHighlights} setFieldEmpty={setFieldEmpty} timerAlert={timerAlert}
              />
+        <hr className='text-[#6a6a6a]' />
         </section>
         <section>
-            
+
         </section>
         <section className='relative bottom-0'>
             <Footer />
