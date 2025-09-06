@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom"
-import { collection, limit, query } from 'firebase/firestore';
+import { collection, limit, query, where } from 'firebase/firestore';
 import { db } from "../services/firebase-config";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -19,9 +19,11 @@ const ViewProduct = () => {
         async function fetchProduct () {
             let data = await useGetSingleProduct(productId)
             setProduct(data)
+            if(data) {
+                const queryToGetFour = query(productCollection,where('category','==',data.category), limit(4))
+                useGetProducts(productCollection,setProducts,queryToGetFour)
+            }
         }
-        const queryToGetFour = query(productCollection, limit(4))
-        useGetProducts(productCollection,setProducts,queryToGetFour)
         fetchProduct()
     },[productId])
         
