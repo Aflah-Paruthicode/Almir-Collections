@@ -37,7 +37,7 @@ const Body = () => {
             <h1 className="text-4xl leading-13 mb-4">Luxury Made Affordable</h1>
             <p className="mb-4">Kerala’s Trusted Seller for Trendy Products</p>
             <button onClick={() => { window.scrollTo({ top: 900, behavior: 'smooth' }); }}
-             className="bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] px-4 py-2 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] ">shop now</button>
+             className="bg-gradient-to-br transition-colors from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] px-4 py-2 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] ">shop now</button>
         </div>
         <div className="">
             <img className="w-[50rem] h-[40rem] object-cover rounded-2xl shadow-lg shadow-black" src="https://images.pexels.com/photos/277319/pexels-photo-277319.jpeg?cs=srgb&dl=pexels-pixabay-277319.jpg&fm=jpg" alt="" />
@@ -51,7 +51,7 @@ const Body = () => {
     <section className="w-[1050px] mx-auto py-10">
          <h1 className="text-2xl font-medium tracking-wider py-8 text-white">Trending Now</h1>
       <div className="flex justify-center items-center gap-6 flex-wrap">
-        { products.map((product,index) => {
+        { products.filter((product) => product.isTrending ).map((product,index) => {
             let trimmedName = false;
             if(product.name.length > 20) trimmedName = product.name.slice(0,20);
             return (
@@ -75,8 +75,11 @@ const Body = () => {
       </div>
     </section>
     <section className="w-[1050px] mx-auto py-10">
-      
-         <h1 className="text-2xl font-medium tracking-wider py-8 text-white">Most Sold Items</h1>
+      <div className="py-8 flex justify-between">
+         <h1 className="text-2xl font-medium tracking-wider text-white">Most Sold Items</h1>
+         <Link to={'category/allProducts'} onClick={() => { window.scrollTo({ top: 50, behavior: 'smooth' }); }} className="text-md font-medium tracking-wider inline-flex items-center text-[#bababa]">More
+          <svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="18px" fill="#bababa"><path d="m288-96-68-68 316-316-316-316 68-68 384 384L288-96Z"/></svg></Link>
+      </div>
       <div className="flex justify-center items-center gap-6 flex-wrap">
         { products.map((product,index) => {
             let trimmedName = false;
@@ -122,8 +125,8 @@ const Body = () => {
           <div>
           <p className="m-2 leading-7">I started Almir Collections to make luxury more accessible.
             What began as my search for affordable replicas of top brands turned into a vision: a website where anyone can explore quality products — simple, stylish, and trustworthy.
-            <br />  <button onClick={() => { window.scrollTo({ top: 900, behavior: 'smooth' }); }}
-             className="bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] px-4 py-2 my-2 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] ">shop now</button>
+            <br />  <Link to={'/category/allProducts'} onClick={() => { window.scrollTo({ top: 50, behavior: 'smooth' }); }}
+             className="bg-gradient-to-br inline-flex transition-colors from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] px-4 py-2 my-2 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] ">shop now</Link>
 
             <br /> <br /> — Muhammed Aflah<br />Founder, Almir Collections</p>
           </div>

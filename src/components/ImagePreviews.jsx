@@ -4,12 +4,10 @@ import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 import SortableItem from '../components/SortableContext';
 
 const ImagePreviews = ({images,setImages}) => {
-    console.log('the pics : ',images)
-    console.log('the image function : ',setImages)
+
     const sensors = useSensors(useSensor(PointerSensor));
-
     const handleDragEnd = (event) => useHandleDragEnd(event,images,setImages);
-
+    
   return (
     <div className='preview-container'>
         <h1 className='text-2xl font-bold pt-10 pb-4'>Preview <span className='font-medium text-xl'>({images.length})</span></h1>

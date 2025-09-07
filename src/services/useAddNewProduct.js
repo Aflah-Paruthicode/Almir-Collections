@@ -24,6 +24,7 @@ const useAddNewProduct = async (productInfo,productCollection,setFieldEmpty,time
                 category : productInfo.category.toLowerCase(),
                 description : productInfo.description,
                 highlights : highlightsArr,
+                isTrending : productInfo.isTrending,
                 price : productInfo.price,
                 priceInOthers : productInfo.priceInOthers,
                 variants : productInfo.variants,

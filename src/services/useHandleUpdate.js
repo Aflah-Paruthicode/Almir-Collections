@@ -26,6 +26,7 @@ const useHandleUpdate = async (productInfo,productDoc,setFieldEmpty,timerAlert) 
                 category : productInfo.category.toLowerCase(),
                 description : productInfo.description,
                 highlights : highlightsArr,
+                isTrending : productInfo.isTrending,
                 price : productInfo.price,
                 priceInOthers : productInfo.priceInOthers,
                 variants : productInfo.variants,

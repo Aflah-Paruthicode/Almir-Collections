@@ -18,9 +18,14 @@ const ProductCategory = () => {
     useEffect(() => {
         async function fetchProducts() {
 
-            const queryToGetCategoryMatch = query(productCollection, 
-                where('category','==',categoryName.toLowerCase())
-            )
+            let queryToGetCategoryMatch
+            if(categoryName == 'allProducts') {
+              queryToGetCategoryMatch = '';
+            } else {
+              queryToGetCategoryMatch = query(productCollection, 
+                where('category','==',categoryName.toLowerCase()))
+            }
+            
             const data = await useGetProducts(productCollection,setProducts,queryToGetCategoryMatch)
             console.log('products from category : ',data)
         }
@@ -37,7 +42,7 @@ const ProductCategory = () => {
       <div>
          <Link to={'/'} className="mt-20 text-[#bababa] bg-[#141414] border border-[#bababa] py-2 px-4 rounded-xl inline-flex"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="20px" fill="#bababa"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/>
          </svg>Back</Link>
-        <h1 className="text-2xl font-medium tracking-wider py-5 my-3 text-white">Category Section</h1>
+        <h1 className="text-2xl font-medium tracking-wider py-5 my-3 text-white">{categoryName == 'allProducts' ? 'All Products' :'Category Section'}</h1>
         {products.length == 0 && <h1 className="text-white">Currently This Category Is Empty...</h1>}
       </div>
       <div className="flex justify-center items-center gap-6 flex-wrap">

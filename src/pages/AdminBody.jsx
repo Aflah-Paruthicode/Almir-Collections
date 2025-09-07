@@ -24,6 +24,7 @@ const AdminBody = () => {
     const [highlights, setHighlights] = useState('');
     const [variants, setVariants] = useState('');
     const [images, setImages] = useState([]);
+    const [isTrending,setIsTrending] = useState(false);
     const inputToEmpty = useRef(null);
     const reviewToEmpty = useRef(null)
     const [loadProducts, setLoadProducts] = useState(false);
@@ -40,7 +41,7 @@ const AdminBody = () => {
         name,price,brand,
         priceInOthers,category,
         description,highlights,
-        variants,images
+        variants,images,isTrending
     };
 
     async function useHandleReviewDelete (id) {
@@ -95,7 +96,7 @@ const AdminBody = () => {
                   price={price} setPrice={setPrice} priceInOthers={priceInOthers} setPriceInOthers={setPriceInOthers}
                   category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} setImages={setImages}
                   description={description} setDescription={setDescription} variants={variants} setVariants={setVariants}
-                  highlights={highlights} setHighlights={setHighlights}
+                  highlights={highlights} setHighlights={setHighlights} isTrending={isTrending} setIsTrending={setIsTrending}
                   action={() => useAddNewProduct(productInfo,productCollection,setFieldEmpty,timerAlert)}  />
                     { images.length > 0 && <ImagePreviews images={images} setImages={setImages} /> }
             </div>
@@ -103,7 +104,7 @@ const AdminBody = () => {
         <hr className='text-[#6a6a6a]' />
         <section className=' min-h-[40vh] mx-auto'>
             <ProductsTable products={products} productInfo={productInfo} setProducts={setProducts} name={name} setName={setName} brand={brand} setBrand={setBrand}
-            price={price} setPrice={setPrice} description={description} priceInOthers={priceInOthers} setPriceInOthers={setPriceInOthers}
+            price={price} setPrice={setPrice} description={description} isTrending={isTrending} setIsTrending={setIsTrending} priceInOthers={priceInOthers} setPriceInOthers={setPriceInOthers}
             category={category} setCategory={setCategory} inputToEmpty={inputToEmpty} images={images} setImages={setImages} setDescription={setDescription}
             variants={variants} setVariants={setVariants} highlights={highlights} setHighlights={setHighlights} setFieldEmpty={setFieldEmpty} timerAlert={timerAlert}
              />
@@ -115,7 +116,7 @@ const AdminBody = () => {
     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="file" ref={reviewToEmpty} onChange={(e) => setReviewPic(e.target.files)} placeholder='Image...' />
     <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' value={reviewerName} type="text" onChange={(e) => setRviewerName(e.target.value)} placeholder='Image...' />
     <button onClick={() => handleGetReviews()}
-     className='bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]' type="submit" placeholder='Image...'  >Add Review</button>
+     className='bg-gradient-to-br transition-colors from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]' type="submit" placeholder='Image...'  >Add Review</button>
   </div>
   <div className='flex gap-2 overflow-x-scroll bg-[#141414] p-10 rounded-2xl w-full'>
     {
@@ -128,7 +129,7 @@ const AdminBody = () => {
             if(isOkay) {
                 useHandleReviewDelete(review.id)
             }
-          }} className='py-2 px-4 m-2 bg-gradient-to-br rounded-xl from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121]'>Delete</button>
+          }} className='py-2 px-4 m-2 bg-gradient-to-br rounded-xl transition-colors from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121]'>Delete</button>
         </div> 
       ))
     }

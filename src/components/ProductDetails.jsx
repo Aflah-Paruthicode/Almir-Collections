@@ -14,9 +14,13 @@ const ProductDetails = ({productData}) => {
                 <div className="w-[50rem]">
                     <div className="sticky top-28">
                     <img className="h-[500px] w-[500px] object-cover" src={productImage} alt="" />
-                    <button className="bg-gradient-to-br from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] text-[#bababa]
+                    <button onClick={() => {
+                    const message = `I want ${productData.name}`
+                    const url = `https://wa.me/${import.meta.env.VITE_PHONE}?text=${encodeURIComponent(message)}`;
+                    window.open(url, "_blank") }} className="bg-gradient-to-br transition-colors
+                    from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] text-[#bababa]
                     px-4 py-3 mt-3 flex justify-center gap-2  w-full [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]">
-                        <img className='w-6' src="/whatsapp.png" alt="" />Connect Seller</button>
+                    <img className='w-6' src="/whatsapp.png" alt="" />Connect Seller</button>
                     </div>
                 </div>
                 <div className="w-28">
