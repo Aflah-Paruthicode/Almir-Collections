@@ -14,8 +14,8 @@
 
 .magnifier {
   /* Magnifier size and shape */
-  width: 250px;
-  height: 250px;
+  width: 275px;
+  height: 275px;
   border-radius: 50%;
   border: 2px solid white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

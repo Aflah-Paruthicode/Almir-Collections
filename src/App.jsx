@@ -12,12 +12,7 @@ import ProductCategory from "./pages/ProductCategory";
 
 
 function App() {
-  // firebase setups.
   const [products, setProducts] = useState([]);
-  const [adminName, setAdminName] = useState('');
-  const [brandName,setBrandName] = useState('');
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState('');
 
   let productCollecRef = collection(db,'products');
 
@@ -35,29 +30,11 @@ function App() {
     getMovieList();
   },[]);
 
-  const onSubmitMovie = async () => {
-    try {
-      await addDoc(productCollecRef, {
-        admin : adminName,
-        brand : brandName,
-        description : description,
-        price : price
-      })
-      getMovieList();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  // firebase setups ends.
 
   const appRouter = createBrowserRouter([
     {
       path : '/',
       element : <Body />
-    },
-    {
-      path : '/allProducts',
-      element : <p>hai ,, reached</p>
     },
     {
       path : '/category/:categoryName',
@@ -84,38 +61,6 @@ function App() {
   return (
     <div>
       <RouterProvider router={appRouter} />
-      {/* <Auth />
-      <hr />
-      <div>
-        <input type="text" name="adminName" placeholder="admin..." onChange={(e) => {
-          setAdminName(e.target.value);
-        }} />
-        <input type="text" name="brandName" placeholder="brand..." onChange={(e) => {
-          setBrandName(e.target.value);
-        }} />
-        <input type="text" name="descprtion" placeholder="description..." onChange={(e) => {
-          setDescription(e.target.value);
-        }} />
-        <input type="number" name="price" placeholder="price..." onChange={(e) => {
-          setPrice(Number(e.target.value));
-        }} />
-        <input type="submit" onClick={onSubmitMovie} value='add data' />
-      </div>
-      <div>
-       {
-        products.map((doc) => {
-          return (
-            <div key={doc.id}>
-              <h1>{doc.admin}</h1>
-              <h3>{doc.brand}</h3>
-              <h1>{doc.price}</h1>
-              <p>{doc.description}</p>
-            </div>
-            
-          )
-        })
-       }
-      </div> */}
     </div>
   )
 }

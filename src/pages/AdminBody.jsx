@@ -9,10 +9,8 @@ import useGetProducts from '../services/useGetProducts';
 import useAddNewProduct from '../services/useAddNewProduct';
 import { confirmAlert, timerAlert } from '../services/alerts';
 import ImagePreviews from '../components/ImagePreviews';
-import { reviewPics } from '../components/utils/constants';
 import useAddNewReview from '../services/useAddNewReview';
 import useGetReviews from '../services/useGetReviews';
-import useHandleDelete from '../services/useHandleDelete';
 
 const AdminBody = () => {
     const [name, setName] = useState('');
