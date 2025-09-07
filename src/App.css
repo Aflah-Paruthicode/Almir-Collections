@@ -10,3 +10,19 @@
     transform: translateX(-50%);
   }
 }
+
+
+.magnifier {
+  /* Magnifier size and shape */
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+  /* Essential for the zoom effect */
+  background-repeat: no-repeat;
+  cursor: none;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}

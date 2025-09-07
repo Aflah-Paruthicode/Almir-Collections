@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import ProductImage from '../services/UseImageZoom';
 
 const ProductDetails = ({productData}) => {
     let [productImage,setProductImage] = useState(null)
@@ -13,7 +14,8 @@ const ProductDetails = ({productData}) => {
     <div className="flex gap-3 w-[1050px]">
                 <div className="w-[50rem]">
                     <div className="sticky top-28">
-                    <img className="h-[500px] w-[500px] object-cover" src={productImage} alt="" />
+                    {/* <img className="h-[500px] w-[500px] object-cover" src={productImage} alt="" /> */}
+                    <ProductImage productImage={productImage} />
                     <button onClick={() => {
                     const message = `I want ${productData.name}`
                     const url = `https://wa.me/${import.meta.env.VITE_PHONE}?text=${encodeURIComponent(message)}`;
