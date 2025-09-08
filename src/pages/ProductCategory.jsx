@@ -1,36 +1,45 @@
 import { collection, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { db } from "../services/firebase-config";
 import useGetProducts from "../services/useGetProducts";
 import ProductCard from '../components/ProductCard';
 import Header from '../components/Header';
 import Footer from "../components/Footer";
+import useSearchProducts from "../services/useSearchProducts";
 
 
 const ProductCategory = () => {
 
     const {categoryName} = useParams();
+    const [queryS] = useSearchParams()
     const [products,setProducts] = useState([]);
+    const searchData = queryS.get('query')
     console.log('the category : ',categoryName)
     const productCollection = collection(db,'products');
+
 
     useEffect(() => {
         async function fetchProducts() {
 
-            let queryToGetCategoryMatch
-            if(categoryName == 'allProducts') {
-              queryToGetCategoryMatch = '';
+          if(categoryName == 'search') {
+               const data = await useSearchProducts(searchData);
+               setProducts(data)
             } else {
-              queryToGetCategoryMatch = query(productCollection, 
-                where('category','==',categoryName.toLowerCase()))
+              let queryToGetCategoryMatch
+              if(categoryName == 'allProducts') {
+                queryToGetCategoryMatch = '';
+              } else {
+                queryToGetCategoryMatch = query(productCollection, 
+                  where('category','==',categoryName.toLowerCase()))
+              }
+              
+              const data = await useGetProducts(productCollection,setProducts,queryToGetCategoryMatch)
+              console.log('products from category : ',data)
             }
-            
-            const data = await useGetProducts(productCollection,setProducts,queryToGetCategoryMatch)
-            console.log('products from category : ',data)
         }
         fetchProducts()
-    },[])
+    },[searchData])
 
 
   return ( <div className="w-full bg-gradient-to-br from-[#1e1e1e] to-[#1f1f1f] font-[poppins]">
