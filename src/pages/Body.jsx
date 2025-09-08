@@ -76,7 +76,7 @@ const Body = () => {
     </section>
     <section className="w-[1050px] mx-auto py-10">
       <div className="py-8 flex justify-between">
-         <h1 className="text-2xl font-medium tracking-wider text-white">Most Sold Items</h1>
+         <h1 className="text-2xl font-medium tracking-wider text-white">You Might Like</h1>
          <Link to={'category/allProducts'} onClick={() => { window.scrollTo({ top: 50, behavior: 'smooth' }); }} className="text-md font-medium tracking-wider inline-flex items-center text-[#bababa]">More
           <svg xmlns="http://www.w3.org/2000/svg" height="15px" viewBox="0 -960 960 960" width="18px" fill="#bababa"><path d="m288-96-68-68 316-316-316-316 68-68 384 384L288-96Z"/></svg></Link>
       </div>
