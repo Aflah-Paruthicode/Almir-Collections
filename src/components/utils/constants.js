@@ -1,8 +1,9 @@
 export const categories = [
   "Watches",
   "Jewelry",
+  "Clothing",
+  "Shoes",
   "Gadgets",
-  "Cloths & Sheose",
   "Books",
 ];
 
@@ -125,7 +126,7 @@ export const FAQ = [
       "COD (Cash on Delivery) is available(for some products). For prepaid orders, you can use(UPI/Bank Transfer)",
   },
   {
-    question: "Do the watches/jewelry/electronics have warranty?",
+    question: "Do the watches / jewelry / electronics have warranty?",
     answer:
       "Since these are copy items, there is no official brand warranty. But we ensure quality and give replacement guarantee for defects at arrivals.",
   },

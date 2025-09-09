@@ -69,7 +69,8 @@ const AddNewProductForm = (props) => {
           <option value="Watches">Watches</option>
           <option value="Jewelry">Jewelry</option>
           <option value="Gadgets">Gadgets</option>
-          <option value="Cloths and Sheoses">Cloths and Sheoses</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Sheos">Sheos</option>
           <option value="Books">Books</option>
         </select>
         <div className="relative">

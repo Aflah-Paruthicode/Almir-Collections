@@ -39,9 +39,11 @@ const Body = () => {
       <section className="w-full fixed bg-[#1f1f1f] shadow-md z-50">
         <Header />
       </section>
-      <section className="w-full h-[95vh] flex items-center pt-20 justify-center">
-        <div className="relative left-10 bg-[#1a1a1a] max-w-80 px-16 py-14 rounded-2xl font-[poppins] border text-white z-10">
-          <h1 className="text-4xl leading-13 mb-4">Luxury Made Affordable</h1>
+      <section className="w-full h-[95vh] flex items-center pt-20 justify-center max-sm:relative max-sm:h-[98vh]">
+        <div className="relative left-10 bg-[#1a1a1a] max-w-80 px-16 py-14 rounded-2xl font-[poppins] border text-white z-10 max-sm:left-4 max-sm:bottom-4 max-sm:absolute max-sm:py-10 max-sm:px-12 max-sm:w-[17rem]">
+          <h1 className="text-4xl leading-13 mb-4 max-sm:text-3xl max-sm:leading-10">
+            Luxury Made Affordable
+          </h1>
           <p className="mb-4">Kerala’s Trusted Seller for Trendy Products</p>
           <button
             onClick={() => {
@@ -52,15 +54,15 @@ const Body = () => {
             shop now
           </button>
         </div>
-        <div className="">
+        <div className="max-sm:absolute max-sm:top-28 max-sm:px-4">
           <img
-            className="w-[50rem] h-[40rem] object-cover rounded-2xl shadow-lg shadow-black"
+            className="w-[50rem] h-[40rem] object-cover rounded-2xl shadow-lg shadow-black max-sm:w-full max-sm:h-[30rem] "
             src="https://images.pexels.com/photos/277319/pexels-photo-277319.jpeg?cs=srgb&dl=pexels-pixabay-277319.jpg&fm=jpg"
             alt=""
           />
         </div>
       </section>
-      <section className="w-[1050px] mx-auto flex gap-4 justify-center items-center text-center text-white">
+      <section className="w-[1050px] mx-auto grid grid-cols-5 gap-4  text-center text-white max-sm:w-full max-sm:grid-cols-2 max-sm:px-5 max-sm:pt-3">
         {categories.map((category, index) => (
           <Link
             key={index}
@@ -68,23 +70,29 @@ const Body = () => {
             onClick={() => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            className="w-1/4 p-5 bg-[#141414] hover:bg-[#242424] border border-[#bababa] rounded-xl m-auto"
+            className="p-5 bg-[#141414] hover:bg-[#242424] border border-[#bababa] rounded-xl "
           >
             <div className="">{category}</div>
           </Link>
         ))}
       </section>
-      <section className="w-[1050px] mx-auto py-10">
-        <h1 className="text-2xl font-medium tracking-wider py-8 text-white">
+      <section className="w-[1050px] mx-auto py-10 max-sm:w-full max-sm:px-5">
+        <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-xl">
           Trending Now
         </h1>
-        <div className="flex justify-center items-center gap-6 flex-wrap">
+        <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
           {products
             .filter((product) => product.isTrending)
             .map((product, index) => {
               let trimmedName = false;
-              if (product.name.length > 20)
-                trimmedName = product.name.slice(0, 20);
+              if (product.name.length > 10) {
+                if (window.innerWidth < 640) {
+                  trimmedName = product.name.slice(0, 10);
+                } else {
+                  trimmedName = product.name.slice(0, 20);
+                }
+              }
+              console.log('yeah')
               return (
                 <Link
                   key={index}
@@ -99,15 +107,17 @@ const Body = () => {
             })}
         </div>
       </section>
-      <section className="w-[1050px] mx-auto py-10">
-        <h1 className="text-2xl font-medium tracking-wider py-8 text-white">
+      <section className="w-[1050px] mx-auto py-10 max-sm:w-full max-sm:px-5">
+        <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-xl">
           Why Buy From Us
         </h1>
-        <div className="flex gap-5 justify-center text-white text-center">
+        <div className="grid grid-cols-4 gap-5 justify-center text-white text-center max-sm:grid-cols-2">
           {whyBuyFromUs.map((reason, index) => (
-            <div key={index} className="w-1/4">
-              <img className="w-28 mx-auto mt-2" src={reason.img} alt="" />
-              <h1 className="text-xl mt-10 mb-4 text-[#bababa]">
+            <div key={index} className="w-1/4 max-sm:w-full">
+              <div className="relative">
+              <img className="w-25 h-26 object-cover mx-auto" src={reason.img} alt="" />
+              </div>
+              <h1 className="text-xl mt-10 mb-4 text-[#bababa] max-sm:text-lg">
                 {reason.heading}
               </h1>
               <p className="text-[#737373]">{reason.des}</p>
@@ -115,9 +125,9 @@ const Body = () => {
           ))}
         </div>
       </section>
-      <section className="w-[1050px] mx-auto py-10">
+      <section className="w-[1050px] mx-auto py-10 max-sm:w-full max-sm:px-5">
         <div className="py-8 flex justify-between">
-          <h1 className="text-2xl font-medium tracking-wider text-white">
+          <h1 className="text-2xl font-medium tracking-wider text-white max-sm:text-xl">
             You Might Like
           </h1>
           <Link
@@ -139,11 +149,16 @@ const Body = () => {
             </svg>
           </Link>
         </div>
-        <div className="flex justify-center items-center gap-6 flex-wrap">
+        <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
           {products.map((product, index) => {
             let trimmedName = false;
-            if (product.name.length > 20)
-              trimmedName = product.name.slice(0, 20);
+            if (product.name.length > 10) {
+                if (window.innerWidth < 640) {
+                  trimmedName = product.name.slice(0, 10);
+                } else {
+                  trimmedName = product.name.slice(0, 20);
+                }
+              }
             return (
               <Link
                 key={index}
@@ -159,8 +174,8 @@ const Body = () => {
         </div>
       </section>
       <section className="py-10">
-        <div className="w-[1050px] mx-auto">
-          <h1 className="text-2xl font-medium tracking-wider py-8 text-white">
+        <div className="w-[1050px] mx-auto max-sm:w-full">
+          <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-xl max-sm:px-5">
             Customer Rviews
           </h1>
         </div>
@@ -193,15 +208,15 @@ const Body = () => {
           </div>
         </div>
       </section>
-      <section className="w-[1050px] mx-auto my-10 p-10 rounded-lg bg-[#141414]">
-        <div className="flex">
-          <div className="text-gray-300 m-auto">
-            <h1 className="font-bold tracking-wide text-3xl m-2 text-white">
+      <section className="w-[1050px] mx-auto  max-sm:w-full max-sm:px-5">
+        <div className="grid grid-cols-2 bg-[#141414] rounded-lg my-10 p-10 max-sm:grid-cols-1">
+          <div className="text-gray-300 m-auto w-[70%] max-sm:order-2 max-sm:w-full">
+            <h1 className="font-bold tracking-wide text-3xl m-2 text-white max-sm:text-2xl max-sm:font-medium">
               Meet The Founder
             </h1>
-            <hr className="w-40 h-1 bg-gray-300" />
+            <hr className="w-40 h-1 bg-gray-300 max-sm:" />
             <div>
-              <p className="m-2 leading-7">
+              <p className="m-2 leading-7 max-sm:m-1">
                 I started Almir Collections to make luxury more accessible. What
                 began as my search for affordable replicas of top brands turned
                 into a vision: a website where anyone can explore quality
@@ -222,9 +237,9 @@ const Body = () => {
               </p>
             </div>
           </div>
-          <div className="text-center text-white m-auto">
+          <div className="text-center text-white m-auto max-sm:order-1">
             <img
-              className="brightness-[85%] w-[24rem] rounded-[50%] object-top object-cover"
+              className="brightness-[85%] w-[12rem] rounded-[50%] object-top object-cover max-sm:w-32"
               src={founderPic}
               alt=""
             />
@@ -236,8 +251,8 @@ const Body = () => {
           </div>
         </div>
       </section>
-      <section className="w-[1050px] mx-auto py-10">
-        <h1 className="text-2xl font-medium tracking-wider py-4 text-white">
+      <section className="w-[1050px] mx-auto py-10 max-sm:w-full max-sm:px-5">
+        <h1 className="text-2xl font-medium tracking-wider py-4 text-white max-sm:text-xl">
           FAQ
         </h1>
         <div className="w-full text-white">
@@ -253,7 +268,7 @@ const Body = () => {
               />
             );
           })}
-          <h1 className="text-2xl font-medium tracking-wider py-4 ">
+          <h1 className="text-2xl font-medium tracking-wider py-4 max-sm:text-xl">
             Extra FAQ for Clothes & Shoes
           </h1>
           {ExtraFAQ.map((faq, index) => {

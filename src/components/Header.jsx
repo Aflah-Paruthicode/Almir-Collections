@@ -54,19 +54,19 @@ const Header = (props) => {
   }, [suggestionRef]);
 
   return (
-    <div className="w-[1050px] mx-auto flex py-4 justify-between items-center">
+    <div className="w-[1050px] mx-auto flex py-4 justify-between items-center max-sm:w-full max-sm:pr-3 relative">
       <Link to={"/"}>
         <img
-          className="h-16 object-cover w-48 rounded-4xl invert"
+          className="h-16 object-cover w-48 rounded-4xl invert max-sm:w-[7rem]"
           src="/logo.png"
           alt=""
         />
       </Link>
-      <div className="flex gap-2">
-        <div className="relative">
+      <div className="flex justify-end gap-2 max-sm:w-[60%] max-sm:gap-1">
+        <div className=" right-0">
           <input
             className="bg-[#141414] text-[#bababa] border
-          border-[#bababa] py-3 px-5 w-[25rem] rounded-4xl z-[9999]"
+          border-[#bababa] py-3 px-5 w-[25rem] rounded-4xl z-[9999] max-sm:w-full max-sm:py-2  max-sm:px-3 max-sm:text-sm"
             placeholder="Search..."
             type="text"
             value={searchText}
@@ -76,7 +76,7 @@ const Header = (props) => {
           {results.length > 0 && isOpen && (
             <ul
               ref={suggestionRef}
-              className="z-10 absolute w-[25rem] bg-[#141414] rounded-2xl p-5 text-[#bababa]"
+              className="z-10 absolute w-[25rem] bg-[#141414] rounded-2xl p-5 text-[#bababa] max-sm:w-full max-sm:left-0 max-sm:max-h-[61vh] max-sm:overflow-y-scroll"
             >
               {results.map((result, index) => {
                 let trimmedName = result.name.slice(0, 35);
@@ -115,7 +115,7 @@ const Header = (props) => {
         </div>
         <Link
           to={`/category/search?query=${searchText}`}
-          className="bg-[#141414] p-3 border border-[#bababa] rounded-[50%]"
+          className="bg-[#141414] p-3 border border-[#bababa] rounded-[50%] max-sm:p-1.5"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -55,7 +55,7 @@ const ProductImage = ({ productImage }) => {
   return (
     <div
       ref={containerRef}
-      className="relative cursor-zoom-in w-full h-[500px] overflow-hidden"
+      className="relative cursor-zoom-in w-full h-[500px] overflow-hidden max-sm:h-[23rem]"
     >
       <img
         ref={imageRef}

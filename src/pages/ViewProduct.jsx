@@ -40,14 +40,19 @@ const ViewProduct = () => {
       <section className="w-full min-h-[100vh] flex pt-28 justify-center">
         {product && <ProductDetails productData={product} />}
       </section>
-      <section className="w-full">
-        <div className="w-[1050px] mx-auto">
+      <section className="w-full max-sm:px-5">
+        <div className="w-[1050px] mx-auto max-sm:w-full">
           <hr className="mt-10 text-[#bababa]" />
-          <div className="flex justify-center items-center gap-6 flex-wrap mt-10">
+          <div className="grid grid-cols-4 items-center gap-6 flex-wrap mt-10 max-sm:grid-cols-2 max-sm:gap-3">
             {products.map((product, index) => {
               let trimmedName = false;
-              if (product.name.length > 20)
-                trimmedName = product.name.slice(0, 20);
+              if (product.name.length > 10) {
+                if (window.innerWidth < 640) {
+                  trimmedName = product.name.slice(0, 10);
+                } else {
+                  trimmedName = product.name.slice(0, 20);
+                }
+              }
               return (
                 <Link
                   key={index}
