@@ -13,7 +13,6 @@ const AddNewProductForm = (props) => {
         description,setDescription,
         highlights,setHighlights,setFieldEmpty,action } = props;
         console.log(isTrending)
-
   return (
     <div>
     <div className='grid grid-flow-row grid-cols-2 gap-4 py-14 px-16 rounded-lg text-[#bababa] bg-[#1a1a1a]'>     
@@ -22,6 +21,8 @@ const AddNewProductForm = (props) => {
         <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="number" placeholder='Price...' value={price} onChange={(e) => setPrice(e.target.value)} />
         <input className='w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg' type="number" placeholder='Price In Other Stores...' value={priceInOthers} onChange={(e) => setPriceInOthers(e.target.value)} />
         <select className="w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg" value={category} onChange={(e) => setCategory(e.target.value)}>
+
+           <option value={category ? category : 'Choose ...'}>{category ? category : 'Choose ...'}</option>
           <option value="Watches">Watches</option>
           <option value="Jewelry">Jewelry</option>
           <option value="Gadgets">Gadgets</option>
@@ -44,7 +45,6 @@ const AddNewProductForm = (props) => {
             <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transform transition-transform peer-checked:translate-x-5 "></div>
           </div>
         </label>
-    </div>
         <div className="flex gap-4 justify-center">
         <button className='my-auto bg-gradient-to-br transition-colors from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]'
         onClick={action} >{props?.Update ? 'Update' : 'Submit'}</button> 
@@ -56,6 +56,7 @@ const AddNewProductForm = (props) => {
         }} >Cancel</button> 
         }
         </div>
+    </div>
     {
       images && <ImagePreviews images={images} setImages={setImages} />
     }

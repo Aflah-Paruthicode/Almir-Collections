@@ -1,12 +1,25 @@
 import { Link } from "react-router-dom"
 import useSearchProducts from "../services/useSearchProducts"
 import { useEffect, useRef, useState } from "react"
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../services/firebase-config";
 
-const Header = () => {
+const Header = (props) => {
   const [searchText,setSearchText] = useState('')
   const [results, setResults] = useState([]);
   const [isOpen, setIsOpen] = useState(false)
   const suggestionRef = useRef(null);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/adminLogin");
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
+  };
 
   const handleSearch = async (e) => {
     setIsOpen(true)
@@ -61,6 +74,7 @@ const Header = () => {
           </ul> }
           </div>
           <Link to={`/category/search?query=${searchText}`}  className="bg-[#141414] p-3 border border-[#bababa] rounded-[50%]"><svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#bababa"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg></Link>
+          {props.isAdmin && <button onClick={() => handleLogout()} className="bg-gradient-to-br m-auto ml-5 transition-colors from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[#bababa] font-semibold text-[16px] px-4 py-2 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] " >Logout</button>}
         </div>
     </div>
   )

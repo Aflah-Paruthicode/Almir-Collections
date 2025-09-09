@@ -7,8 +7,8 @@ export const timerAlert = (time,heading,description) => { Swal.fire({
   html: description,
   timer: time,
   timerProgressBar: true,
-  backdrop: true,  // keep backdrop
-  allowOutsideClick: () => false,  // force false
+  backdrop: true, 
+  allowOutsideClick: () => false, 
   allowEscapeKey: false,
   
   didOpen: () => {
@@ -22,7 +22,6 @@ export const timerAlert = (time,heading,description) => { Swal.fire({
     clearInterval(timerInterval);
   }
 }).then((result) => {
-  /* Read more about handling dismissals below */
   if (result.dismiss === Swal.DismissReason.timer) {
     console.log("I was closed by the timer");
   }
@@ -49,4 +48,12 @@ export const confirmAlert =  async () => {
   }
   return false;
 
+}
+
+export const warningAlert = (mesg) => {
+  Swal.fire({
+      title: mesg ? mesg : 'Enter Details!',
+      text: "Enter proper details.",
+      icon: "info"
+    });
 }

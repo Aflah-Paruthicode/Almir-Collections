@@ -6,6 +6,7 @@ import IsLogout from './services/IsLogout';
 import IsLogin from "./services/IsLogin";
 import ViewProduct from "./pages/ViewProduct";
 import ProductCategory from "./pages/ProductCategory";
+import ForgotPass from "./pages/ForgotPass";
 
 
 function App() {
@@ -34,6 +35,10 @@ function App() {
       element :  <IsLogout>
                     <AdminBody />
                  </IsLogout> 
+    },
+    {
+      path : '/adminLogin/forgotPass',
+      element : <ForgotPass />
     }
   ])
   
