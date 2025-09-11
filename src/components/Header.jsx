@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import useSearchProducts from "../services/useSearchProducts";
 import { useEffect, useRef, useState } from "react";
 import { signOut } from "firebase/auth";
@@ -6,7 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../services/firebase-config";
 
 const Header = (props) => {
+  const { categoryName } = useParams();
   const [searchText, setSearchText] = useState("");
+  const [queryS] = useSearchParams();
+  const searchData = queryS.get("query");
   const [results, setResults] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const suggestionRef = useRef(null);
@@ -37,6 +40,7 @@ const Header = (props) => {
   };
 
   useEffect(() => {
+    if(categoryName) setSearchText(searchData)
     const handleClickOutside = (event) => {
       if (
         suggestionRef.current &&
@@ -57,7 +61,7 @@ const Header = (props) => {
     <div className="w-[1050px] mx-auto flex py-4 justify-between items-center max-sm:w-full max-sm:pr-3 relative">
       <Link to={"/"}>
         <img
-          className="h-16 object-cover w-48 rounded-4xl invert max-sm:w-[7rem]"
+          className="h-16 object-cover w-48 rounded-4xl invert max-sm:w-[8rem]"
           src="/logo.png"
           alt=""
         />
@@ -76,7 +80,7 @@ const Header = (props) => {
           {results.length > 0 && isOpen && (
             <ul
               ref={suggestionRef}
-              className="z-10 absolute w-[25rem] bg-[#141414] rounded-2xl p-5 text-[#bababa] max-sm:w-full max-sm:left-0 max-sm:max-h-[61vh] max-sm:overflow-y-scroll"
+              className="z-10 absolute w-[25rem] bg-[#141414] rounded-2xl p-5 text-[#bababa] max-sm:w-[95vw] max-sm:left-2 max-sm:max-h-[61vh] max-sm:overflow-y-scroll"
             >
               {results.map((result, index) => {
                 let trimmedName = result.name.slice(0, 35);
@@ -90,9 +94,9 @@ const Header = (props) => {
                       setResults([]);
                     }}
                   >
-                    <li className="p-1 z-10 hover:text-[#8c8c8c] rounded-2xl hover:bg-[#1f1f1f]">
+                    <li className="p-1 z-10 hover:text-[#8c8c8c] rounded-2xl hover:bg-[#1f1f1f] max-sm:p-0">
                       <div className="flex justify-between">
-                        <p className=" z-10 text-start my-auto">
+                        <p className=" z-10 text-start my-auto max-sm:text-[15px]">
                           {result.name.length > 35
                             ? trimmedName + "..."
                             : result.name}
@@ -105,7 +109,7 @@ const Header = (props) => {
                       </div>
                     </li>
                     {index !== results.length - 1 && (
-                      <hr className="bg-[#bababa] m-1 h-[0.5px]" />
+                      <hr className="bg-[#bababa] m-1 h-[0.5px] max-sm:h-[0.2px]" />
                     )}
                   </Link>
                 );
@@ -115,6 +119,9 @@ const Header = (props) => {
         </div>
         <Link
           to={`/category/search?query=${searchText}`}
+          onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           className="bg-[#141414] p-3 border border-[#bababa] rounded-[50%] max-sm:p-1.5"
         >
           <svg

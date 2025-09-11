@@ -78,7 +78,7 @@ const ProductsTable = (props) => {
   return (
     <div className="flex flex-col left-0 justify-center pt-10 pb-20 text-[#bababa]">
       {editPanel && product && (
-        <section className="fixed top-20 left-52 w-[80%] h-[100vh]  z-[999] ">
+        <section className="fixed top-20 left-52 w-[80%] h-[100vh]  z-[999] max-sm:left-10 max-sm:top-10 max-sm:py-16 max-sm:overflow-y-scroll">
           <AddNewProductForm
             name={name}
             setName={setName}
@@ -107,22 +107,21 @@ const ProductsTable = (props) => {
           />
         </section>
       )}
-      {/* productInfo,productCollection,setFieldEmpty,timerAlert */}
       <section>
-        <div className="w-[70%] mx-auto">
-          <h1 className="text-2xl font-bold pt-20 pb-10">Products</h1>
-          <div className="p-10 rounded-lg bg-[#1a1a1a]  overflow-y-scroll max-h-[40rem]">
+        <div className="w-[70%] mx-auto max-sm:w-full max-sm:px-5">
+          <h1 className="text-2xl font-bold pt-20 pb-10 max-sm:text-xl max-sm:font-medium max-sm:py-5">Products</h1>
+          <div className="p-10 rounded-lg bg-[#1a1a1a]  overflow-y-scroll max-h-[40rem] max-sm:p-1">
             {products.length > 0 && (
               <table className="table-fixed">
                 <thead>
                   <tr className="bg-[#151515]">
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Brand</th>
-                    <th>Category</th>
-                    <th>description</th>
-                    <th>variants</th>
-                    <th>isTrending</th>
+                    <th className="">Name</th>
+                    <th className="">Price</th>
+                    <th className="max-sm:hidden">Brand</th>
+                    <th className="max-sm:hidden">Category</th>
+                    <th className="max-sm:hidden">description</th>
+                    <th className="max-sm:hidden">variants</th>
+                    <th>{window.innerWidth < 640 ? 'trend' : 'isTrending'}</th>
                     <th>Img</th>
                     <th>Control</th>
                   </tr>
@@ -133,29 +132,36 @@ const ProductsTable = (props) => {
                     let trimmedName = false;
                     if (product.description.length > 40)
                       trimmedDes = product.description.slice(0, 40);
-                    if (product.name.length > 30)
-                      trimmedName = product.name.slice(0, 30);
+                    
+                      if (window.innerWidth < 640) {
+                        trimmedName = product.name.slice(0, 7);
+                      } else {
+                        trimmedName = product.name.slice(0, 30);
+                      }
+                    
                     return (
                       <tr key={index}>
-                        <td className="p-2">
+                        <td className="p-2 max-sm:text-sm">
                           {trimmedName ? trimmedName + "..." : product.name}
                         </td>
-                        <td className="p-2 w-20">{product.price} ₹</td>
-                        <td className="p-2">{product.brand}</td>
-                        <td className="p-2">{product.category}</td>
-                        <td className="p-2">
+                        <td className="px-4 w-20 max-sm:w-auto max-sm:text-sm">{window.innerWidth < 640  ? product.price : `${product.price} ₹`}</td>
+                        <td className="p-2 max-sm:hidden">{product.brand}</td>
+                        <td className="p-2 max-sm:hidden">{product.category}</td>
+                        <td className="p-2 max-sm:hidden">
                           {trimmedDes
                             ? trimmedDes + "..."
                             : product.description}
                         </td>
-                        <td className="p-2">{product.variants}</td>
+                        <td className="p-2 max-sm:hidden">{product.variants}</td>
                         <td className="p-2">
                           {product.isTrending ? (
-                            <p className="py-1 px-2 text-[12px] bg-gradient-to-br transition-colors from-[#4abfb7] via-[#1c6c6f] to-[#4ab7bf] hover:from-[#32b3b7] hover:via-[#10595e] hover:to-[#21b3b3] inline rounded-2xl">
+                            <p className="py-1 px-2 text-[12px] bg-gradient-to-br transition-colors from-[#4abfb7] via-[#1c6c6f] to-[#4ab7bf] hover:from-[#32b3b7] hover:via-[#10595e] hover:to-[#21b3b3]
+                             inline rounded-2xl max-sm:px-1 max-sm:text-[10px]">
                               YES
                             </p>
                           ) : (
-                            <p className="py-1 px-2 text-[12px] bg-gradient-to-br transition-colors from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121] inline rounded-2xl">
+                            <p className="py-1 px-2 text-[12px] bg-gradient-to-br transition-colors from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121]
+                             inline rounded-2xl max-sm:px-1 max-sm:text-[10px]">
                               NOP
                             </p>
                           )}
@@ -163,22 +169,24 @@ const ProductsTable = (props) => {
                         <td className="py-2">
                           <div className="p-2">
                             <img
-                              className="w-[150px] h-[100px] object-cover rounded-lg"
+                              className="w-[150px] h-[100px] object-cover rounded-lg max-sm:w-[50px] max-sm:h-[50px]"
                               src={product.images[0]}
                               alt=""
                             />
                           </div>
                         </td>
                         <td className="p-2">
-                          <div className="flex">
+                          <div className="flex max-sm:flex-col">
                             <button
                               onClick={() => fetchProduct(product.id)}
-                              className="bg-gradient-to-br transition-colors from-[#4abfb7] via-[#1c6c6f] to-[#4ab7bf] hover:from-[#32b3b7] hover:via-[#10595e] hover:to-[#21b3b3] m-1 py-1 px-2 font-medium cursor-pointer rounded-md"
+                              className="bg-gradient-to-br transition-colors from-[#4abfb7] via-[#1c6c6f] to-[#4ab7bf] hover:from-[#32b3b7] hover:via-[#10595e] hover:to-[#21b3b3]
+                               m-1 py-1 px-2 font-medium cursor-pointer rounded-md max-sm:px-1 max-sm:text-sm"
                             >
-                              Update
+                              update
                             </button>
                             <button
-                              className="bg-gradient-to-br transition-colors from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121] m-1 py-1 font-medium px-2 rounded-md"
+                              className="bg-gradient-to-br transition-colors from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121]
+                               m-1 py-1 font-medium px-2 rounded-md max-sm:px-1 max-sm:text-sm"
                               onClick={() => {
                                 let isOkay = confirmAlert();
                                 if (isOkay) {

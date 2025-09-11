@@ -93,7 +93,7 @@ export const FAQ = [
   {
     question: "Are these original products?",
     answer:
-      "No, these are replica products(copy). They look and feel very similar to the originals but are not official branded items.",
+      "Our products are inspired by popular designs and styles. They are made to look and feel very similar to branded items but are not officially from those brands.",
   },
   {
     question: "Do you provide Cash on Delivery (COD)?",
@@ -118,7 +118,7 @@ export const FAQ = [
   {
     question: "How do I place an order?",
     answer:
-      "Just click “Connect on WhatsApp” and send the product id(automatically filled text) or just ask any product that you saw from this site. Our team will confirm your order in 15min.",
+      "Just click “Connect Seller” and send the product name or just ask any product that you saw from this site. Our team will confirm your order in almost instantly",
   },
   {
     question: "What payment methods are available?",
@@ -128,7 +128,7 @@ export const FAQ = [
   {
     question: "Do the watches / jewelry / electronics have warranty?",
     answer:
-      "Since these are copy items, there is no official brand warranty. But we ensure quality and give replacement guarantee for defects at arrivals.",
+      "Some of them do have, you can see the details in the product description. and we ensure quality and give replacement guarantee for defects at arrivals.",
   },
   {
     question: "Are the photos real?",
@@ -137,7 +137,7 @@ export const FAQ = [
   },
   {
     question: "Do you deliver outside Kerala?",
-    answer: "Yes, we deliver across India with extra courier charge( 60/- ).",
+    answer: "Yes, we deliver across India, some products with free shipping some products with extra courier charge( 60/- ).",
   },
 ];
 

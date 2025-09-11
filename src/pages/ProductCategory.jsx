@@ -48,11 +48,11 @@ const ProductCategory = () => {
       <section className="w-full fixed bg-[#1f1f1f] shadow-md z-50">
         <Header />
       </section>
-      <section className="w-[1050px] mx-auto py-10 pt-20  min-h-[85vh]">
+      <section className="w-[1050px] mx-auto py-10 pt-20  min-h-[85vh] max-sm:w-full max-sm:px-5">
         <div>
           <Link
             to={"/"}
-            className="mt-20 text-[#bababa] bg-[#141414] border border-[#bababa] py-2 px-4 rounded-xl inline-flex"
+            className="mt-20 text-[#bababa] bg-[#141414] border border-[#bababa] py-2 px-4 rounded-xl inline-flex max-sm:mt-10 max-sm:py-1 max-sm:px-2 max-sm:text-sm"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -65,20 +65,27 @@ const ProductCategory = () => {
             </svg>
             Back
           </Link>
-          <h1 className="text-2xl font-medium tracking-wider py-5 my-3 text-white">
+          <h1 className="text-2xl font-medium tracking-wider py-5 my-3 text-white max-sm:text-xl max-sm:py-3">
             {categoryName == "allProducts"
               ? "All Products"
-              : "Category Section"}
+              : categoryName == 'search' ? 'Search Found !!' : "Category Section"}
           </h1>
           {products.length == 0 && (
-            <h1 className="text-white">Currently This Category Is Empty...</h1>
+            <h1 className="text-white max-sm:text-sm">
+              {categoryName == 'search' ? 'No products found with the text you entered !' : 'Currently this category is empty...'}
+            </h1>
           )}
         </div>
-        <div className="flex justify-center items-center gap-6 flex-wrap">
+        <div className="grid grid-cols-4 gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
           {products.map((product, index) => {
             let trimmedName = false;
-            if (product.name.length > 20)
-              trimmedName = product.name.slice(0, 20);
+            if (product.name.length > 10) {
+                if (window.innerWidth < 640) {
+                  trimmedName = product.name.slice(0, 10);
+                } else {
+                  trimmedName = product.name.slice(0, 20);
+                }
+              }
             return (
               <Link
                 key={index}

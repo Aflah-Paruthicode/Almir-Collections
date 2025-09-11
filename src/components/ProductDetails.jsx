@@ -84,7 +84,7 @@ const ProductDetails = ({ productData }) => {
         </div>
         <div className="mb-3">
           <h2 className="font-semibold py-2">Category : </h2>
-          <p className="pl-8">{productData.category}</p>
+          <p className="pl-8">{productData.category.toUpperCase()}</p>
         </div>
       </div>
     </div>

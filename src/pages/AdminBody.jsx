@@ -96,9 +96,9 @@ const AdminBody = () => {
       <section className="w-full fixed bg-[#1f1f1f] shadow-md z-50">
         <Header isAdmin={true} />
       </section>
-      <section className="w-[70%] mx-auto text-[#bababa] py-14">
-        <div className="pt-22">
-          <h1 className="text-2xl font-bold py-10">Add New Product</h1>
+      <section className="w-[70%] mx-auto text-[#bababa] py-14 max-sm:w-full max-sm:px-5">
+        <div className="pt-22 max-sm:pt-10">
+          <h1 className="text-2xl font-bold py-10 max-sm:text-xl max-sm:font-medium max-sm:py-5">Add New Product</h1>
           <AddNewProductForm
             name={name}
             setName={setName}
@@ -166,18 +166,18 @@ const AdminBody = () => {
         />
         <hr className="text-[#6a6a6a]" />
       </section>
-      <section className="w-[70%] mx-auto text-[#bababa] py-14">
-        <h1 className="text-2xl font-bold py-10">Reviews</h1>
-        <div className="grid grid-cols-3 gap-4 my-4 p-6 rounded-2xl bg-[#141414]">
+      <section className="w-[70%] mx-auto text-[#bababa] py-14 max-sm:w-full max-sm:px-5">
+        <h1 className="text-2xl font-bold py-10 max-sm:text-xl max-sm:font-medium max-sm:py-5">Reviews</h1>
+        <div className="grid grid-cols-3 gap-4 my-4 p-6 rounded-2xl bg-[#141414] max-sm:grid-cols-1 max-sm:gap-3">
           <input
-            className="w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg"
+            className="w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg max-sm:h-10 max-sm:text-sm"
             type="file"
             ref={reviewToEmpty}
             onChange={(e) => setReviewPic(e.target.files)}
             placeholder="Image..."
           />
           <input
-            className="w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg"
+            className="w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg max-sm:h-10 max-sm:text-sm"
             value={reviewerName}
             type="text"
             onChange={(e) => setRviewerName(e.target.value)}
@@ -185,18 +185,19 @@ const AdminBody = () => {
           />
           <button
             onClick={() => handleGetReviews()}
-            className="bg-gradient-to-br transition-colors from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent]"
+            className="bg-gradient-to-br transition-colors from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21]
+             text-[16px] font-medium px-6 py-3 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] max-sm:h-10 max-sm:text-sm "
             type="submit"
             placeholder="Image..."
           >
             Add Review
           </button>
         </div>
-        <div className="flex gap-2 overflow-x-scroll bg-[#141414] p-10 rounded-2xl w-full">
+        <div className="flex gap-2 overflow-x-scroll bg-[#141414] p-10 rounded-2xl w-full max-sm:p-5">
           {reviews.map((review) => (
             <div
               key={review.id}
-              className="flex-shrink-0 w-[15rem] text-center"
+              className="flex-shrink-0 w-[15rem] text-center max-sm:w-[10rem]"
             >
               <p>{review.customerName}</p>
               <img
@@ -211,7 +212,7 @@ const AdminBody = () => {
                     useHandleReviewDelete(review.id);
                   }
                 }}
-                className="py-2 px-4 m-2 bg-gradient-to-br rounded-xl transition-colors from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121]"
+                className="py-2 px-4 m-2 bg-gradient-to-br rounded-xl transition-colors from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121] max-sm:text-sm max-sm:py-2 max-sm:px-2"
               >
                 Delete
               </button>

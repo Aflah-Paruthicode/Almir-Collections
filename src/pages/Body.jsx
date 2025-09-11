@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   categories,
-  dummyProducts,
   ExtraFAQ,
   FAQ,
-  reviewPics,
   whyBuyFromUs,
 } from "../components/utils/constants";
 import FaqAccordion from "../components/FaqAccordion";
@@ -21,10 +19,16 @@ import LinkedIn from "../assets/linkedin.png";
 import Gmail from "../assets/gMail.png";
 import useGetReviews from "../services/useGetReviews";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/autoplay";
+import { Autoplay } from "swiper/modules";
+
 const Body = () => {
   const [faqToggleIndex, setFaqToggleIndex] = useState(-1);
   const [products, setProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const swiperRef = useRef(null);
 
   const productCollection = collection(db, "products");
   const reviewCollection = collection(db, "reviews");
@@ -32,6 +36,9 @@ const Body = () => {
   useEffect(() => {
     useGetProducts(productCollection, setProducts, false);
     useGetReviews(reviewCollection, setReviews);
+    if (swiperRef.current) {
+      swiperRef.current.swiper.autoplay.start();
+    }
   }, []);
 
   return (
@@ -40,7 +47,7 @@ const Body = () => {
         <Header />
       </section>
       <section className="w-full h-[95vh] flex items-center pt-20 justify-center max-sm:relative max-sm:h-[98vh]">
-        <div className="relative left-10 bg-[#1a1a1a] max-w-80 px-16 py-14 rounded-2xl font-[poppins] border text-white z-10 max-sm:left-4 max-sm:bottom-4 max-sm:absolute max-sm:py-10 max-sm:px-12 max-sm:w-[17rem]">
+        <div className="relative left-10 bg-[#1a1a1a] max-w-80 px-16 py-14 rounded-2xl font-[poppins] border text-white z-10 max-sm:left-4 max-sm:bottom-4 max-sm:absolute max-sm:py-10 max-sm:px-12 max-sm:w-[17rem] max-sm:bg-[#1a1a1ad6]">
           <h1 className="text-4xl leading-13 mb-4 max-sm:text-3xl max-sm:leading-10">
             Luxury Made Affordable
           </h1>
@@ -92,7 +99,7 @@ const Body = () => {
                   trimmedName = product.name.slice(0, 20);
                 }
               }
-              console.log('yeah')
+              console.log("yeah");
               return (
                 <Link
                   key={index}
@@ -113,14 +120,18 @@ const Body = () => {
         </h1>
         <div className="grid grid-cols-4 gap-5 justify-center text-white text-center max-sm:grid-cols-2">
           {whyBuyFromUs.map((reason, index) => (
-            <div key={index} className="w-1/4 max-sm:w-full">
+            <div key={index} className=" max-sm:w-full">
               <div className="relative">
-              <img className="w-25 h-26 object-cover mx-auto" src={reason.img} alt="" />
+                <img
+                  className="w-25 h-26 object-cover mx-auto max-sm:w-16 max-sm:h-16 "
+                  src={reason.img}
+                  alt=""
+                />
               </div>
-              <h1 className="text-xl mt-10 mb-4 text-[#bababa] max-sm:text-lg">
+              <h1 className="text-xl mt-10 mb-4 text-[#bababa] max-sm:text-base max-sm:mt-5 max-sm:mb-2">
                 {reason.heading}
               </h1>
-              <p className="text-[#737373]">{reason.des}</p>
+              <p className="text-[#737373] max-sm:text-sm">{reason.des}</p>
             </div>
           ))}
         </div>
@@ -133,7 +144,7 @@ const Body = () => {
           <Link
             to={"category/allProducts"}
             onClick={() => {
-              window.scrollTo({ top: 50, behavior: "smooth" });
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             className="text-md font-medium tracking-wider inline-flex items-center text-[#bababa]"
           >
@@ -153,12 +164,12 @@ const Body = () => {
           {products.map((product, index) => {
             let trimmedName = false;
             if (product.name.length > 10) {
-                if (window.innerWidth < 640) {
-                  trimmedName = product.name.slice(0, 10);
-                } else {
-                  trimmedName = product.name.slice(0, 20);
-                }
+              if (window.innerWidth < 640) {
+                trimmedName = product.name.slice(0, 10);
+              } else {
+                trimmedName = product.name.slice(0, 20);
               }
+            }
             return (
               <Link
                 key={index}
@@ -173,54 +184,56 @@ const Body = () => {
           })}
         </div>
       </section>
-      <section className="py-10">
+      <section className="py-10 max-sm:py-5">
         <div className="w-[1050px] mx-auto max-sm:w-full">
           <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-xl max-sm:px-5">
             Customer Rviews
           </h1>
         </div>
         <div className="overflow-hidden">
-          <div className="flex whitespace-nowrap animate-[scroll-left_40s_linear_infinite]">
+          <Swiper
+            ref={swiperRef}
+            spaceBetween={10}
+            loop={true}
+            autoplay={{
+              delay: 0,
+            }}
+            freeMode={true}
+            speed={2000}
+            modules={[Autoplay]}
+            breakpoints={{
+              300: { slidesPerView: 2.7 },
+              640: { slidesPerView: 3.8 },
+              800: { slidesPerView: 5.7 },
+              1024: { slidesPerView: 7.8 },
+            }}
+          >
             {reviews.map((card, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 w-60 h-[25rem] rounded-lg m-3 flex items-center justify-center"
-              >
+              <SwiperSlide key={index}>
                 <img
-                  className="w-full h-full rounded-lg brightness-[85%] object-cover"
+                  className="rounded-lg brightness-[85%] object-cover w-full"
                   src={card.reviewImage}
                   alt=""
                 />
-              </div>
+              </SwiperSlide>
             ))}
-            {reviews.map((card, index) => (
-              <div
-                key={index + reviews.length}
-                className="flex-shrink-0 w-60 h-[25rem] rounded-lg m-3 flex items-center justify-center"
-              >
-                <img
-                  className="w-full h-full rounded-lg brightness-[85%] object-cover"
-                  src={card.reviewImage}
-                  alt=""
-                />
-              </div>
-            ))}
-          </div>
+          </Swiper>
         </div>
       </section>
       <section className="w-[1050px] mx-auto  max-sm:w-full max-sm:px-5">
-        <div className="grid grid-cols-2 bg-[#141414] rounded-lg my-10 p-10 max-sm:grid-cols-1">
-          <div className="text-gray-300 m-auto w-[70%] max-sm:order-2 max-sm:w-full">
+        <div className="grid grid-cols-3 bg-[#141414] rounded-lg my-10 p-10 max-sm:grid-cols-1">
+          <div className="text-gray-300 m-auto  col-span-2 max-sm:order-2 max-sm:w-full">
             <h1 className="font-bold tracking-wide text-3xl m-2 text-white max-sm:text-2xl max-sm:font-medium">
               Meet The Founder
             </h1>
             <hr className="w-40 h-1 bg-gray-300 max-sm:" />
             <div>
-              <p className="m-2 leading-7 max-sm:m-1">
-                I started Almir Collections to make luxury more accessible. What
-                began as my search for affordable replicas of top brands turned
-                into a vision: a website where anyone can explore quality
-                products — simple, stylish, and trustworthy.
+              <p className="m-2 leading-7 max-sm:m-1 max-sm:text-sm">
+                I started Almir Collections to bring people closer to luxury
+                without the heavy price tag. What began as my search for
+                affordable yet stylish pieces turned into a vision: a website
+                where anyone can explore quality products — simple, stylish, and
+                trustworthy.
                 <br />{" "}
                 <Link
                   to={"/category/allProducts"}

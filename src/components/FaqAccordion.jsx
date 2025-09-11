@@ -8,7 +8,7 @@ const FaqAccordion = (props) => {
   return (
     <div className="relative bg-[#303030] text-[#bababa] my-2 transition-all duration-500 ease-in-out rounded-lg w-full">
       <h1
-        className="cursor-pointer rounded-lg px-[25px] hover:bg-[#434343] transition duration-300 py-6 border-b border-[#454545] text-[18px] max-sm:text-[15px] max-sm:leading-6 max-sm:w-[95%] max-sm:rounded-bl-lg max-sm:rounded-br-none"
+        className="cursor-pointer rounded-lg px-[25px] hover:bg-[#434343] transition duration-300 py-6 border-b border-[#454545] text-[18px] max-sm:text-[15px] max-sm:leading-6 max-sm:pr-[40px]"
         onClick={handleFaqToggle}
       >
         {faq.question}
