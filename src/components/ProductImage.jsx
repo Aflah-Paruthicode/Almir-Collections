@@ -37,17 +37,12 @@ const ProductImage = ({ productImage }) => {
     if (image) {
       image.addEventListener("mousemove", handleMouseMove);
       image.addEventListener("mouseleave", handleMouseLeave);
-
-      // image.addEventListener('touchmove', (e) => handleMouseMove(e.touches[0]));
-      // image.addEventListener('touchend', handleMouseLeave);
     }
 
     return () => {
       if (image) {
         image.removeEventListener("mousemove", handleMouseMove);
         image.removeEventListener("mouseleave", handleMouseLeave);
-        // image.removeEventListener('touchmove', (e) => handleMouseMove(e.touches[0]));
-        // image.removeEventListener('touchend', handleMouseLeave);
       }
     };
   }, [productImage]);

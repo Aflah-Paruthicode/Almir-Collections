@@ -96,7 +96,7 @@ const Header = (props) => {
                   >
                     <li className="p-1 z-10 hover:text-[#8c8c8c] rounded-2xl hover:bg-[#1f1f1f] max-sm:p-0">
                       <div className="flex justify-between">
-                        <p className=" z-10 text-start my-auto max-sm:text-[15px]">
+                        <p className=" z-10 text-start my-auto max-sm:text-sm">
                           {result.name.length > 35
                             ? trimmedName + "..."
                             : result.name}

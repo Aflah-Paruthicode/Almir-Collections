@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from "react";
-import ProductImage from "./UseImageZoom";
+import ProductImage from "./ProductImage";
+import MobileProductZoom from "./MobileProductZoom";
+import GalleryThumbs from "./GalleryThumbs";
+import { useRef } from "react";
 
 const ProductDetails = ({ productData }) => {
   let [productImage, setProductImage] = useState(null);
+  let [activeImage, setActiveImage] = useState(0);
+
+  const mainSwiperRef = useRef(null);
+
+  const goToSlide = (index) => {
+    if (mainSwiperRef.current) {
+      mainSwiperRef.current.slideTo(index);
+      setActiveImage(index);
+    }
+  };
 
   useEffect(() => {
     if (productData?.images?.length > 0) {
@@ -14,7 +27,15 @@ const ProductDetails = ({ productData }) => {
     <div className="flex gap-3 w-[1050px] max-sm:w-full max-sm:flex-col max-sm:px-5 max-sm:gap-2">
       <div className="w-[50rem] max-sm:w-full">
         <div className="sticky top-28">
-          <ProductImage productImage={productImage} />
+          {window.innerWidth < 640 ? (
+            <MobileProductZoom
+              images={productData.images}
+              mainSwiperRef={mainSwiperRef}
+              setActiveImage={setActiveImage}
+            />
+          ) : (
+            <ProductImage productImage={productImage} />
+          )}
           <button
             onClick={() => {
               const message = `I want ${productData.name}`;
@@ -33,17 +54,27 @@ const ProductDetails = ({ productData }) => {
         </div>
       </div>
       <div className="w-28 max-sm:w-full">
-        <div className="sticky top-28 flex flex-col gap-1 max-sm:flex-row max-sm:w-full max-sm:overflow-x-scroll">
-          {productData.images.map((img, index) => (
-            <img
-              key={index}
-              onClick={() => setProductImage(img)}
-              className="w-16 h-16 overflow-hidden object-cover border p-1 border-[#bababa] max-sm:flex-shrink-0"
-              src={img}
-              alt=""
-            />
-          ))}
-        </div>
+        {window.innerWidth < 640 ? (
+          <GalleryThumbs
+            images={productData.images}
+            goToSlide={goToSlide}
+            activeImage={activeImage}
+          />
+        ) : (
+          <div className="sticky top-28 flex flex-col gap-1 max-sm:flex-row max-sm:w-full max-sm:overflow-x-scroll">
+            {productData.images.map((img, index) => (
+              <img
+                key={index}
+                onClick={() => setProductImage(img)}
+                className={`w-16 h-16 overflow-hidden object-cover border p-1 border-[#5c5c5c] ${
+                  productImage == img ? "border-2 border-[#bfa14a]" : ""
+                } max-sm:flex-shrink-0`}
+                src={img}
+                alt=""
+              />
+            ))}
+          </div>
+        )}
       </div>
       <div className="text-[#bababa] px-10 pt-20 pb-5 bg-[#141414] max-w-[500px] max-sm:pt-10 max-sm:px-5 max-sm:mt-5">
         <h1 className="text-3xl mb-3 max-sm:text-xl">{productData.name}</h1>
@@ -57,7 +88,7 @@ const ProductDetails = ({ productData }) => {
         <h2 className="font-semibold py-2">Variants : </h2>
         <div className="flex gap-3 flex-wrap items-center mb-8 pl-3">
           {productData.variants.split(",").map((variant, index) => (
-            <p key={index} className="py-1 px-2 border rounded-md">
+            <p key={index} className="py-1 px-2 border rounded-md max-sm:text-sm max-sm:leading-6">
               {variant}
             </p>
           ))}
@@ -67,24 +98,24 @@ const ProductDetails = ({ productData }) => {
           <ul className="list-disc pl-8">
             {productData.highlights.map((variant, index) => (
               <li key={index}>
-                <p className="py-1 ">{variant}</p>
+                <p className="py-1 max-sm:text-sm max-sm:leading-6">{variant}</p>
               </li>
             ))}
           </ul>
         </div>
         <div className="mb-3">
           <h2 className="font-semibold py-2">Description : </h2>
-          <p className="pl-8" style={{ whiteSpace: "pre-line" }}>
+          <p className="pl-8 max-sm:text-sm max-sm:leading-6" style={{ whiteSpace: "pre-line" }}>
             {productData.description}
           </p>
         </div>
         <div className="mb-3">
           <h2 className="font-semibold py-2">Brand : </h2>
-          <p className="pl-8">{productData.brand}</p>
+          <p className="pl-8 max-sm:leading-6">{productData.brand}</p>
         </div>
         <div className="mb-3">
           <h2 className="font-semibold py-2">Category : </h2>
-          <p className="pl-8">{productData.category.toUpperCase()}</p>
+          <p className="pl-8 max-sm:leading-6">{productData.category.toUpperCase()}</p>
         </div>
       </div>
     </div>

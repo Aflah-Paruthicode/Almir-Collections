@@ -15,7 +15,7 @@ import ProductCard from "../components/ProductCard";
 import useGetProducts from "../services/useGetProducts";
 import founderPic from "../assets/founderPic.png";
 import InstaPic from "../assets/instagram.png";
-import LinkedIn from "../assets/linkedin.png";
+import Whatsapp from "../assets/whatsapp.png";
 import Gmail from "../assets/gMail.png";
 import useGetReviews from "../services/useGetReviews";
 
@@ -69,7 +69,7 @@ const Body = () => {
           />
         </div>
       </section>
-      <section className="w-[1050px] mx-auto grid grid-cols-5 gap-4  text-center text-white max-sm:w-full max-sm:grid-cols-2 max-sm:px-5 max-sm:pt-3">
+      <section className="w-[1050px] mx-auto grid grid-cols-5 gap-4  text-center text-white max-sm:w-full max-sm:grid-cols-2 max-sm:px-5 max-sm:pt-3 max-sm:gap-3 max-sm:text-sm">
         {categories.map((category, index) => (
           <Link
             key={index}
@@ -84,7 +84,7 @@ const Body = () => {
         ))}
       </section>
       <section className="w-[1050px] mx-auto py-10 max-sm:w-full max-sm:px-5">
-        <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-xl">
+        <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-lg">
           Trending Now
         </h1>
         <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
@@ -99,7 +99,6 @@ const Body = () => {
                   trimmedName = product.name.slice(0, 20);
                 }
               }
-              console.log("yeah");
               return (
                 <Link
                   key={index}
@@ -115,7 +114,7 @@ const Body = () => {
         </div>
       </section>
       <section className="w-[1050px] mx-auto py-10 max-sm:w-full max-sm:px-5">
-        <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-xl">
+        <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-lg max-sm:text-center max-sm:mb-3">
           Why Buy From Us
         </h1>
         <div className="grid grid-cols-4 gap-5 justify-center text-white text-center max-sm:grid-cols-2">
@@ -138,7 +137,7 @@ const Body = () => {
       </section>
       <section className="w-[1050px] mx-auto py-10 max-sm:w-full max-sm:px-5">
         <div className="py-8 flex justify-between">
-          <h1 className="text-2xl font-medium tracking-wider text-white max-sm:text-xl">
+          <h1 className="text-2xl font-medium tracking-wider text-white max-sm:text-lg">
             You Might Like
           </h1>
           <Link
@@ -186,8 +185,8 @@ const Body = () => {
       </section>
       <section className="py-10 max-sm:py-5">
         <div className="w-[1050px] mx-auto max-sm:w-full">
-          <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-xl max-sm:px-5">
-            Customer Rviews
+          <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-lg max-sm:text-center">
+            Customer Reviews
           </h1>
         </div>
         <div className="overflow-hidden">
@@ -257,15 +256,47 @@ const Body = () => {
               alt=""
             />
             <div className="my-4 flex justify-center w-28 m-auto">
-              <img className="w-4 m-auto" src={Gmail} alt="" />
-              <img className="w-4 m-auto" src={InstaPic} alt="" />
-              <img className="w-4 m-auto" src={LinkedIn} alt="" />
+              <img
+                onClick={() =>
+                  window.open(
+                    "https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose=CllgCJvlqxKRmVZmjNFllKDhLgShJWDgGjvZvsJKrLhZChVcnZdjQhxxXLRdZHzNVZJXdkDsbTg",
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
+                }
+                className="w-4 m-auto cursor-pointer"
+                src={Gmail}
+                alt=""
+              />
+              <img
+                onClick={() =>
+                  window.open(
+                    "https://www.instagram.com/almircollections.com_/",
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
+                }
+                className="w-4 m-auto cursor-pointer"
+                src={InstaPic}
+                alt=""
+              />
+              <img
+                onClick={() => {
+                  const url = `https://wa.me/${
+                    import.meta.env.VITE_PHONE
+                  }?text=${encodeURIComponent("Hi almir collections's team")}`;
+                  window.open(url, "_blank", "noopener,noreferrer");
+                }}
+                className="w-4 m-auto cursor-pointer"
+                src={Whatsapp}
+                alt=""
+              />
             </div>
           </div>
         </div>
       </section>
       <section className="w-[1050px] mx-auto py-10 max-sm:w-full max-sm:px-5">
-        <h1 className="text-2xl font-medium tracking-wider py-4 text-white max-sm:text-xl">
+        <h1 className="text-2xl font-medium tracking-wider py-4 text-white max-sm:text-lg max-sm:text-center">
           FAQ
         </h1>
         <div className="w-full text-white">
@@ -281,7 +312,7 @@ const Body = () => {
               />
             );
           })}
-          <h1 className="text-2xl font-medium tracking-wider py-4 max-sm:text-xl">
+          <h1 className="text-2xl font-medium tracking-wider py-4 max-sm:text-lg max-sm:text-center">
             Extra FAQ for Clothes & Shoes
           </h1>
           {ExtraFAQ.map((faq, index) => {
