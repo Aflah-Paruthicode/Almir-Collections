@@ -109,7 +109,7 @@ const ProductsTable = (props) => {
       )}
       <section>
         <div className="w-[70%] mx-auto max-sm:w-full max-sm:px-5">
-          <h1 className="text-2xl font-bold pt-20 pb-10 max-sm:text-xl max-sm:font-medium max-sm:py-5">Products</h1>
+          <h1 className="text-2xl font-bold pt-20 pb-10 max-sm:text-xl max-sm:font-medium max-sm:py-5">Products ({products.length})</h1>
           <div className="p-10 rounded-lg bg-[#1a1a1a]  overflow-y-scroll max-h-[40rem] max-sm:p-1">
             {products.length > 0 && (
               <table className="table-fixed">

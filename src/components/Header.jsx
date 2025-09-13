@@ -73,7 +73,7 @@ const Header = (props) => {
           border-[#bababa] py-3 px-5 w-[25rem] rounded-4xl z-[9999] max-sm:w-full max-sm:py-2  max-sm:px-3 max-sm:text-sm"
             placeholder="Search..."
             type="text"
-            value={searchText}
+            value={searchText == null ? '' : searchText}
             onChange={handleSearch}
             onClick={handleSearch}
           />

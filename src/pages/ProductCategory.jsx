@@ -7,13 +7,13 @@ import ProductCard from "../components/ProductCard";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import useSearchProducts from "../services/useSearchProducts";
+import ProductCardShimmer from "../components/ProductCardShimmer";
 
 const ProductCategory = () => {
   const { categoryName } = useParams();
   const [queryS] = useSearchParams();
   const [products, setProducts] = useState([]);
   const searchData = queryS.get("query");
-  console.log("the category : ", categoryName);
   const productCollection = collection(db, "products");
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const ProductCategory = () => {
     }
     fetchProducts();
   }, [searchData]);
-
+  const demo = 0
   return (
     <div className="w-full bg-gradient-to-br from-[#1e1e1e] to-[#1f1f1f] font-[poppins]">
       <section className="w-full fixed bg-[#1f1f1f] shadow-md z-50">
@@ -71,12 +71,22 @@ const ProductCategory = () => {
               : categoryName == 'search' ? 'Search Found !!' : "Category Section"}
           </h1>
           {products.length == 0 && (
-            <h1 className="text-white max-sm:text-sm">
-              {categoryName == 'search' ? 'No products found with the text you entered !' : 'Currently this category is empty...'}
+            <h1 className="text-white max-sm:text-sm p-2">
+              {categoryName == 'search' ? 'No products found with the text you entered !' : ''}
             </h1>
           )}
         </div>
-        <div className="grid grid-cols-4 gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
+          {products.length == 0 ? <div className="grid grid-cols-4 gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
+            <ProductCardShimmer />
+            <ProductCardShimmer />
+            <ProductCardShimmer />
+            <ProductCardShimmer />
+            <ProductCardShimmer />
+            <ProductCardShimmer />
+            <ProductCardShimmer />
+            <ProductCardShimmer />
+            </div>
+              :<div className="grid grid-cols-4 gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
           {products.map((product, index) => {
             let trimmedName = false;
             if (product.name.length > 10) {
@@ -98,7 +108,7 @@ const ProductCategory = () => {
               </Link>
             );
           })}
-        </div>
+        </div>}
       </section>
       <section>
         <Footer />

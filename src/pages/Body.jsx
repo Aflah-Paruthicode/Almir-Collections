@@ -9,7 +9,7 @@ import FaqAccordion from "../components/FaqAccordion";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
-import { collection } from "firebase/firestore";
+import { collection, limit, orderBy, query, where } from "firebase/firestore";
 import { db } from "../services/firebase-config";
 import ProductCard from "../components/ProductCard";
 import useGetProducts from "../services/useGetProducts";
@@ -23,18 +23,23 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/autoplay";
 import { Autoplay } from "swiper/modules";
+import ProductCardShimmer from "../components/ProductCardShimmer";
 
 const Body = () => {
   const [faqToggleIndex, setFaqToggleIndex] = useState(-1);
   const [products, setProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [trendingProducts, setTrendingProducts] = useState([]);
   const swiperRef = useRef(null);
 
   const productCollection = collection(db, "products");
   const reviewCollection = collection(db, "reviews");
-
+  const que = query(collection(db, "products"),orderBy("name"),limit(20));
+  const trendingQue = query(collection(db,"products"),where('isTrending','==',true))
+  
   useEffect(() => {
-    useGetProducts(productCollection, setProducts, false);
+    useGetProducts(productCollection, setProducts, que);
+    useGetProducts(productCollection,setTrendingProducts,trendingQue)
     useGetReviews(reviewCollection, setReviews);
     if (swiperRef.current) {
       swiperRef.current.swiper.autoplay.start();
@@ -87,8 +92,12 @@ const Body = () => {
         <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-lg">
           Trending Now
         </h1>
+        { products.length == 0 ? 
         <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
-          {products
+        <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer />
+        <ProductCardShimmer /> </div> : 
+        <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
+          {trendingProducts
             .filter((product) => product.isTrending)
             .map((product, index) => {
               let trimmedName = false;
@@ -111,7 +120,7 @@ const Body = () => {
                 </Link>
               );
             })}
-        </div>
+        </div>}
       </section>
       <section className="w-[1050px] mx-auto py-10 max-sm:w-full max-sm:px-5">
         <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-lg max-sm:text-center max-sm:mb-3">
@@ -159,6 +168,11 @@ const Body = () => {
             </svg>
           </Link>
         </div>
+        { products.length == 0 ? 
+        <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
+          <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer />
+          <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer />
+        </div>:
         <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
           {products.map((product, index) => {
             let trimmedName = false;
@@ -181,7 +195,7 @@ const Body = () => {
               </Link>
             );
           })}
-        </div>
+        </div>}
       </section>
       <section className="py-10 max-sm:py-5">
         <div className="w-[1050px] mx-auto max-sm:w-full">

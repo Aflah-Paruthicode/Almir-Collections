@@ -4,24 +4,36 @@ import {
   closestCenter,
   useSensor,
   useSensors,
-  PointerSensor,
+  MouseSensor,
+  TouchSensor,
 } from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import SortableItem from "../components/SortableContext";
-import { useEffect } from "react";
 
 const ImagePreviews = ({ images, setImages }) => {
-  console.log('from previews : ',images)
-  const sensors = useSensors(useSensor(PointerSensor));
+  console.log("from previews : ", images);
+  const sensors = useSensors(
+    useSensor(MouseSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 200,
+        tolerance: 5,
+      },
+    })
+  );
+
   const handleDragEnd = (event) => useHandleDragEnd(event, images, setImages);
 
   return (
     <div className="preview-container">
       <h1 className="text-2xl font-bold pt-10 pb-4 max-sm:text-xl max-sm:font-medium max-sm:py-5">
-        Preview <span className="font-medium text-xl max-sm:text-base">({images.length})</span>
+        Preview{" "}
+        <span className="font-medium text-xl max-sm:text-base">
+          ({images.length})
+        </span>
       </h1>
       <div className="flex items-center bg-[#1a1a1a] rounded-lg p-5">
         <DndContext
@@ -32,7 +44,7 @@ const ImagePreviews = ({ images, setImages }) => {
           <SortableContext
             items={images}
             strategy={verticalListSortingStrategy}
-          > 
+          >
             <div className="flex flex-wrap gap-2">
               {images.map((url) => {
                 let uniqueId = url.lastModified + url.size;

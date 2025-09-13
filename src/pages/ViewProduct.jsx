@@ -8,6 +8,7 @@ import ProductCard from "../components/ProductCard";
 import { useEffect, useState } from "react";
 import useGetSingleProduct from "../services/useGetSingleProduct";
 import useGetProducts from "../services/useGetProducts";
+import ProductCardShimmer from "../components/ProductCardShimmer";
 
 const ViewProduct = () => {
   const { productId } = useParams();
@@ -37,13 +38,15 @@ const ViewProduct = () => {
       <section className="w-full fixed bg-[#1f1f1f] shadow-md z-50">
         <Header />
       </section>
-      <section className="w-full min-h-[100vh] flex pt-28 justify-center">
+      {product ? <div className="min-h-[100vh]">ha</div> : <div><section className="w-full min-h-[100vh] flex pt-28 justify-center">
         {product && <ProductDetails productData={product} />}
       </section>
       <section className="w-full max-sm:px-5">
         <div className="w-[1050px] mx-auto max-sm:w-full">
           <hr className="mt-10 text-[#bababa]" />
-          <div className="grid grid-cols-4 items-center gap-6 flex-wrap mt-10 max-sm:grid-cols-2 max-sm:gap-3">
+          {products.length == 0 ? <div className="grid grid-cols-4 items-center gap-6 flex-wrap mt-10 max-sm:grid-cols-2 max-sm:gap-3">
+            <ProductCardShimmer/> <ProductCardShimmer/> <ProductCardShimmer/> <ProductCardShimmer/>
+          </div> : <div className="grid grid-cols-4 items-center gap-6 flex-wrap mt-10 max-sm:grid-cols-2 max-sm:gap-3">
             {products.map((product, index) => {
               let trimmedName = false;
               if (product.name.length > 10) {
@@ -65,9 +68,9 @@ const ViewProduct = () => {
                 </Link>
               );
             })}
-          </div>
+          </div> }
         </div>
-      </section>
+      </section></div>}
       <section>
         <Footer />
       </section>
