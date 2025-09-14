@@ -1,13 +1,20 @@
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
-import { db } from "../services/firebase-config";
+import { deleteDoc, doc } from "firebase/firestore";
+import { confirmAlert } from "./alerts";
+import useGetProducts from "./useGetProducts";
 
-const useDeleteProduct = async (id) => {
+const useDeleteDoc = async (id,Collection,setProducts) => {
   try {
-    const productDocRef = doc(db, "products", id);
-    await deleteDoc(productDocRef);
+    const confirmed = await confirmAlert();
+    if (confirmed) {
+      const productDocRef = doc(Collection, id);
+      await deleteDoc(productDocRef);
+      setProducts ? useGetProducts(Collection, setProducts) : null;
+    } else {
+      console.log("User cancelled delete!");
+    }
   } catch (err) {
     console.error(err);
   }
 };
 
-export default useDeleteProduct;
+export default useDeleteDoc;

@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  categories,
-  ExtraFAQ,
-  FAQ,
-  whyBuyFromUs,
-} from "../components/utils/constants";
+import { ExtraFAQ, FAQ, whyBuyFromUs } from "../components/utils/constants";
 import FaqAccordion from "../components/FaqAccordion";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -24,23 +19,30 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import { Autoplay } from "swiper/modules";
 import ProductCardShimmer from "../components/ProductCardShimmer";
+import useGetCategories from "../services/useGetCategories";
 
 const Body = () => {
   const [faqToggleIndex, setFaqToggleIndex] = useState(-1);
   const [products, setProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [trendingProducts, setTrendingProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const swiperRef = useRef(null);
 
   const productCollection = collection(db, "products");
   const reviewCollection = collection(db, "reviews");
-  const que = query(collection(db, "products"),orderBy("name"),limit(20));
-  const trendingQue = query(collection(db,"products"),where('isTrending','==',true))
-  
+  const categoriesCollection = collection(db, "categories");
+  const que = query(collection(db, "products"), orderBy("name"), limit(20));
+  const trendingQue = query(
+    collection(db, "products"),
+    where("isTrending", "==", true)
+  );
+
   useEffect(() => {
     useGetProducts(productCollection, setProducts, que);
-    useGetProducts(productCollection,setTrendingProducts,trendingQue)
+    useGetProducts(productCollection, setTrendingProducts, trendingQue);
     useGetReviews(reviewCollection, setReviews);
+    useGetCategories(categoriesCollection, setCategories);
     if (swiperRef.current) {
       swiperRef.current.swiper.autoplay.start();
     }
@@ -75,16 +77,17 @@ const Body = () => {
         </div>
       </section>
       <section className="w-[1050px] mx-auto grid grid-cols-5 gap-4  text-center text-white max-sm:w-full max-sm:grid-cols-2 max-sm:px-5 max-sm:pt-3 max-sm:gap-3 max-sm:text-sm">
-        {categories.map((category, index) => (
+        {categories.map((doc, index) => (
           <Link
+            style={{ order: doc.orderBy }}
             key={index}
-            to={`/category/${category}`}
+            to={`/category/${doc.category}`}
             onClick={() => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            className="p-5 bg-[#141414] hover:bg-[#242424] border border-[#bababa] rounded-xl "
+            className={`p-5 bg-[#141414] hover:bg-[#242424] border border-[#bababa] rounded-xl `}
           >
-            <div className="">{category}</div>
+            <div className="">{doc.category}</div>
           </Link>
         ))}
       </section>
@@ -92,35 +95,38 @@ const Body = () => {
         <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-lg">
           Trending Now
         </h1>
-        { products.length == 0 ? 
-        <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
-        <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer />
-        <ProductCardShimmer /> </div> : 
-        <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
-          {trendingProducts
-            .filter((product) => product.isTrending)
-            .map((product, index) => {
-              let trimmedName = false;
-              if (product.name.length > 10) {
-                if (window.innerWidth < 640) {
-                  trimmedName = product.name.slice(0, 10);
-                } else {
-                  trimmedName = product.name.slice(0, 20);
+        {products.length == 0 ? (
+          <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
+            <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer />
+            <ProductCardShimmer />{" "}
+          </div>
+        ) : (
+          <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
+            {trendingProducts
+              .filter((product) => product.isTrending)
+              .map((product, index) => {
+                let trimmedName = false;
+                if (product.name.length > 10) {
+                  if (window.innerWidth < 640) {
+                    trimmedName = product.name.slice(0, 10);
+                  } else {
+                    trimmedName = product.name.slice(0, 20);
+                  }
                 }
-              }
-              return (
-                <Link
-                  key={index}
-                  to={"/viewProduct/" + product.id}
-                  onClick={() => {
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                >
-                  <ProductCard product={product} trimmedName={trimmedName} />
-                </Link>
-              );
-            })}
-        </div>}
+                return (
+                  <Link
+                    key={index}
+                    to={"/viewProduct/" + product.id}
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                  >
+                    <ProductCard product={product} trimmedName={trimmedName} />
+                  </Link>
+                );
+              })}
+          </div>
+        )}
       </section>
       <section className="w-[1050px] mx-auto py-10 max-sm:w-full max-sm:px-5">
         <h1 className="text-2xl font-medium tracking-wider py-8 text-white max-sm:text-lg max-sm:text-center max-sm:mb-3">
@@ -168,34 +174,38 @@ const Body = () => {
             </svg>
           </Link>
         </div>
-        { products.length == 0 ? 
-        <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
-          <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer />
-          <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer />
-        </div>:
-        <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
-          {products.map((product, index) => {
-            let trimmedName = false;
-            if (product.name.length > 10) {
-              if (window.innerWidth < 640) {
-                trimmedName = product.name.slice(0, 10);
-              } else {
-                trimmedName = product.name.slice(0, 20);
+        {products.length == 0 ? (
+          <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
+            <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer />{" "}
+            <ProductCardShimmer />
+            <ProductCardShimmer /> <ProductCardShimmer /> <ProductCardShimmer />{" "}
+            <ProductCardShimmer />
+          </div>
+        ) : (
+          <div className="grid grid-cols-4 justify-center items-center gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
+            {products.map((product, index) => {
+              let trimmedName = false;
+              if (product.name.length > 10) {
+                if (window.innerWidth < 640) {
+                  trimmedName = product.name.slice(0, 10);
+                } else {
+                  trimmedName = product.name.slice(0, 20);
+                }
               }
-            }
-            return (
-              <Link
-                key={index}
-                to={"/viewProduct/" + product.id}
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-              >
-                <ProductCard product={product} trimmedName={trimmedName} />
-              </Link>
-            );
-          })}
-        </div>}
+              return (
+                <Link
+                  key={index}
+                  to={"/viewProduct/" + product.id}
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                >
+                  <ProductCard product={product} trimmedName={trimmedName} />
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </section>
       <section className="py-10 max-sm:py-5">
         <div className="w-[1050px] mx-auto max-sm:w-full">

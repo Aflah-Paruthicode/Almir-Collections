@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useHandleUpdate from "../services/useHandleUpdate";
 import AddNewProductForm from "./AddNewProductForm";
 import useGetSingleProduct from "../services/useGetSingleProduct";
@@ -6,7 +6,8 @@ import { confirmAlert } from "../services/alerts";
 import { collection, doc } from "firebase/firestore";
 import { db } from "../services/firebase-config";
 import useUrlsToFiles from "../services/useUrlsToFiles";
-import useHandleDelete from "../services/useHandleDelete";
+import useDeleteProduct from "../services/useDeleteDoc";
+import useGetProducts from "../services/useGetProducts";
 
 const ProductsTable = (props) => {
   let {
@@ -40,8 +41,7 @@ const ProductsTable = (props) => {
 
   const [editPanel, setEditPanel] = useState(false);
   const [product, setProduct] = useState();
-  const productCollection = collection(db, "products");
-
+  
   async function fetchProduct(id) {
     let data = await useGetSingleProduct(id);
     setProduct(data);
@@ -188,14 +188,9 @@ const ProductsTable = (props) => {
                               className="bg-gradient-to-br transition-colors from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121]
                                m-1 py-1 font-medium px-2 rounded-md max-sm:px-1 max-sm:text-sm"
                               onClick={() => {
-                                let isOkay = confirmAlert();
-                                if (isOkay) {
-                                  useHandleDelete(
-                                    product.id,
-                                    productCollection,
-                                    setProducts
-                                  );
-                                }
+                                
+                                  useDeleteProduct(product.id,collection(db, "products"),setProducts);
+                                
                               }}
                             >
                               delete
