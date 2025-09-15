@@ -86,14 +86,18 @@ const AdminBody = () => {
   }, [currentSection]);
 
   async function handleGetReviews() {
-    if (reviewPic && reviewerName.trim() !== "") {
-      await useAddNewReview(reviewPic, reviewerName, reviewCollection);
-      setReviewPic("");
-      setRviewerName("");
-      reviewToEmpty.current.value = "";
-      useGetReviews(reviewCollection, setReviews);
-    } else {
-      warningAlert();
+    try {
+      if (reviewPic && reviewerName.trim() !== "") {
+        await useAddNewReview(reviewPic, reviewerName, reviewCollection);
+        setReviewPic("");
+        setRviewerName("");
+        reviewToEmpty.current.value = "";
+        useGetReviews(reviewCollection, setReviews);
+      } else {
+        warningAlert();
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -186,18 +190,16 @@ const AdminBody = () => {
               value={newOrderBy}
               onChange={(e) => setNewOrderBy(e.target.value)}
             >
-
-                <option  value={1}>1</option>
-                <option  value={2}>2</option>
-                <option  value={3}>3</option>
-                <option  value={4}>4</option>
-                <option  value={5}>5</option>
-                <option  value={6}>6</option>
-                <option  value={7}>7</option>
-                <option  value={8}>8</option>
-                <option  value={9}>9</option>
-                <option  value={10}>10</option>
-                
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+              <option value={9}>9</option>
+              <option value={10}>10</option>
             </select>
             <button
               onClick={handleCategory}
@@ -219,29 +221,38 @@ const AdminBody = () => {
                 </tr>
               </thead>
               <tbody>
-                {categories.map((element, inx) => (
-                  <tr key={inx}>
-                    <td className="p-2 max-sm:text-sm">{element.category}</td>
-                    <td className="p-2 max-sm:text-sm">{element.orderBy}</td>
-                    <td className="p-2">
-                      <div className="flex max-sm:flex-col">
-                        <button
-                          className="bg-gradient-to-br transition-colors from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121]
+                {categories.map((element, inx) => {
+                  const productsInThisCate = products.reduce((acc, el) => {
+                    if (el.category == element.category.toLowerCase()) acc++;
+                    return acc;
+                  }, 0);
+
+                  return (
+                    <tr key={inx}>
+                      <td className="p-2 max-sm:text-sm">
+                        {element.category} ({productsInThisCate})
+                      </td>
+                      <td className="p-2 max-sm:text-sm">{element.orderBy}</td>
+                      <td className="p-2">
+                        <div className="flex max-sm:flex-col">
+                          <button
+                            className="bg-gradient-to-br transition-colors from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121]
                                m-1 py-1 font-medium px-2 rounded-md max-sm:px-1 max-sm:text-sm"
-                          onClick={() => {
-                            useDeleteDoc(
-                              element.id,
-                              categoriesCollection,
-                              false
-                            );
-                          }}
-                        >
-                          delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                            onClick={() => {
+                              useDeleteDoc(
+                                element.id,
+                                categoriesCollection,
+                                false
+                              );
+                            }}
+                          >
+                            delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

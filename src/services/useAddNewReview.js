@@ -8,25 +8,26 @@ const useAddNewReview = async (
   setItEmpty
 ) => {
   try {
-    console.log("the file is here bud : ", reviewPic[0]);
-
     const uploadPromise = async () => {
-      const data = new FormData();
-      data.append("file", reviewPic[0]);
-      data.append(
-        "upload_preset",
-        import.meta.env.VITE_CLOUDINARY_REVIEWS_PRESET
-      );
-      data.append("folder", "reviews");
+      try {
+        const data = new FormData();
+        data.append("file", reviewPic[0]);
+        data.append(
+          "upload_preset",
+          import.meta.env.VITE_CLOUDINARY_REVIEWS_PRESET
+        );
+        data.append("folder", "reviews");
 
-      const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/${
-          import.meta.env.VITE_CLOUDINARY_NAME
-        }/image/upload`,
-        data
-      );
-      console.log("the data : ", res);
-      return res.data.secure_url;
+        const res = await axios.post(
+          `https://api.cloudinary.com/v1_1/${
+            import.meta.env.VITE_CLOUDINARY_NAME
+          }/image/upload`,
+          data
+        );
+        return res.data.secure_url;
+      } catch (err) {
+        console.error(err);
+      }
     };
     const url = await uploadPromise();
     await addDoc(reviewsCollection, {

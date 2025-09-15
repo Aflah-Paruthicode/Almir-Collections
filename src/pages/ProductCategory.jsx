@@ -18,31 +18,34 @@ const ProductCategory = () => {
 
   useEffect(() => {
     async function fetchProducts() {
-      if (categoryName == "search") {
-        const data = await useSearchProducts(searchData);
-        setProducts(data);
-      } else {
-        let queryToGetCategoryMatch;
-        if (categoryName == "allProducts") {
-          queryToGetCategoryMatch = "";
+      try {
+        if (categoryName == "search") {
+          const data = await useSearchProducts(searchData);
+          setProducts(data);
         } else {
-          queryToGetCategoryMatch = query(
+          let queryToGetCategoryMatch;
+          if (categoryName == "allProducts") {
+            queryToGetCategoryMatch = "";
+          } else {
+            queryToGetCategoryMatch = query(
+              productCollection,
+              where("category", "==", categoryName.toLowerCase())
+            );
+          }
+
+          const data = await useGetProducts(
             productCollection,
-            where("category", "==", categoryName.toLowerCase())
+            setProducts,
+            queryToGetCategoryMatch
           );
         }
-
-        const data = await useGetProducts(
-          productCollection,
-          setProducts,
-          queryToGetCategoryMatch
-        );
-        console.log("products from category : ", data);
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchProducts();
   }, [searchData]);
-  const demo = 0
+  const demo = 0;
   return (
     <div className="w-full bg-gradient-to-br from-[#1e1e1e] to-[#1f1f1f] font-[poppins]">
       <section className="w-full fixed bg-[#1f1f1f] shadow-md z-50">
@@ -68,15 +71,20 @@ const ProductCategory = () => {
           <h1 className="text-2xl font-medium tracking-wider py-5 my-3 text-white max-sm:text-xl max-sm:py-3">
             {categoryName == "allProducts"
               ? "All Products"
-              : categoryName == 'search' ? 'Search Found !!' : "Category Section"}
+              : categoryName == "search"
+              ? "Search Found !!"
+              : "Category Section"}
           </h1>
           {products.length == 0 && (
             <h1 className="text-white max-sm:text-sm p-2">
-              {categoryName == 'search' ? 'No products found with the text you entered !' : ''}
+              {categoryName == "search"
+                ? "No products found with the text you entered !"
+                : ""}
             </h1>
           )}
         </div>
-          {products.length == 0 ? <div className="grid grid-cols-4 gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
+        {products.length == 0 ? (
+          <div className="grid grid-cols-4 gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
             <ProductCardShimmer />
             <ProductCardShimmer />
             <ProductCardShimmer />
@@ -85,30 +93,32 @@ const ProductCategory = () => {
             <ProductCardShimmer />
             <ProductCardShimmer />
             <ProductCardShimmer />
-            </div>
-              :<div className="grid grid-cols-4 gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
-          {products.map((product, index) => {
-            let trimmedName = false;
-            if (product.name.length > 10) {
+          </div>
+        ) : (
+          <div className="grid grid-cols-4 gap-6 flex-wrap max-sm:grid-cols-2 max-sm:gap-3">
+            {products.map((product, index) => {
+              let trimmedName = false;
+              if (product.name.length > 10) {
                 if (window.innerWidth < 640) {
                   trimmedName = product.name.slice(0, 10);
                 } else {
                   trimmedName = product.name.slice(0, 20);
                 }
               }
-            return (
-              <Link
-                key={index}
-                to={"/viewProduct/" + product.id}
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-              >
-                <ProductCard product={product} trimmedName={trimmedName} />
-              </Link>
-            );
-          })}
-        </div>}
+              return (
+                <Link
+                  key={index}
+                  to={"/viewProduct/" + product.id}
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                >
+                  <ProductCard product={product} trimmedName={trimmedName} />
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </section>
       <section>
         <Footer />

@@ -2,17 +2,18 @@ import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import React from "react";
 import { db } from "./firebase-config";
 
-const useAddCategory = async (category,orderBy) => {
-
+const useAddCategory = async (category, orderBy) => {
   try {
-    const categoriesCollection = collection(db,"categories")
-    const docrefs = query(categoriesCollection,where('orderBy','==',orderBy))
-    const isDoc = await getDocs(docrefs)
-    console.log('is empty : ',isDoc.empty)
+    const categoriesCollection = collection(db, "categories");
+    const docrefs = query(
+      categoriesCollection,
+      where("orderBy", "==", orderBy)
+    );
+    const isDoc = await getDocs(docrefs);
     if (category.trim() !== "" && isDoc.empty) {
       await addDoc(categoriesCollection, {
         category: category,
-        orderBy : orderBy
+        orderBy: orderBy,
       });
     }
   } catch (err) {

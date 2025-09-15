@@ -21,24 +21,26 @@ const useHandleUpdate = async (
       productInfo.images.length > 0
     ) {
       timerAlert(2500, "Product is Updating!", "Will be updated in <b></b>.");
-      console.log("update product request is done");
       const uploadPromises = productInfo.images.map(async (image) => {
-        const data = new FormData();
-        data.append("file", image);
-        data.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
-        data.append("folder", "products");
+        try {
+          const data = new FormData();
+          data.append("file", image);
+          data.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
+          data.append("folder", "products");
 
-        const res = await axios.post(
-          "https://api.cloudinary.com/v1_1/" +
-            import.meta.env.VITE_CLOUDINARY_NAME +
-            "/image/upload",
-          data
-        );
-        return res.data.secure_url;
+          const res = await axios.post(
+            "https://api.cloudinary.com/v1_1/" +
+              import.meta.env.VITE_CLOUDINARY_NAME +
+              "/image/upload",
+            data
+          );
+          return res.data.secure_url;
+        } catch (err) {
+          console.error(err);
+        }
       });
 
       const urls = await Promise.all(uploadPromises);
-      console.log("ithaan ath : ", productInfo.highlights);
       const highlightsArr = productInfo.highlights.split(",");
       await updateDoc(productDoc, {
         name: productInfo.name,

@@ -7,7 +7,6 @@ const useGetReviews = async (reviewsCollection, setReviews) => {
       id: doc.id,
       ...doc.data(),
     }));
-    console.log("the reviews from db : ", filteredReviews);
     setReviews(filteredReviews);
   } catch (err) {
     console.error(err);

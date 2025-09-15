@@ -12,7 +12,6 @@ const useGetProducts = async (productCollection, setProducts, q) => {
       id: doc.id,
       ...doc.data(),
     }));
-    console.log("products : ", filteredProducts);
     setProducts(filteredProducts);
   } catch (err) {
     console.error(err);

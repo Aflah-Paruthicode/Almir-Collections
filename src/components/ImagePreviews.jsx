@@ -14,7 +14,6 @@ import {
 import SortableItem from "../components/SortableContext";
 
 const ImagePreviews = ({ images, setImages }) => {
-  console.log("from previews : ", images);
   const sensors = useSensors(
     useSensor(MouseSensor),
     useSensor(TouchSensor, {

@@ -24,31 +24,34 @@ export const timerAlert = (time, heading, description) => {
     },
   }).then((result) => {
     if (result.dismiss === Swal.DismissReason.timer) {
-      console.log("I was closed by the timer");
     }
   });
 };
 
 export const confirmAlert = async () => {
-  const result = await Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, delete it!",
-  });
-
-  if (result.isConfirmed) {
-    Swal.fire({
-      title: "Deleted!",
-      text: "Your file has been deleted.",
-      icon: "success",
+  try {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
     });
-    return true;
+
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Deleted!",
+        text: "Your file has been deleted.",
+        icon: "success",
+      });
+      return true;
+    }
+    return false;
+  } catch (err) {
+    console.error(err);
   }
-  return false;
 };
 
 export const warningAlert = (mesg) => {

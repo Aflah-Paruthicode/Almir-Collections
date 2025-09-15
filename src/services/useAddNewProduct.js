@@ -25,20 +25,23 @@ const useAddNewProduct = async (
         "New Product Is Creating!",
         "Will be created in <b></b>."
       );
-      console.log("new product adding request is done");
       const uploadPromises = productInfo.images.map(async (image) => {
-        const data = new FormData();
-        data.append("file", image);
-        data.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
-        data.append("folder", "products");
+        try {
+          const data = new FormData();
+          data.append("file", image);
+          data.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
+          data.append("folder", "products");
 
-        const res = await axios.post(
-          "https://api.cloudinary.com/v1_1/" +
-            import.meta.env.VITE_CLOUDINARY_NAME +
-            "/image/upload",
-          data
-        );
-        return res.data.secure_url;
+          const res = await axios.post(
+            "https://api.cloudinary.com/v1_1/" +
+              import.meta.env.VITE_CLOUDINARY_NAME +
+              "/image/upload",
+            data
+          );
+          return res.data.secure_url;
+        } catch (err) {
+          console.error(err);
+        }
       });
 
       const urls = await Promise.all(uploadPromises);

@@ -5,7 +5,6 @@ import "swiper/css/pagination";
 import "swiper/css/zoom";
 
 const MobileProductZoom = ({ images, mainSwiperRef, setActiveImage }) => {
-
   return (
     <div className="w-full h-[250px] max-sm:h-[350px] overflow-hidden">
       <Swiper

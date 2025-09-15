@@ -14,17 +14,17 @@ function App() {
     {
       path: "/",
       element: <Body />,
-      errorElement : <ErrorPage />
+      errorElement: <ErrorPage />,
     },
     {
       path: "/category/:categoryName",
       element: <ProductCategory />,
-      errorElement : <ErrorPage />
+      errorElement: <ErrorPage />,
     },
     {
       path: "/viewProduct/:productId",
       element: <ViewProduct />,
-      errorElement : <ErrorPage />
+      errorElement: <ErrorPage />,
     },
     {
       path: "/adminLogin",
@@ -33,7 +33,7 @@ function App() {
           <AdminLogin />
         </IsLogin>
       ),
-      errorElement : <ErrorPage />
+      errorElement: <ErrorPage />,
     },
     {
       path: "/admin",
@@ -42,12 +42,12 @@ function App() {
           <AdminBody />
         </IsLogout>
       ),
-      errorElement : <ErrorPage />
+      errorElement: <ErrorPage />,
     },
     {
       path: "/adminLogin/forgotPass",
       element: <ForgotPass />,
-      errorElement : <ErrorPage />
+      errorElement: <ErrorPage />,
     },
   ]);
 

@@ -10,10 +10,9 @@ const ForgotPass = () => {
   const [error, setError] = useState("");
 
   const handlePasswordReset = async () => {
-    setMessage("");
-    setError("");
-
     try {
+      setMessage("");
+      setError("");
       await sendPasswordResetEmail(auth, email);
       setMessage(
         "Password reset email sent successfully! Please check your inbox."
@@ -31,7 +30,9 @@ const ForgotPass = () => {
       <section className=" h-full flex justify-center items-center mb-[-4rem] py-5 max-sm:px-5">
         <div className="flex flex-col items-center justify-center px-12 gap-4 py-5 bg-[#1a1a1a] text-[#bababa] h-[25rem] w-[30rem] rounded-2xl">
           <div className="w-full">
-            <h1 className="text-2xl mb-5 font-medium max-sm:text-xl max-sm:mb-1">Forgot Password</h1>
+            <h1 className="text-2xl mb-5 font-medium max-sm:text-xl max-sm:mb-1">
+              Forgot Password
+            </h1>
             <p className="mb-4 max-sm:text-sm max-sm:mb-2">
               Enter your email address to receive a password reset link.
             </p>
@@ -50,7 +51,9 @@ const ForgotPass = () => {
           >
             Send Reset Link
           </button>
-          {message && <p className="mt-4 text-green-500 max-sm:text-sm">{message}</p>}
+          {message && (
+            <p className="mt-4 text-green-500 max-sm:text-sm">{message}</p>
+          )}
           {error && <p className="mt-4 text-red-500 max-sm:text-sm">{error}</p>}
         </div>
       </section>

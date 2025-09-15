@@ -18,59 +18,67 @@ const ViewProduct = () => {
   const productCollection = collection(db, "products");
   useEffect(() => {
     async function fetchProduct() {
-      let data = await useGetSingleProduct(productId);
-      setProduct(data);
-      if (data) {
-        const queryToGetFour = query(
-          productCollection,
-          where("category", "==", data.category),
-          limit(4)
-        );
-        useGetProducts(productCollection, setProducts, queryToGetFour);
+      try {
+        let data = await useGetSingleProduct(productId);
+        setProduct(data);
+        if (data) {
+          const queryToGetFour = query(
+            productCollection,
+            where("category", "==", data.category),
+            limit(4)
+          );
+          useGetProducts(productCollection, setProducts, queryToGetFour);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     fetchProduct();
   }, [productId]);
 
-  console.log("single one is here ", product);
   return (
     <div className="w-full bg-gradient-to-br from-[#1e1e1e] to-[#1f1f1f] font-[poppins]">
       <section className="w-full fixed bg-[#1f1f1f] shadow-md z-50">
         <Header />
       </section>
-      {product ? <div className="min-h-[100vh]">ha</div> : <div><section className="w-full min-h-[100vh] flex pt-28 justify-center">
+      <section className="w-full min-h-[100vh] flex pt-28 justify-center">
         {product && <ProductDetails productData={product} />}
       </section>
       <section className="w-full max-sm:px-5">
         <div className="w-[1050px] mx-auto max-sm:w-full">
           <hr className="mt-10 text-[#bababa]" />
-          {products.length == 0 ? <div className="grid grid-cols-4 items-center gap-6 flex-wrap mt-10 max-sm:grid-cols-2 max-sm:gap-3">
-            <ProductCardShimmer/> <ProductCardShimmer/> <ProductCardShimmer/> <ProductCardShimmer/>
-          </div> : <div className="grid grid-cols-4 items-center gap-6 flex-wrap mt-10 max-sm:grid-cols-2 max-sm:gap-3">
-            {products.map((product, index) => {
-              let trimmedName = false;
-              if (product.name.length > 10) {
-                if (window.innerWidth < 640) {
-                  trimmedName = product.name.slice(0, 10);
-                } else {
-                  trimmedName = product.name.slice(0, 20);
+          {products.length == 0 ? (
+            <div className="grid grid-cols-4 items-center gap-6 flex-wrap mt-10 max-sm:grid-cols-2 max-sm:gap-3">
+              <ProductCardShimmer /> <ProductCardShimmer />{" "}
+              <ProductCardShimmer /> <ProductCardShimmer />
+            </div>
+          ) : (
+            <div className="grid grid-cols-4 items-center gap-6 flex-wrap mt-10 max-sm:grid-cols-2 max-sm:gap-3">
+              {products.map((product, index) => {
+                let trimmedName = false;
+                if (product.name.length > 10) {
+                  if (window.innerWidth < 640) {
+                    trimmedName = product.name.slice(0, 10);
+                  } else {
+                    trimmedName = product.name.slice(0, 20);
+                  }
                 }
-              }
-              return (
-                <Link
-                  key={index}
-                  to={"/viewProduct/" + product.id}
-                  onClick={() => {
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                >
-                  <ProductCard product={product} trimmedName={trimmedName} />
-                </Link>
-              );
-            })}
-          </div> }
+                return (
+                  <Link
+                    key={index}
+                    to={"/viewProduct/" + product.id}
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                  >
+                    <ProductCard product={product} trimmedName={trimmedName} />
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
-      </section></div>}
+      </section>
       <section>
         <Footer />
       </section>

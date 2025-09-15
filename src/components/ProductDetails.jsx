@@ -22,7 +22,6 @@ const ProductDetails = ({ productData }) => {
       setProductImage(productData.images[0]);
     }
   }, [productData]);
-  console.log("what the", productImage);
   return (
     <div className="flex gap-3 w-[1050px] max-sm:w-full max-sm:flex-col max-sm:px-5 max-sm:gap-2">
       <div className="w-[50rem] max-sm:w-full">
@@ -88,7 +87,10 @@ const ProductDetails = ({ productData }) => {
         <h2 className="font-semibold py-2">Variants : </h2>
         <div className="flex gap-3 flex-wrap items-center mb-8 pl-3">
           {productData.variants.split(",").map((variant, index) => (
-            <p key={index} className="py-1 px-2 border rounded-md max-sm:text-sm max-sm:leading-6">
+            <p
+              key={index}
+              className="py-1 px-2 border rounded-md max-sm:text-sm max-sm:leading-6"
+            >
               {variant}
             </p>
           ))}
@@ -98,14 +100,19 @@ const ProductDetails = ({ productData }) => {
           <ul className="list-disc pl-8">
             {productData.highlights.map((variant, index) => (
               <li key={index}>
-                <p className="py-1 max-sm:text-sm max-sm:leading-6">{variant}</p>
+                <p className="py-1 max-sm:text-sm max-sm:leading-6">
+                  {variant}
+                </p>
               </li>
             ))}
           </ul>
         </div>
         <div className="mb-3">
           <h2 className="font-semibold py-2">Description : </h2>
-          <p className="pl-8 max-sm:text-sm max-sm:leading-6" style={{ whiteSpace: "pre-line" }}>
+          <p
+            className="pl-8 max-sm:text-sm max-sm:leading-6"
+            style={{ whiteSpace: "pre-line" }}
+          >
             {productData.description}
           </p>
         </div>
@@ -115,7 +122,9 @@ const ProductDetails = ({ productData }) => {
         </div>
         <div className="mb-3">
           <h2 className="font-semibold py-2">Category : </h2>
-          <p className="pl-8 max-sm:leading-6">{productData.category.toUpperCase()}</p>
+          <p className="pl-8 max-sm:leading-6">
+            {productData.category.toUpperCase()}
+          </p>
         </div>
       </div>
     </div>

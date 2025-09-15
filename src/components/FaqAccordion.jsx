@@ -38,7 +38,9 @@ const FaqAccordion = (props) => {
       </p>
 
       {faqToggle && (
-        <p className="px-[23px] p-6 text-[18px] leading-8 max-sm:text-[15px] max-sm:leading-6">{faq.answer}</p>
+        <p className="px-[23px] p-6 text-[18px] leading-8 max-sm:text-[15px] max-sm:leading-6">
+          {faq.answer}
+        </p>
       )}
     </div>
   );

@@ -2,17 +2,14 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { adminLogin } from "../services/AdminAuth";
-import { auth } from "../services/firebase-config";
 import { Link } from "react-router-dom";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-  console.log(auth?.currentUser?.email, "the home");
   const submitMailAndPass = async () => {
     try {
       const login = await adminLogin(email, password);
-      console.log(auth.currentUser);
     } catch (err) {
       console.error(err);
     }
@@ -26,7 +23,9 @@ const AdminLogin = () => {
       <section className=" h-full flex justify-center items-center mb-[-4rem] py-5 max-sm:px-5">
         <div className="flex flex-col items-center justify-center px-12 gap-4 py-5 bg-[#1a1a1a] text-white h-[25rem] w-[30rem] rounded-2xl max-sm:h-[18rem]">
           <div className="w-full">
-            <h1 className="text-4xl mb-5 font-medium max-sm:text-xl max-sm:my-1">Admin Login</h1>
+            <h1 className="text-4xl mb-5 font-medium max-sm:text-xl max-sm:my-1">
+              Admin Login
+            </h1>
           </div>
           <input
             className="w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg max-sm:h-9 max-sm:rounded-4xl max-sm:text-sm"
@@ -47,7 +46,9 @@ const AdminLogin = () => {
           >
             Submit
           </button>
-          <Link className="text-sm" to={"forgotPass"}>forgot password?</Link>
+          <Link className="text-sm" to={"forgotPass"}>
+            forgot password?
+          </Link>
         </div>
       </section>
       <section>

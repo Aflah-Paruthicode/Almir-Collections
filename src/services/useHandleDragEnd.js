@@ -10,7 +10,6 @@ const useHandleDragEnd = (event, images, setImages) => {
       (url) => url.lastModified + url.size === over.id
     );
     setImages(arrayMove(images, oldIndex, newIndex));
-    console.log("changed order of images : ", images);
   }
 };
 

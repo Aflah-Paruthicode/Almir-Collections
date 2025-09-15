@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
 import ImagePreviews from "./ImagePreviews";
+import useGetCategories from "../services/useGetCategories";
+import { db } from "../services/firebase-config";
+import { collection } from "firebase/firestore";
 
 const AddNewProductForm = (props) => {
   const {
@@ -27,19 +31,28 @@ const AddNewProductForm = (props) => {
     action,
   } = props;
 
+  const [categories, setCategories] = useState([]);
+  const categoriesCollection = collection(db, "categories");
+
+  useEffect(() => {
+    useGetCategories(categoriesCollection, setCategories);
+  }, [categories]);
+
   const handleFileChange = (e) => {
-  const newFiles = Array.from(e.target.files);
+    const newFiles = Array.from(e.target.files);
 
-  setImages((prev) => {
-    const existingKeys = new Set(prev.map(f => f.lastModified + "-" + f.size));
+    setImages((prev) => {
+      const existingKeys = new Set(
+        prev.map((f) => f.lastModified + "-" + f.size)
+      );
 
-    const filtered = newFiles.filter(
-      (file) => !existingKeys.has(file.lastModified + "-" + file.size)
-    );
+      const filtered = newFiles.filter(
+        (file) => !existingKeys.has(file.lastModified + "-" + file.size)
+      );
 
-    return [...prev, ...filtered];
-  });
-};
+      return [...prev, ...filtered];
+    });
+  };
 
   return (
     <div>
@@ -80,12 +93,11 @@ const AddNewProductForm = (props) => {
           <option value={category ? category : "Choose ..."}>
             {category ? category : "Choose ..."}
           </option>
-          <option value="Watches">Watches</option>
-          <option value="Jewelry">Jewelry</option>
-          <option value="Gadgets">Gadgets</option>
-          <option value="Clothing">Clothing</option>
-          <option value="Sheos">Sheos</option>
-          <option value="Books">Books</option>
+          {categories.map((category, ind) => (
+            <option key={ind} value={category.category}>
+              {category.category}
+            </option>
+          ))}
         </select>
         <div className="relative">
           <input

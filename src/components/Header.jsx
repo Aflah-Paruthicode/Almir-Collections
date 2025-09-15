@@ -25,22 +25,23 @@ const Header = (props) => {
   };
 
   const handleSearch = async (e) => {
-    setIsOpen(true);
-    const value = e.target.value;
-    setSearchText(value);
-
-    if (value.trim() == "") {
-      setResults([]);
-      return;
+    try {
+      setIsOpen(true);
+      const value = e.target.value;
+      setSearchText(value);
+      if (value.trim() == "") {
+        setResults([]);
+        return;
+      }
+      const data = await useSearchProducts(value);
+      setResults(data);
+    } catch (err) {
+      console.error(err);
     }
-
-    const data = await useSearchProducts(value);
-    console.log("the data : ", data);
-    setResults(data);
   };
 
   useEffect(() => {
-    if(categoryName) setSearchText(searchData)
+    if (categoryName) setSearchText(searchData);
     const handleClickOutside = (event) => {
       if (
         suggestionRef.current &&
@@ -73,7 +74,7 @@ const Header = (props) => {
           border-[#bababa] py-3 px-5 w-[25rem] rounded-4xl z-[9999] max-sm:w-full max-sm:py-2  max-sm:px-3 max-sm:text-sm"
             placeholder="Search..."
             type="text"
-            value={searchText == null ? '' : searchText}
+            value={searchText == null ? "" : searchText}
             onChange={handleSearch}
             onClick={handleSearch}
           />
@@ -120,8 +121,8 @@ const Header = (props) => {
         <Link
           to={`/category/search?query=${searchText}`}
           onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
           className="bg-[#141414] p-3 border border-[#bababa] rounded-[50%] max-sm:p-1.5"
         >
           <svg

@@ -11,8 +11,12 @@ function ErrorPage() {
       </section>
       <section className="flex justify-center h-[90vh] items-center max-sm:h-[70vh]">
         <div className="text-[#bababa] max-sm:flex max-sm:flex-col">
-          <h1 className="text-6xl mb-2 font-bold max-sm:text-2xl max-sm:text-center max-sm:mb-1">404 Error</h1>
-          <p className="tracking-wider max-sm:text-base max-sm:text-center max-sm:mb-2">This page is not found!</p>
+          <h1 className="text-6xl mb-2 font-bold max-sm:text-2xl max-sm:text-center max-sm:mb-1">
+            404 Error
+          </h1>
+          <p className="tracking-wider max-sm:text-base max-sm:text-center max-sm:mb-2">
+            This page is not found!
+          </p>
           <Link
             to={"/"}
             className="bg-gradient-to-br transition-colors inline-flex from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21]
