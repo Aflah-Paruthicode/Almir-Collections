@@ -1,10 +1,14 @@
 const ProductCard = ({ product, trimmedName }) => {
+  function getOptimizedImage(url) {
+  return url.replace("/upload/", "/upload/f_auto,q_auto/");
+}
   return (
     <div className="w-[15rem] rounded-b-lg rounded-t-3xl bg-[#141414] text-white text-center max-sm:w-full">
       <img
         className="w-full h-[240px] overflow-hidden object-cover object-center rounded-t-3xl brightness-[85%] max-sm:h-[170px] max-sm:rounded-t-xl"
-        src={product.images[0]}
+        src={getOptimizedImage(product.images[0])}
         alt=""
+        loading="lazy"
       />
       <div className="p-4">
         <h2 className="my-2 font-extralight max-sm:my-1 max-sm:text-sm">

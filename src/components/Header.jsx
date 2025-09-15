@@ -1,9 +1,9 @@
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import useSearchProducts from "../services/useSearchProducts";
 import { useEffect, useRef, useState } from "react";
-import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../services/firebase-config";
+import { useHandleLogout } from "../services/useHandleLogout";
+import useIsOffline from "../services/useIsOffline";
 
 const Header = (props) => {
   const { categoryName } = useParams();
@@ -15,14 +15,7 @@ const Header = (props) => {
   const suggestionRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate("/adminLogin");
-    } catch (err) {
-      console.error("Logout error:", err);
-    }
-  };
+  const isOffline = useIsOffline()
 
   const handleSearch = async (e) => {
     try {
@@ -50,9 +43,7 @@ const Header = (props) => {
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -137,13 +128,17 @@ const Header = (props) => {
         </Link>
         {props.isAdmin && (
           <button
-            onClick={() => handleLogout()}
-            className="bg-gradient-to-br m-auto ml-5 transition-colors from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[#bababa] font-semibold text-[16px] px-4 py-2 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] "
+            onClick={() => useHandleLogout(navigate)}
+            className="bg-gradient-to-br m-auto ml-5 transition-colors from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21]
+             text-[#bababa] font-semibold text-[16px] px-4 py-2 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] max-sm:px-2 max-sm:py-1 max-sm:text-sm "
           >
             Logout
           </button>
         )}
       </div>
+      {isOffline && <div className="absolute self-center top-0 w-full text-center bg-[#502121] text-[#bababa] max-sm:text-sm rounded-b-lg">
+        <h1>you are offline</h1>
+        </div>}
     </div>
   );
 };

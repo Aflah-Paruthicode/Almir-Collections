@@ -45,7 +45,6 @@ const ProductCategory = () => {
     }
     fetchProducts();
   }, [searchData]);
-  const demo = 0;
   return (
     <div className="w-full bg-gradient-to-br from-[#1e1e1e] to-[#1f1f1f] font-[poppins]">
       <section className="w-full fixed bg-[#1f1f1f] shadow-md z-50">

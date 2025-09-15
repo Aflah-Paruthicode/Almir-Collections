@@ -261,7 +261,7 @@ const Body = () => {
                 <Link
                   to={"/category/allProducts"}
                   onClick={() => {
-                    window.scrollTo({ top: 50, behavior: "smooth" });
+                    window.scrollTo({ top: 30, behavior: "smooth" });
                   }}
                   className="bg-gradient-to-br inline-flex transition-colors from-[#bfa14a] via-[#7f7124] to-[#bfa14a] hover:from-[#b79532] hover:via-[#766715] hover:to-[#b38e21] text-[16px] px-4 py-2 my-2 rounded-lg [-webkit-background-clip: text] [-webkit-text-fill-color: transparent] "
                 >

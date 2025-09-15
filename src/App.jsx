@@ -1,53 +1,59 @@
-import Body from "./pages/Body";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AdminLogin from "./pages/AdminLogin";
-import AdminBody from "./pages/AdminBody";
-import IsLogout from "./services/IsLogout";
-import IsLogin from "./services/IsLogin";
-import ViewProduct from "./pages/ViewProduct";
-import ProductCategory from "./pages/ProductCategory";
-import ForgotPass from "./pages/ForgotPass";
-import ErrorPage from "./pages/ErrorPage";
+import { lazy, Suspense } from "react";
+const Body = lazy(() => import('./pages/Body'))
+const AdminLogin = lazy(() => import('./pages/AdminLogin'))
+const AdminBody = lazy(() => import('./pages/AdminBody'))
+const IsLogout = lazy(() => import('./services/IsLogout'))
+const IsLogin = lazy(() => import('./services/IsLogin'))
+const ViewProduct = lazy(() => import('./pages/ViewProduct'))
+const ProductCategory = lazy(() => import('./pages/ProductCategory'))
+const ForgotPass = lazy(() => import('./pages/ForgotPass'))
+const ErrorPage = lazy(() => import('./pages/ErrorPage'))
+
 
 function App() {
   const appRouter = createBrowserRouter([
     {
       path: "/",
-      element: <Body />,
-      errorElement: <ErrorPage />,
+      element: <Suspense fallback={<h1>Loading</h1>}><Body /></Suspense>,
+      errorElement: <Suspense fallback={<h1>Loading</h1>}><ErrorPage /></Suspense>,
     },
     {
       path: "/category/:categoryName",
-      element: <ProductCategory />,
-      errorElement: <ErrorPage />,
+      element: <Suspense fallback={<h1>Loading</h1>}><ProductCategory /></Suspense>,
+      errorElement: <Suspense fallback={<h1>Loading</h1>}><ErrorPage /></Suspense>,
     },
     {
       path: "/viewProduct/:productId",
-      element: <ViewProduct />,
-      errorElement: <ErrorPage />,
+      element: <Suspense fallback={<h1>Loading</h1>}><ViewProduct /></Suspense>,
+      errorElement: <Suspense fallback={<h1>Loading</h1>}><ErrorPage /></Suspense>,
     },
     {
       path: "/adminLogin",
       element: (
-        <IsLogin>
+        <Suspense fallback={<h1>Loading</h1>}>
+          <IsLogin>
           <AdminLogin />
         </IsLogin>
+        </Suspense>
       ),
-      errorElement: <ErrorPage />,
+      errorElement: <Suspense fallback={<h1>Loading</h1>}><ErrorPage /></Suspense>,
     },
     {
       path: "/admin",
       element: (
-        <IsLogout>
+        <Suspense fallback={<h1>Loading</h1>}>
+          <IsLogout>
           <AdminBody />
         </IsLogout>
+        </Suspense>
       ),
-      errorElement: <ErrorPage />,
+      errorElement: <Suspense fallback={<h1>Loading</h1>}><ErrorPage /></Suspense>,
     },
     {
       path: "/adminLogin/forgotPass",
-      element: <ForgotPass />,
-      errorElement: <ErrorPage />,
+      element: <Suspense fallback={<h1>Loading</h1>}><ForgotPass /></Suspense>,
+      errorElement: <Suspense fallback={<h1>Loading</h1>}><ErrorPage /></Suspense>,
     },
   ]);
 

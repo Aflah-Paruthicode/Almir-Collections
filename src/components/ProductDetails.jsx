@@ -118,11 +118,11 @@ const ProductDetails = ({ productData }) => {
         </div>
         <div className="mb-3">
           <h2 className="font-semibold py-2">Brand : </h2>
-          <p className="pl-8 max-sm:leading-6">{productData.brand}</p>
+          <p className="pl-8 max-sm:text-sm max-sm:leading-6">{productData.brand}</p>
         </div>
         <div className="mb-3">
           <h2 className="font-semibold py-2">Category : </h2>
-          <p className="pl-8 max-sm:leading-6">
+          <p className="pl-8 max-sm:text-sm max-sm:leading-6">
             {productData.category.toUpperCase()}
           </p>
         </div>

@@ -3,6 +3,7 @@ import ImagePreviews from "./ImagePreviews";
 import useGetCategories from "../services/useGetCategories";
 import { db } from "../services/firebase-config";
 import { collection } from "firebase/firestore";
+import { handleFileChange } from "../services/useLocalFileChange";
 
 const AddNewProductForm = (props) => {
   const {
@@ -37,22 +38,6 @@ const AddNewProductForm = (props) => {
   useEffect(() => {
     useGetCategories(categoriesCollection, setCategories);
   }, [categories]);
-
-  const handleFileChange = (e) => {
-    const newFiles = Array.from(e.target.files);
-
-    setImages((prev) => {
-      const existingKeys = new Set(
-        prev.map((f) => f.lastModified + "-" + f.size)
-      );
-
-      const filtered = newFiles.filter(
-        (file) => !existingKeys.has(file.lastModified + "-" + file.size)
-      );
-
-      return [...prev, ...filtered];
-    });
-  };
 
   return (
     <div>
@@ -106,7 +91,7 @@ const AddNewProductForm = (props) => {
             multiple
             placeholder="Image..."
             ref={inputToEmpty}
-            onChange={handleFileChange}
+            onChange={(e) => handleFileChange(e,setImages)}
           />
           <p className="text-red-400 text-[10px] absolute bottom-[0.5px] left-1">
             Don't choose same pics(careful with DND)
