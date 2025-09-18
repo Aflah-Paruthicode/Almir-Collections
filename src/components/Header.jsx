@@ -72,7 +72,7 @@ const Header = (props) => {
           {results.length > 0 && isOpen && (
             <ul
               ref={suggestionRef}
-              className="z-10 absolute w-[25rem] bg-[#141414] rounded-2xl p-5 text-[#bababa] max-sm:w-[95vw] max-sm:left-2 max-sm:max-h-[61vh] max-sm:overflow-y-scroll"
+              className="z-10 absolute w-[25rem] h-[99vh] bg-[#141414] rounded-2xl p-5 overflow-y-scroll text-[#bababa] max-sm:w-[95vw] max-sm:left-2 max-sm:max-h-[61vh]"
             >
               {results.map((result, index) => {
                 let trimmedName = result.name.slice(0, 35);

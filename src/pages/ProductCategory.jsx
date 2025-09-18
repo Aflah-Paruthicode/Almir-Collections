@@ -72,7 +72,7 @@ const ProductCategory = () => {
               ? "All Products"
               : categoryName == "search"
               ? "Search Found !!"
-              : "Category Section"}
+              : `${categoryName} Section`}
           </h1>
           {products.length == 0 && (
             <h1 className="text-white max-sm:text-sm p-2">
