@@ -2,38 +2,19 @@ import axios from "axios";
 import { updateDoc } from "firebase/firestore";
 import { warningAlert } from "./alerts";
 
-const useHandleUpdate = async (
-  productInfo,
-  productDoc,
-  setFieldEmpty,
-  timerAlert
-) => {
-  try {
-    if (
-      productInfo.name.trim() !== "" &&
-      productInfo.brand.trim() !== "" &&
-      productInfo.category.trim() !== "" &&
-      productInfo.description.trim() !== "" &&
-      productInfo.highlights.trim() !== "" &&
-      productInfo.price.trim() !== "" &&
-      productInfo.priceInOthers.trim() !== "" &&
-      productInfo.variants.trim() !== "" &&
-      productInfo.images.length > 0
-    ) {
+const useHandleUpdate = async (productInfo, productDoc, setFieldEmpty, timerAlert) => {
+  const { name, brand, category, description, highlights, price, priceInOthers, variants, images, isTrending } = productInfo;
+  try { 
+    if ([name, brand, category, description, highlights, price, priceInOthers, variants].every((field) => field.trim() !== "") && images.length > 0) {
       timerAlert(2500, "Product is Updating!", "Will be updated in <b></b>.");
+      
       const uploadPromises = productInfo.images.map(async (image) => {
         try {
           const data = new FormData();
           data.append("file", image);
           data.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
           data.append("folder", "products");
-
-          const res = await axios.post(
-            "https://api.cloudinary.com/v1_1/" +
-              import.meta.env.VITE_CLOUDINARY_NAME +
-              "/image/upload",
-            data
-          );
+          const res = await axios.post("https://api.cloudinary.com/v1_1/" + import.meta.env.VITE_CLOUDINARY_NAME + "/image/upload", data);
           return res.data.secure_url;
         } catch (err) {
           console.error(err);
@@ -43,16 +24,16 @@ const useHandleUpdate = async (
       const urls = await Promise.all(uploadPromises);
       const highlightsArr = productInfo.highlights.split(",");
       await updateDoc(productDoc, {
-        name: productInfo.name,
+        name,
         nameLowerCase: productInfo.name.toLowerCase(),
-        brand: productInfo.brand.toString().toUpperCase(),
+        brand: productInfo.brand.toUpperCase(),
         category: productInfo.category.toLowerCase(),
-        description: productInfo.description,
+        description,
         highlights: highlightsArr,
-        isTrending: productInfo.isTrending,
-        price: productInfo.price,
-        priceInOthers: productInfo.priceInOthers,
-        variants: productInfo.variants,
+        isTrending,
+        price,
+        priceInOthers,
+        variants,
         images: urls,
       });
 

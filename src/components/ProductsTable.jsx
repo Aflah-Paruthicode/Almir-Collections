@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useHandleUpdate from "../services/useHandleUpdate";
 import AddNewProductForm from "./AddNewProductForm";
 import useGetSingleProduct from "../services/useGetSingleProduct";
@@ -7,7 +7,6 @@ import { collection, doc } from "firebase/firestore";
 import { db } from "../services/firebase-config";
 import useUrlsToFiles from "../services/useUrlsToFiles";
 import useDeleteProduct from "../services/useDeleteDoc";
-import useGetProducts from "../services/useGetProducts";
 
 const ProductsTable = (props) => {
   let {
@@ -117,9 +116,7 @@ const ProductsTable = (props) => {
       )}
       <section>
         <div className="w-[70%] mx-auto max-sm:w-full max-sm:px-5">
-          <h1 className="text-2xl font-bold pt-20 pb-10 max-sm:text-xl max-sm:font-medium max-sm:py-5">
-            Products ({products.length})
-          </h1>
+          <h1 className="text-2xl font-bold pt-20 pb-10 max-sm:text-xl max-sm:font-medium max-sm:py-5">Products ({products.length})</h1>
           <div className="p-10 rounded-lg bg-[#1a1a1a]  overflow-y-scroll max-h-[40rem] max-sm:p-1">
             {products.length > 0 && (
               <table className="table-fixed">
@@ -140,8 +137,7 @@ const ProductsTable = (props) => {
                   {products.map((product, index) => {
                     let trimmedDes = false;
                     let trimmedName = false;
-                    if (product.description.length > 40)
-                      trimmedDes = product.description.slice(0, 40);
+                    if (product.description.length > 40) trimmedDes = product.description.slice(0, 40);
 
                     if (window.innerWidth < 640) {
                       trimmedName = product.name.slice(0, 7);
@@ -151,26 +147,12 @@ const ProductsTable = (props) => {
 
                     return (
                       <tr key={index}>
-                        <td className="p-2 max-sm:text-sm">
-                          {trimmedName ? trimmedName + "..." : product.name}
-                        </td>
-                        <td className="px-4 w-20 max-sm:w-auto max-sm:text-sm">
-                          {window.innerWidth < 640
-                            ? product.price
-                            : `${product.price} ₹`}
-                        </td>
+                        <td className="p-2 max-sm:text-sm">{trimmedName ? trimmedName + "..." : product.name}</td>
+                        <td className="px-4 w-20 max-sm:w-auto max-sm:text-sm">{window.innerWidth < 640 ? product.price : `${product.price} ₹`}</td>
                         <td className="p-2 max-sm:hidden">{product.brand}</td>
-                        <td className="p-2 max-sm:hidden">
-                          {product.category}
-                        </td>
-                        <td className="p-2 max-sm:hidden">
-                          {trimmedDes
-                            ? trimmedDes + "..."
-                            : product.description}
-                        </td>
-                        <td className="p-2 max-sm:hidden">
-                          {product.variants}
-                        </td>
+                        <td className="p-2 max-sm:hidden">{product.category}</td>
+                        <td className="p-2 max-sm:hidden">{trimmedDes ? trimmedDes + "..." : product.description}</td>
+                        <td className="p-2 max-sm:hidden">{product.variants}</td>
                         <td className="p-2">
                           {product.isTrending ? (
                             <p
@@ -190,11 +172,7 @@ const ProductsTable = (props) => {
                         </td>
                         <td className="py-2">
                           <div className="p-2">
-                            <img
-                              className="w-[150px] h-[100px] object-cover rounded-lg max-sm:w-[50px] max-sm:h-[50px]"
-                              src={product.images[0]}
-                              alt=""
-                            />
+                            <img className="w-[150px] h-[100px] object-cover rounded-lg max-sm:w-[50px] max-sm:h-[50px]" src={product.images[0]} alt="" />
                           </div>
                         </td>
                         <td className="p-2">
@@ -210,11 +188,7 @@ const ProductsTable = (props) => {
                               className="bg-gradient-to-br transition-colors from-[#bf4a4a] via-[#7f2424] to-[#bf4a4a] hover:from-[#b73232] hover:via-[#761515] hover:to-[#b32121]
                                m-1 py-1 font-medium px-2 rounded-md max-sm:px-1 max-sm:text-sm"
                               onClick={() => {
-                                useDeleteProduct(
-                                  product.id,
-                                  collection(db, "products"),
-                                  setProducts
-                                );
+                                useDeleteProduct(product.id, collection(db, "products"), setProducts);
                               }}
                             >
                               delete

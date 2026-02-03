@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ExtraFAQ, FAQ, whyBuyFromUs } from "../components/utils/constants";
+import { ExtraFAQ, FAQ, whyBuyFromUs } from "../utils/constants";
 import FaqAccordion from "../components/FaqAccordion";
 import Footer from "../components/Footer";
 import Header from "../components/Header";

@@ -9,7 +9,7 @@ const ProductCardShimmer = () => {
         <h3 className="my-2 p-3 bg-[#1d1d1d] max-sm:m-1  max-sm:text-sm rounded-lg"></h3>
         <button
           className="bg-[#1d1d1d]
-           text-[14px] px-6 py-3 rounded-md  "
+           text-[14px] px-6 py-3 rounded-md "
         ></button>
         <p className="p-2 my-2 bg-[#1d1d1d] rounded-lg"></p>
       </div>

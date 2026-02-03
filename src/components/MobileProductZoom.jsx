@@ -17,16 +17,9 @@ const MobileProductZoom = ({ images, mainSwiperRef, setActiveImage }) => {
         className="w-full h-full rounded-lg"
       >
         {images.map((img, index) => (
-          <SwiperSlide
-            key={index}
-            className="flex items-center justify-center bg-[#1a1a1a]"
-          >
+          <SwiperSlide key={index} className="flex items-center justify-center bg-[#1a1a1a]">
             <div className="swiper-zoom-container w-full h-full flex items-center justify-center">
-              <img
-                src={img}
-                alt={`product-${index}`}
-                className="max-h-full max-w-full object-contain object-center scale-[140%]"
-              />
+              <img src={img} alt={`product-${index}`} className="max-h-full max-w-full object-contain object-center scale-[140%]" />
             </div>
           </SwiperSlide>
         ))}

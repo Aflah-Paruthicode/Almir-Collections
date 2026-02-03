@@ -6,11 +6,8 @@ const useGetSingleProduct = async (productId) => {
     const docRef = doc(db, "products", String(productId));
     const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() };
-    } else {
-      return null;
-    }
+    if (docSnap.exists()) return { id: docSnap.id, ...docSnap.data() };
+    else return null;
   } catch (err) {
     console.error(err);
   }

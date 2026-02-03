@@ -27,20 +27,14 @@ const ProductDetails = ({ productData }) => {
       <div className="w-[50rem] max-sm:w-full">
         <div className="sticky top-28">
           {window.innerWidth < 640 ? (
-            <MobileProductZoom
-              images={productData.images}
-              mainSwiperRef={mainSwiperRef}
-              setActiveImage={setActiveImage}
-            />
+            <MobileProductZoom images={productData.images} mainSwiperRef={mainSwiperRef} setActiveImage={setActiveImage} />
           ) : (
             <ProductImage productImage={productImage} />
           )}
           <button
             onClick={() => {
               const message = `I want ${productData.name}`;
-              const url = `https://wa.me/${
-                import.meta.env.VITE_PHONE
-              }?text=${encodeURIComponent(message)}`;
+              const url = `https://wa.me/${import.meta.env.VITE_PHONE}?text=${encodeURIComponent(message)}`;
               window.open(url, "_blank");
             }}
             className="bg-gradient-to-br transition-colors
@@ -54,11 +48,7 @@ const ProductDetails = ({ productData }) => {
       </div>
       <div className="w-28 max-sm:w-full">
         {window.innerWidth < 640 ? (
-          <GalleryThumbs
-            images={productData.images}
-            goToSlide={goToSlide}
-            activeImage={activeImage}
-          />
+          <GalleryThumbs images={productData.images} goToSlide={goToSlide} activeImage={activeImage} />
         ) : (
           <div className="sticky top-28 flex flex-col gap-1 max-sm:flex-row max-sm:w-full max-sm:overflow-x-scroll">
             {productData.images.map((img, index) => (
@@ -87,10 +77,7 @@ const ProductDetails = ({ productData }) => {
         <h2 className="font-semibold py-2">Variants : </h2>
         <div className="flex gap-3 flex-wrap items-center mb-8 pl-3">
           {productData.variants.split(",").map((variant, index) => (
-            <p
-              key={index}
-              className="py-1 px-2 border rounded-md max-sm:text-sm max-sm:leading-6"
-            >
+            <p key={index} className="py-1 px-2 border rounded-md max-sm:text-sm max-sm:leading-6">
               {variant}
             </p>
           ))}
@@ -100,19 +87,14 @@ const ProductDetails = ({ productData }) => {
           <ul className="list-disc pl-8">
             {productData.highlights.map((variant, index) => (
               <li key={index}>
-                <p className="py-1 max-sm:text-sm max-sm:leading-6">
-                  {variant}
-                </p>
+                <p className="py-1 max-sm:text-sm max-sm:leading-6">{variant}</p>
               </li>
             ))}
           </ul>
         </div>
         <div className="mb-3">
           <h2 className="font-semibold py-2">Description : </h2>
-          <p
-            className="pl-8 max-sm:text-sm max-sm:leading-6"
-            style={{ whiteSpace: "pre-line" }}
-          >
+          <p className="pl-8 max-sm:text-sm max-sm:leading-6" style={{ whiteSpace: "pre-line" }}>
             {productData.description}
           </p>
         </div>
@@ -122,9 +104,7 @@ const ProductDetails = ({ productData }) => {
         </div>
         <div className="mb-3">
           <h2 className="font-semibold py-2">Category : </h2>
-          <p className="pl-8 max-sm:text-sm max-sm:leading-6">
-            {productData.category.toUpperCase()}
-          </p>
+          <p className="pl-8 max-sm:text-sm max-sm:leading-6">{productData.category.toUpperCase()}</p>
         </div>
       </div>
     </div>

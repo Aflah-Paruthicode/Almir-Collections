@@ -11,7 +11,7 @@ export default function GalleryThumbs({ images, goToSlide, activeImage }) {
               activeImage == index ? "border-2 border-[#bfa14a]" : ""
             } max-sm:flex-shrink-0`}
             onClick={() => goToSlide(index)}
-          />
+          />   
         );
       })}
     </div>

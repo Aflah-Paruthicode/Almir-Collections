@@ -75,9 +75,7 @@ const AddNewProductForm = (props) => {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
-          <option value={category ? category : "Choose ..."}>
-            {category ? category : "Choose ..."}
-          </option>
+          <option value={category ? category : "Choose ..."}>{category ? category : "Choose ..."}</option>
           {categories.map((category, ind) => (
             <option key={ind} value={category.category}>
               {category.category}
@@ -91,11 +89,9 @@ const AddNewProductForm = (props) => {
             multiple
             placeholder="Image..."
             ref={inputToEmpty}
-            onChange={(e) => handleFileChange(e,setImages)}
+            onChange={(e) => handleFileChange(e, setImages)}
           />
-          <p className="text-red-400 text-[10px] absolute bottom-[0.5px] left-1">
-            Don't choose same pics(careful with DND)
-          </p>
+          <p className="text-red-400 text-[10px] absolute bottom-[0.5px] left-1">Don't choose same pics(careful with DND)</p>
         </div>
         <textarea
           id="multiline_text"
@@ -128,16 +124,9 @@ const AddNewProductForm = (props) => {
           cols="40"
         ></textarea>
         <label className="flex items-center cursor-pointer m-auto max-sm:my-3">
-          <span className="mr-3 text-sm font-medium text-gray-400">
-            Is Trending
-          </span>
+          <span className="mr-3 text-sm font-medium text-gray-400">Is Trending</span>
           <div className="relative">
-            <input
-              type="checkbox"
-              checked={isTrending}
-              onChange={() => setIsTrending(!isTrending)}
-              className="peer hidden"
-            />
+            <input type="checkbox" checked={isTrending} onChange={() => setIsTrending(!isTrending)} className="peer hidden" />
             <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 relative transition-colors"></div>
             <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transform transition-transform peer-checked:translate-x-5 "></div>
           </div>
