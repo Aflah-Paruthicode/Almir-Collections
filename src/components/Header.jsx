@@ -15,7 +15,7 @@ const Header = (props) => {
   const suggestionRef = useRef(null);
   const navigate = useNavigate();
 
-  const isOffline = useIsOffline()
+  const isOffline = useIsOffline();
 
   const handleSearch = async (e) => {
     try {
@@ -36,10 +36,7 @@ const Header = (props) => {
   useEffect(() => {
     if (categoryName) setSearchText(searchData);
     const handleClickOutside = (event) => {
-      if (
-        suggestionRef.current &&
-        !suggestionRef.current.contains(event.target)
-      ) {
+      if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
@@ -52,11 +49,7 @@ const Header = (props) => {
   return (
     <div className="w-[1050px] mx-auto flex py-4 justify-between items-center max-sm:w-full max-sm:pr-3 relative">
       <Link to={"/"}>
-        <img
-          className="h-16 object-cover w-48 rounded-4xl invert max-sm:w-[8rem]"
-          src="/logo.png"
-          alt=""
-        />
+        <img className="h-16 object-cover w-48 rounded-4xl invert max-sm:w-[8rem]" src="/logo.png" alt="" />
       </Link>
       <div className="flex justify-end gap-2 max-sm:w-[60%] max-sm:gap-1">
         <div className=" right-0">
@@ -88,21 +81,11 @@ const Header = (props) => {
                   >
                     <li className="p-1 z-10 hover:text-[#8c8c8c] rounded-2xl hover:bg-[#1f1f1f] max-sm:p-0">
                       <div className="flex justify-between">
-                        <p className=" z-10 text-start my-auto max-sm:text-sm">
-                          {result.name.length > 35
-                            ? trimmedName + "..."
-                            : result.name}
-                        </p>
-                        <img
-                          className="w-10 z-10 h-10 object-cover rounded-lg"
-                          src={result.images[0]}
-                          alt=""
-                        />
+                        <p className=" z-10 text-start my-auto max-sm:text-sm">{result.name.length > 35 ? trimmedName + "..." : result.name}</p>
+                        <img className="w-10 z-10 h-10 object-cover rounded-lg" src={result.images[0]} alt="" />
                       </div>
                     </li>
-                    {index !== results.length - 1 && (
-                      <hr className="bg-[#bababa] m-1 h-[0.5px] max-sm:h-[0.2px]" />
-                    )}
+                    {index !== results.length - 1 && <hr className="bg-[#bababa] m-1 h-[0.5px] max-sm:h-[0.2px]" />}
                   </Link>
                 );
               })}
@@ -116,13 +99,7 @@ const Header = (props) => {
           }}
           className="bg-[#141414] p-3 border border-[#bababa] rounded-[50%] max-sm:p-1.5"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="26px"
-            viewBox="0 -960 960 960"
-            width="26px"
-            fill="#bababa"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#bababa">
             <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
           </svg>
         </Link>
@@ -136,9 +113,11 @@ const Header = (props) => {
           </button>
         )}
       </div>
-      {isOffline && <div className="absolute self-center top-0 w-full text-center bg-[#502121] text-[#bababa] max-sm:text-sm rounded-b-lg">
-        <h1>you are offline</h1>
-        </div>}
+      {isOffline && (
+        <div className="absolute self-center top-0 w-full text-center bg-[#502121] text-[#bababa] max-sm:text-sm rounded-b-lg">
+          <h1>you are offline</h1>
+        </div>
+      )}
     </div>
   );
 };

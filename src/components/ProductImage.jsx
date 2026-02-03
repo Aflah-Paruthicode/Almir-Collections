@@ -22,12 +22,8 @@ const ProductImage = ({ productImage }) => {
       magnifier.style.top = `${y}px`;
 
       magnifier.style.backgroundImage = `url(${image.src})`;
-      magnifier.style.backgroundSize = `${imageRect.width * zoomLevel}px ${
-        imageRect.height * zoomLevel
-      }px`;
-      magnifier.style.backgroundPosition = `${
-        -x * zoomLevel + magnifier.offsetWidth / 2
-      }px ${-y * zoomLevel + magnifier.offsetHeight / 2}px`;
+      magnifier.style.backgroundSize = `${imageRect.width * zoomLevel}px ${imageRect.height * zoomLevel}px`;
+      magnifier.style.backgroundPosition = `${-x * zoomLevel + magnifier.offsetWidth / 2}px ${-y * zoomLevel + magnifier.offsetHeight / 2}px`;
     };
 
     const handleMouseLeave = () => {
@@ -48,16 +44,8 @@ const ProductImage = ({ productImage }) => {
   }, [productImage]);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative cursor-zoom-in w-full h-[500px] overflow-hidden max-sm:h-[23rem]"
-    >
-      <img
-        ref={imageRef}
-        className="w-full h-full object-cover"
-        src={productImage}
-        alt="Product"
-      />
+    <div ref={containerRef} className="relative cursor-zoom-in w-full h-[500px] overflow-hidden max-sm:h-[23rem]">
+      <img ref={imageRef} className="w-full h-full object-cover" src={productImage} alt="Product" />
       <div ref={magnifierRef} className="magnifier absolute hidden"></div>
     </div>
   );

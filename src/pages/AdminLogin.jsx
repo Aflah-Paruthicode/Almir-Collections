@@ -23,9 +23,7 @@ const AdminLogin = () => {
       <section className=" h-full flex justify-center items-center mb-[-4rem] py-5 max-sm:px-5">
         <div className="flex flex-col items-center justify-center px-12 gap-4 py-5 bg-[#1a1a1a] text-white h-[25rem] w-[30rem] rounded-2xl max-sm:h-[18rem]">
           <div className="w-full">
-            <h1 className="text-4xl mb-5 font-medium max-sm:text-xl max-sm:my-1">
-              Admin Login
-            </h1>
+            <h1 className="text-4xl mb-5 font-medium max-sm:text-xl max-sm:my-1">Admin Login</h1>
           </div>
           <input
             className="w-full h-14 p-3 outline-amber-400 bg-[#343434] rounded-lg max-sm:h-9 max-sm:rounded-4xl max-sm:text-sm"

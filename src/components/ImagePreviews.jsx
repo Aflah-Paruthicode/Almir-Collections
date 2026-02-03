@@ -1,16 +1,6 @@
 import useHandleDragEnd from "../services/useHandleDragEnd";
-import {
-  DndContext,
-  closestCenter,
-  useSensor,
-  useSensors,
-  MouseSensor,
-  TouchSensor,
-} from "@dnd-kit/core";
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { DndContext, closestCenter, useSensor, useSensors, MouseSensor, TouchSensor } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import SortableItem from "../components/SortableContext";
 
 const ImagePreviews = ({ images, setImages }) => {
@@ -29,50 +19,25 @@ const ImagePreviews = ({ images, setImages }) => {
   return (
     <div className="preview-container">
       <h1 className="text-2xl font-bold pt-10 pb-4 max-sm:text-xl max-sm:font-medium max-sm:py-5">
-        Preview{" "}
-        <span className="font-medium text-xl max-sm:text-base">
-          ({images.length})
-        </span>
+        Preview <span className="font-medium text-xl max-sm:text-base">({images.length})</span>
       </h1>
       <div className="flex items-center bg-[#1a1a1a] rounded-lg p-5">
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext
-            items={images}
-            strategy={verticalListSortingStrategy}
-          >
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={images} strategy={verticalListSortingStrategy}>
             <div className="flex flex-wrap gap-2">
               {images.map((url) => {
                 let uniqueId = url.lastModified + url.size;
                 return (
                   <div className="relative" key={url.lastModified + url.size}>
                     <button
-                      onClick={() =>
-                        setImages((prev) =>
-                          prev.filter(
-                            (url) => url.lastModified + url.size !== uniqueId
-                          )
-                        )
-                      }
+                      onClick={() => setImages((prev) => prev.filter((url) => url.lastModified + url.size !== uniqueId))}
                       className="bg-[#000000a7] rounded-[50%] absolute top-0 right-0 cursor-pointer p-1"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="22px"
-                        viewBox="0 -960 960 960"
-                        width="22px"
-                        fill="#e3e3e3"
-                      >
+                      <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#e3e3e3">
                         <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                       </svg>
                     </button>
-                    <SortableItem
-                      id={url.lastModified + url.size}
-                      url={URL.createObjectURL(url)}
-                    />
+                    <SortableItem id={url.lastModified + url.size} url={URL.createObjectURL(url)} />
                   </div>
                 );
               })}
